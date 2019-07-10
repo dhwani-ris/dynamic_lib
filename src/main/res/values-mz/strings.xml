@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--<string name="app_name">DELTA</string>-->
+    <string name="are_you_sure">I chiang em?</string>
+    <string name="something_went_wrong">Thil thenkhat diklo a awm</string>
+    <string name="ok">Awle</string>
+<string name="clear">Thianfai rawh</string>
+    <string name="warning">Vaulawkna</string>
+    <string name="draft_save">Duan lawk chhin dahtha rawh</string>
+<string name="submit">Thehlut rawh</string>
+
+
+    <string name="saved">Dahthatna</string>
+<string name="synced">Nihrual tirna</string>
+<string name="draft">Duan lawk chhin rawh</string>
+
+    <!--<string name="choose_language">Tawng thlang rawh / भाषा चुनें</string>-->
+    <string name="cancel">Sut leh rawh</string>
+    <string name="gallery">A lem enna</string>
+<string name="camera">Thalakna</string>
+    <string name="pending_questions">Zawhna la chinfelloh te</string>
+
+    <string name="select_date">A ni thlang rawh</string>
+<string name="day">Ni</string>
+<string name="month">Thla</string>
+<string name="year">Kum</string>
+    <string name="delete">Paihbo rawh</string>
+<string name="data_will_be_removed">Thil fawkhawm paihbo a ni ang</string>
+    <string name="data_deleted">Thil fawmkhawm paihbo a ni</string>
+<string name="save_data">Thil fawmkhawm dahthat a ni</string>
+<string name="do_you_want_to_save_as_draft">Duan lawk chhin angin I dahtha duh em</string>
+<string name="yes">Aw</string>
+<string name="no">Aih</string>
+    <string name="aadhaar_card_number">Aadhaar Card nambar </string>
+    <string name="permission_required">Phalna mamawh a ni</string>
+<string name="please_accept_the_both_permissions_camera_and_storage">Khawngaih in thlakna leh dahkhawmna atan phalna lo pawm rawh</string>
+<string name="to_fill_this_form_please_accept_the_gps_permission">He dilna dahkhat tur hian khawngaih in GPS hman phal rawh</string>
+    <string name="login_permission">Khawngaih in GPS, thil dahkhawmna leh phone sawina</string>
+    <string name="please_fill_at_least_one_field">Khawngaih in a lang thei chin pakhat tal dahkhat rawh</string>
+    <string name="questions_answered">" Zawhna chhanna te "</string>
+    <string name="sorry_failed_to_capture_photo">Pawi lutuk! Thlalak a lo man hman lo</string>
+<string name="sorry_failed_to_pick_photo">Thlalak a thlang chhuak hman lo</string>
+    <string name="form_submitted_successfully">Dilna hlawhtling takin thehluh a ni</string>
+    <string name="image_not_captured">Thlalak a diklo!! Khawngaih in thlalak dang thlang rawh</string>
+<string name="form_saved_draft">Dilna duan lawk chhin angin dahthat rih a ni</string>
+<string name="gps_is_required_for_this_form">He dilna hian GPS a mamawh</string>
+    <string name="app_update_is_require">Khawngaih in App thar hmang rawh !</string>
+<string name="more_questions">Zawhna dang te…....</string>
+<string name="question_still_not_loaded">A enna ah zawhna a in dahlut lo a khawngaih zawhna zawng zawng dahlut rawh</string>
+<string name="search_txt">Zawng rawh….</string>
+<string name="preparing_form">Dilna buatsaih mek a ni</string>
+<string name="loading">Dahluh mek a ni...</string>
+<string name="view_details">A kimchangin en rawh</string>
+<string name="add_details">A kimchang belh rawh</string>
+    <string name="play">Zai/Nih tir rawh</string>
+<string name="reset">A bul atangin ti tha rawh</string>
+<string name="record">Chhinchhiah rawh</string>
+    <string name="stop">Ti tawh rawh</string>
+<string name="information">Thu hriattirna</string>
+    <string name="option_not_availble">Duhthlan tur a awm lo</string>
+
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+
+    <string name="alert_msg" >Alert : Question </string>
+</resources>

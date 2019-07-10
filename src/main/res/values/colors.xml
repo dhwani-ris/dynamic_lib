@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#206E73</color>
+    <color name="colorPrimaryDark">#2A5C5F</color>
+    <color name="colorPrimaryLight">#9AE2BE</color>
+
+
+        <color name="colorAccent">#48AA6D</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="bg_grey">#ececec</color>
+    <color name="bg_grey_dark">#bdbdbd</color>
+    <color name="black_effective">#2a2a2a</color>
+
+
+    <color name="synced">#4CAF50</color>
+    <color name="draft">#FF9800</color>
+    <color name="saved">#0091EA</color>
+    <color name="flagged">#d50000</color>
+    <color name="flagged_draft">#ea5713</color>
+
+    <color name="green">#689f38</color>
+    <color name="red">#d50000</color>
+
+</resources>

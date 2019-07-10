@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="bottom_bar_height">56dp</dimen>
+    <dimen name="title_size">16sp</dimen>
+    <dimen name="margin_submit_btns">2dp</dimen>
+
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="button_hieght">40dp</dimen>
+
+    <dimen name="mat_margin">8dp</dimen>
+    <dimen name="mat_padding">8dp</dimen>
+    <dimen name="editTextValueSize">20sp</dimen>
+
+    <dimen name="ordertextsize2">10sp</dimen>
+    <dimen name="ordertextsize3">12sp</dimen>
+    <dimen name="dimen_15">15dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+    <dimen name="dialog_item_text">15sp</dimen>
+    <dimen name="dialog_title_text">16sp</dimen>
+    <dimen name="dialog_close_icon">40dp</dimen>
+    <dimen name="dialog_item_padding">14dp</dimen>
+    <dimen name="orderviewsize">30dp</dimen>
+    <dimen name="imageframeHeight">400dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+</resources>

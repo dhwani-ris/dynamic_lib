@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/mat_padding"
+        android:text="Title"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/editTextValueSize"
+        android:textStyle="bold" />
+
+    <com.dhwaniris.dynamicForm.utils.TouchImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/imageframeHeight"
+        android:id="@+id/label_image"
+        android:src="@drawable/ic_camera_new"
+        android:visibility="gone"
+        android:scaleType="fitCenter" />
+
+</LinearLayout>
+
+
+
+

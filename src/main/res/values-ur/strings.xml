@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--  <string name="app_name">انٹرنیٹ ساتھی</string>-->
+    <string name="are_you_sure">کیا یہ یقینی ہے  ؟</string>
+    <string name="something_went_wrong">کچھ غلط ہوا ہے</string>
+    <string name="ok">او کے</string>
+    <string name="clear">کلئیر</string>
+    <string name="warning">انتباہ</string>
+    <string name="draft_save">ڈرافٹ محفوظ</string>
+    <string name="submit">جمع</string>
+
+
+    <string name="saved">محفوظ کیا گیا</string>
+    <string name="synced">سنک کیا گیا</string>
+    <string name="draft">ڈرافٹ  </string>
+
+    <!--<string name="choose_language">Choose Language / भाषा चुनें</string>-->
+    <string name="cancel">منسوخ کیجئے</string>
+    <string name="gallery">گیلری</string>
+    <string name="camera">کیمرہ</string>
+    <string name="pending_questions">زیرغورسوالات</string>
+
+    <string name="select_date">تاریخ کا انتخاب کیجئے</string>
+    <string name="day">دن</string>
+    <string name="month">مہینہ</string>
+    <string name="year">سال</string>
+    <string name="delete">حزف کریں</string>
+    <string name="data_will_be_removed">ڈاٹا ہٹا دیا جائے گا</string>
+    <string name="data_deleted">ڈاٹا ہٹا دیا گیا</string>
+    <string name="save_data">ڈاٹا محفوظ کیجئے</string>
+    <string name="do_you_want_to_save_as_draft">کیا آپ اسے ڈرافٹ کی طرح محفوظ کرنا چاہتے ہیں</string>
+    <string name="yes">ہاں</string>
+    <string name="no">نہیں</string>
+    <string name="aadhaar_card_number">آدھار کارڈ نمبر</string>
+    <string name="permission_required">اجازت کی ضرورت ہے</string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">برائے مہربانی کیمرے کے لئے پرمیشن کو قبول کریں </string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">اس فارم کو بھرنے کے لئے، جی پی ایس کو قبول کیجئے</string>
+    <string name="login_permission">برائے مہربانی جی پی ایس کو قبول کیجئے،سٹوریج اور فون </string>
+    <string name="please_fill_at_least_one_field">برائے مہربانی کم سے کم ایک خانہ پر کریں</string>
+    <string name="questions_answered">" جوابی سوالات "</string>
+    <string name="sorry_failed_to_capture_photo">افسوس ! تصویر لینے میں ناکامیاب رہا</string>
+    <string name="sorry_failed_to_pick_photo">تصویر لینے میں ناکامیاب رہا </string>
+    <string name="form_submitted_successfully">فارم داخل ہو گیا ہے</string>
+    <string name="image_not_captured">تصویر صحیح نہیں !! برائے مہربانی دوسری منتخب کریں</string>
+    <string name="form_saved_draft">فارم ڈرافٹ کی شکل میں محفوظ ہو گیا ہے</string>
+    <string name="gps_is_required_for_this_form">اس فارم کے لئے جی پی ایس کی ضرورت ہے</string>
+    <string name="app_update_is_require">برائے مہربانی ایپ کو اپ ڈیٹ کیجئے !</string>
+    <string name="more_questions">مذید سوالات</string>
+    <string name="question_still_not_loaded">سوالات لوڈ نہیں ہوئے برائے مہربانی انہیں لوڈ کیجئے</string>
+    <string name="search_txt">کھوجئے</string>
+    <string name="preparing_form">فارم تیار کیا جا رہا ہے</string>
+    <string name="loading">لوڈ ہو رہا ہے</string>
+    <string name="view_details">تفصیلات دیکھئے</string>
+    <string name="add_details">تفصیلات درج کیجئے</string>9
+
+
+    <string name="play">    پلے</string>
+    <string name="reset">ریسیٹ</string>
+    <string name="record">رکارڈ</string>
+    <string name="stop">رکو</string>
+    <string name="information">اطلاع</string>
+    <string name="option_not_availble">آپشن موجود نہیں ہے!</string>
+
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+    <string name="alert_msg" >Alert : Question </string>
+
+
+
+</resources>

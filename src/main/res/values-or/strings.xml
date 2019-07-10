@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="app_name"> ଇଣ୍ଟରନେଟ ସାଥି</string>-->
+    <string name="are_you_sure">କଣ ଆପଣ ନିଶ୍ଚିତ କି?</string>
+    <string name="something_went_wrong">କିଛି ଭୁଲ ହୋଇଗଲା </string>
+    <string name="ok">ଠିକ </string>
+    <string name="clear">ସଫା </string>
+    <string name="warning">ଚେତାବନୀ </string>
+    <string name="draft_save">ଡ୍ରାଫ୍ଟ ସେଭ କରନ୍ତୁ </string>
+    <string name="submit">ଜମା କରନ୍ତୁ </string>
+
+
+    <string name="saved">ସେଭ ହୋଇଥିବା </string>
+    <string name="synced">ସିଙ୍କ ହୋଇଥିବା </string>
+    <string name="draft">ଡ୍ରାଫ୍ଟ </string>
+
+    <string name="cancel">ରଦ୍ଦ କରନ୍ତୁ </string>
+    <string name="gallery">ଗେଲରୀ</string>
+    <string name="camera">କେମେରା </string>
+    <string name="pending_questions">ପ୍ରଶ୍ନ ସ୍ଥଗିତ କରିବା </string>
+
+    <string name="select_date">ତାରିଖ ବାଛନ୍ତୁ </string>
+    <string name="day">ଦିନ </string>
+    <string name="month">ମାସ </string>
+    <string name="year">ବର୍ଷ </string>
+    <string name="delete">କାଟି ଦିଅନ୍ତୁ</string>
+    <string name="data_will_be_removed">ଡାଟା ବାହାର କରି ଦିଆଯିବ  </string>
+    <string name="data_deleted">କଟାଯାଇଥିବା ଡାଟା </string>
+    <string name="save_data">ଡାଟା ସେଭ କରନ୍ତୁ </string>
+    <string name="do_you_want_to_save_as_draft">କଣ, ଆପଣ ଡ୍ରାଫ୍ଟ ଭାବରେ ସେଭ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?</string>
+    <string name="yes">ହଁ </string>
+    <string name="no">ନା </string>
+    <string name="aadhaar_card_number">ଆଧାର କାର୍ଡ ନମ୍ବର </string>
+    <string name="permission_required">ଅନୁମତି ଆବଶ୍ୟକ </string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">ଦୟାକରି କେମେରା ଏବଂ ସଂରକ୍ଷଣ ପାଇଁ ଅନୁମତି ସ୍ଵୀକାର କରନ୍ତୁ </string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">ଏହି ଫର୍ମ ଭର୍ତ୍ତି କରିବା ପାଇଁ ଦୟାକରି ଜିପିଏସ ଅନୁମତି ସ୍ଵୀକାର କରନ୍ତୁ </string>
+    <string name="login_permission">ଦୟାକରି ଜିପିଏସ, ସଂରକ୍ଷଣ ଏବଂ ଫୋନ ଷ୍ଟେଟ ଅନୁମତି ସ୍ଵୀକାର କରନ୍ତୁ </string>
+    <string name="please_fill_at_least_one_field">ଦୟାକରି କାମରେ ଗୋଟିଏ କ୍ଷେତ୍ର ଭର୍ତ୍ତି କରନ୍ତୁ</string>
+    <string name="questions_answered">ଉତ୍ତର ଦିଆଯାଇଥିବା ପ୍ରଶ୍ନ </string>
+    <string name="sorry_failed_to_capture_photo">ଦୁଖିତ! ଫୋଟ ଉଠାଇବାରେ ବିଫଳ </string>
+    <string name="sorry_failed_to_pick_photo">ଫୋଟ ଆଣିବାରେ ବିଫଳ</string>
+    <string name="form_submitted_successfully">ଫର୍ମ ସଫଳତା ପୂର୍ବକ ଜମା କରାଯାଇଛି  </string>
+    <string name="image_not_captured">ପ୍ରତିଛବି ଭୁଲ!! ଦୟାକରି ଅନ୍ୟ ଏକ ପ୍ରତିଛବି ବାଛନ୍ତୁ </string>
+    <string name="form_saved_draft">ଫର୍ମ ଡ୍ରାଫ୍ଟ ଭାବେ ସେଭ ହୋଇଛି </string>
+    <string name="gps_is_required_for_this_form">ଏହି ଫର୍ମ ପାଇଁ ଜିପିଏସ ଆବଶ୍ୟକ  </string>
+    <string name="app_update_is_require">ଏଇ ଆପ୍ପ କୁ ଉପଦଟିଏ କରି ଦିୟନ୍ତୁ  !</string>
+    <string name="more_questions">ଆଉ ପ୍ରଶ୍ନ...</string>
+    <string name="question_still_not_loaded">ପ୍ରଶ୍ନ ଲୋଡ ହୋଉ ନି. ପ୍ରଶ୍ନ କୁ ଲୋଡ କରନ୍ତୁ</string>
+    <string name="search_txt"> ସେଅର୍ଚ୍ଚ...</string>
+    <string name="preparing_form">ପରିପାରିଙ୍ଗ ଫୋରମ୍ରେ</string>
+    <string name="loading">ଲୋଡିଙ୍ଗ..</string>
+    <string name="view_details">ବିଏଵ ଡଟାଇଲସ</string>
+    <string name="add_details">ବିବରଣୀ ଯୋଡନ୍ତୁ </string>
+
+    <string name="play">ପ୍ଲେ</string>
+    <string name="reset">ପୁଣି ସେଟ କରନ୍ତୁ </string>
+    <string name="record">ରେକର୍ଡ କରନ୍ତୁ </string>
+    <string name="stop">ବନ୍ଦ କରନ୍ତୁ </string>
+    <string name="information">ତଥ୍ୟ </string>
+    <string name="option_not_availble">ବିକଳ୍ପ ଉପଲବ୍ଧ ନାହିଁ!</string>
+
+
+    <string name="get_location">ଲୋକେସନ ଦେଖା</string>
+    <string name="Acurracy">ସଠିକ</string>
+    <string name="longitude">ଲଙ୍ଗିଟୁଡ଼େ</string>
+    <string name="latitude">ଲତିଟୁଡ଼େ</string>
+
+    <string name="alert_msg" >ସଜାଗ: ପ୍ରଶନ </string>
+
+
+
+
+
+</resources>

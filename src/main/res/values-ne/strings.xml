@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!--<string name="app_name">इन्टरनेट साथी</string>-->
+    <string name="are_you_sure">के तपाईँ निश्चित हुनुहुन्छ?</string>
+    <string name="something_went_wrong">केहि गलत भयो</string>
+    <string name="ok">हुन्छ</string>
+    <string name="clear">खाली</string>
+    <string name="warning">चेतावनी</string>
+    <string name="draft_save">ड्राफ्ट बचत </string>
+    <string name="submit">बुझाउनुहोस्</string>
+
+
+    <string name="saved">सुरक्षित गरियो</string>
+    <string name="synced">सिङ्क भयो </string>
+    <string name="draft">ड्राफ्ट</string>
+
+    <!--<string name="choose_language">Choose Language / भाषा चुनें</string>-->
+    <string name="cancel">रद्द </string>
+    <string name="gallery">ग्यालरी</string>
+    <string name="camera">क्यामेरा</string>
+    <string name="pending_questions">पेन्डिङ प्रश्नहरू</string>
+
+    <string name="select_date">मिति चयन गर्नुहोस्</string>
+    <string name="day">दिन</string>
+    <string name="month">महिना</string>
+    <string name="year">वर्ष</string>
+    <string name="delete">मेटाउने</string>
+    <string name="data_will_be_removed">डाटा हटाइनेछ</string>
+    <string name="data_deleted">डेटा मेटाईयो</string>
+    <string name="save_data">डेटा बचत गर्नुहोस्</string>
+    <string name="do_you_want_to_save_as_draft">तपाईं ड्राफ्टको रूपमा सुरक्षित गर्न चाहानुहुन्छ</string>
+    <string name="yes">हो</string>
+    <string name="no">होइन </string>
+    <string name="aadhaar_card_number">आधार कार्ड नम्बर</string>
+    <string name="permission_required">अनुमतिको आवसेकता </string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">क्यामेरा र भण्डारणका लागि अनुमतिहरू स्वीकार गर्नुहोस्</string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">यस फारम भर्नको लागी, कृपया जीपीएस अनुमति स्वीकार गर्नुहोस्</string>
+    <string name="login_permission">कृपया GPS, भण्डारण र फोन राज्य अनुमति स्वीकार गर्नुहोस्</string>
+    <string name="please_fill_at_least_one_field">कृपया कम से कम एक क्षेत्र भर्नुहोस्</string>
+    <string name="questions_answered">" प्रश्नहरूको जवाफ "</string>
+    <string name="sorry_failed_to_capture_photo">माफ गर्नुहोस्! तस्बिर खिच्न असफल भयो</string>
+    <string name="sorry_failed_to_pick_photo">फोटो छनौट गर्न असफल भयो</string>
+    <string name="form_submitted_successfully">फारम सफलतापूर्वक पेश गरियो</string>
+    <string name="image_not_captured">तस्वीर गलत छ !! कृपया अर्को तस्बीर चयन गर्नुहोस्।</string>
+    <string name="form_saved_draft">फारम ड्राफ्टको रुपमा बचत भयो </string>
+    <string name="gps_is_required_for_this_form">यो फारमको लागि जीपीएस आवाश्यक छ</string>
+    <string name="app_update_is_require">कृपया एप अद्यावधिक गर्नुहोस्  !</string>
+    <string name="more_questions">थप प्रश्नहरू ......</string>
+    <string name="question_still_not_loaded">यस दृश्यमा प्रश्न लोड भएको छैन कृपया सबै प्रश्नहरू लोड गर्नुहोस्</string>
+    <string name="search_txt">खोज्नुहोस् ......</string>
+    <string name="preparing_form">फारम तयारी गर्दै</string>
+    <string name="loading">लोड हुँदै ......</string>
+    <string name="view_details">विवरण हेर्नुहोस्</string>
+    <string name="add_details">विवरणहरू थप्नुहोस्</string>
+
+
+    <string name="play"> प्ले</string>
+    <string name="reset">पुनःसेट गर्नुहोस्</string>
+    <string name="record">रेकर्ड</string>
+    <string name="stop">रूक्नुहोस</string>
+    <string name="information">सूचना</string>
+    <string name="option_not_availble">विकल्प उपलब्ध छैन!</string>
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+
+    <string name="alert_msg" >Alert : Question </string>
+
+
+
+
+</resources>

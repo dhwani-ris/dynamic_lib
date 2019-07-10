@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_grey"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:text="OCT 1, 2017 12:00 AM" />
+
+                <!--<TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Form version :"
+                    android:textSize="@dimen/hintSize" />
+
+                <TextView
+                    android:id="@+id/version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="4dp"
+                    android:text="1"
+                    android:textSize="@dimen/hintSize" />-->
+
+                <TextView
+                    android:id="@+id/form_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/saved"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/draft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/draft"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/draft"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/synced"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/synced"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/synced"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/saved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/saved"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/saved"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/error_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/red"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/flagged"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnsDraft"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="vertical">
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/bg_grey_dark" />
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="0dp"
+                   android:orientation="horizontal"
+                   android:layout_weight="1"
+
+                   >
+                   <TextView
+                       android:id="@+id/del"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:background="@drawable/btn_bg_white"
+                       android:gravity="center"
+                       android:text="@string/delete"
+                       android:textColor="@color/red"
+                       android:textSize="18sp"
+                     />
+                   <TextView
+                       android:id="@+id/retry"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:background="@drawable/btn_bg_white"
+                       android:gravity="center"
+                       android:visibility="gone"
+                       android:text="@string/retry"
+                       android:textColor="@color/colorPrimaryDark"
+                       android:textSize="18sp" />
+
+
+               </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

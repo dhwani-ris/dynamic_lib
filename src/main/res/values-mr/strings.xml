@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="app_name">इंटरनेट साथी</string>-->
+    <string name="are_you_sure">तुम्ही निश्चित आहात ?</string>
+    <string name="something_went_wrong">काहीतरी चुकले का</string>
+    <string name="ok">ठीक</string>
+    <string name="clear">रिक्त करा</string>
+    <string name="warning">इशारा</string>
+    <string name="draft_save">मसूदा जतन करा </string>
+    <string name="submit">सादर करा</string>
+
+
+    <string name="saved">जतन केलेले</string>
+    <string name="synced">सिंक केलेले</string>
+    <string name="draft">मसूदा</string>
+
+    <string name="cancel">रद्द करा</string>
+    <string name="gallery">गॅलरी</string>
+    <string name="camera">कॅमेरा</string>
+    <string name="pending_questions">प्रलंबित प्रश्न</string>
+
+    <string name="select_date">तारीख निवडा</string>
+    <string name="day">दिवस</string>
+    <string name="month">महिना</string>
+    <string name="year">साल</string>
+    <string name="delete">खोडून टाका</string>
+    <string name="data_will_be_removed">डेटा काढला जाईल</string>
+    <string name="data_deleted">काढलेला डेटा</string>
+    <string name="save_data">डेटा जतन करा</string>
+    <string name="do_you_want_to_save_as_draft">तुम्हाला मसूदा म्हणून जतन करायचा आहे का</string>
+    <string name="yes">होय</string>
+    <string name="no">नाही</string>
+    <string name="aadhaar_card_number">आधारकार्ड क्रमांक</string>
+    <string name="permission_required">परवानगी आवश्यक</string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">कॅमेरा व साठवणी साठी परवानगी स्वीकारा</string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">हा फॉर्म भरण्यासाठी, जीपीएस परवानगी स्वीकारा</string>
+    <string name="login_permission">कृपया जीपीएस, स्टोरेज आणि फोन स्टेट अनुमति स्वीकारा</string>
+    <string name="please_fill_at_least_one_field">कृपया किमान एक फिल्ड भरा</string>
+    <string name="questions_answered">उत्तरित प्रश्न</string>
+    <string name="sorry_failed_to_capture_photo">क्षमस्व! प्रतिमा पकडणे अयशस्वी</string>
+    <string name="sorry_failed_to_pick_photo">प्रतिमा उचलणे अयशस्वी</string>
+    <string name="form_submitted_successfully">फॉर्म यशस्वीरित्या सादर झाला</string>
+    <string name="image_not_captured">प्रतिमा चुकीची!! कृपया दुसरी प्रतिमा निवडा.</string>
+    <string name="form_saved_draft">फॉर्म मसूदारूपात जतन झाला</string>
+    <string name="gps_is_required_for_this_form">या फॉर्मसाठी जीपीएस आवश्यक आहे</string>
+    <string name="app_update_is_require">कृपया आपले अॅप अद्यतनित करा!</string>
+    <string name="more_questions">अधिक प्रश्न ...</string>
+    <string name="question_still_not_loaded">प्रश्न दृष्टीकोणाने लोड झाला नाही तर सर्व प्रश्न लोड करा</string>
+    <string name="search_txt">शोधा ...</string>
+    <string name="preparing_form">फॉर्म तयार करीत आहे</string>
+    <string name="loading">लोड करीत आहे ...</string>
+    <string name="view_details">तपशील पहा</string>
+    <string name="add_details">तपशील जोडा</string>
+
+    <string name="play"> सुरु करा</string>
+    <string name="reset">रिसेट</string>
+    <string name="record">ध्वनीमुद्रण</string>
+    <string name="stop">थांबा</string>
+    <string name="information">माहिती</string>
+    <string name="option_not_availble">पर्याय उपलब्ध नाही!</string>
+
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+    <string name="alert_msg" >Alert : Question </string>
+</resources>

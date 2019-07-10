@@ -1,0 +1,123 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+
+}
+apply plugin: 'com.android.library'
+//apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+
+android {
+    signingConfigs {
+        config {
+        }
+    }
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+//        applicationId "com.dhwaniris.dynamicForm"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 10
+        versionName "1.1.9"
+        multiDexEnabled true
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        buildConfigField("String", "BASE_URL", "\"https://stgdeltamobileapi.dhwaniris.com/api/v1/\"")
+
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles fileTree('proguard').asList().toArray()
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['release']
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles fileTree('proguard').asList().toArray()
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+//    bundle {
+//        language {
+//            enableSplit = false
+//        }
+//    }
+
+    dataBinding {
+        enabled = true
+    }
+    // Temporary fix until alpha10
+//    packagingOptions {
+//        exclude 'META-INF/proguard/androidx-annotations.pro'
+//    }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+}
+
+
+dependencies {
+    def supportLibVersion = "28.0.0"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
+    //noinspection GradleCompatible
+    implementation ('androidx.appcompat:appcompat:1.0.0'){
+        transitive = true
+    }
+    implementation ('com.google.android.material:material:1.0.0'){
+        transitive = true
+    }
+    implementation ('androidx.recyclerview:recyclerview:1.0.0'){
+        transitive = true
+    }
+    implementation ('androidx.cardview:cardview:1.0.0'){
+        transitive = true
+    }
+    implementation ('androidx.legacy:legacy-support-v4:1.0.0'){
+        transitive = true
+    }
+
+    implementation ('com.github.bumptech.glide:glide:4.9.0'){
+        transitive = true
+    }
+    implementation ('com.google.android.gms:play-services-location:16.0.0'){
+        transitive = true
+    }
+    implementation  ('com.theartofdev.edmodo:android-image-cropper:2.8.0'){
+        transitive = true
+    }
+    implementation ('androidx.constraintlayout:constraintlayout:1.1.3'){
+        transitive = true
+    }
+    implementation ('com.squareup.retrofit2:converter-gson:2.4.0'){
+        transitive = true
+    }
+
+//    testImplementation 'junit:junit:4.12'
+
+
+
+    implementation ('androidx.exifinterface:exifinterface:1.0.0'){
+        transitive = true
+    }
+
+    //  Kotlin
+    implementation ('org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31'){
+        transitive = true
+    }
+
+
+
+}

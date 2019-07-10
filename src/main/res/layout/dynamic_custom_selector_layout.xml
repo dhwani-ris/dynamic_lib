@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/dTitle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center|start"
+            android:maxLines="2"
+            android:paddingLeft="16dp"
+            android:text="Title of dialog"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dialog_title_text" />
+
+        <ImageView
+            android:id="@+id/dClose"
+            android:layout_width="@dimen/dialog_close_icon"
+            android:layout_height="@dimen/dialog_close_icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_close_white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="0.85"
+            android:background="@drawable/searchboxbdr"
+            android:hint="@string/search_txt"
+            android:padding="10dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:text="@string/clear"
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_option_found"
+        android:textSize="@dimen/dialog_item_text"
+        android:padding="@dimen/dialog_item_padding"
+        android:drawableLeft="@drawable/ic_warning"
+        android:visibility="gone"
+        android:drawablePadding="@dimen/dialog_item_padding"
+        android:text="@string/option_not_availble" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollIndicators="right"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

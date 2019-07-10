@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="app_name">ഇന്‍റര്‍നെറ്റ് സാഥി</string>-->
+    <string name="are_you_sure">താങ്കള്‍ക്ക് തീര്‍ച്ചയാണോ?</string>
+    <string name="something_went_wrong">എന്തോ പിശക് സംഭവിച്ചു</string>
+
+    <string name="ok">ശരി</string>
+    <string name="clear">ക്ലിയര്‍</string>
+    <string name="warning">മുന്നറിയിപ്പ്</string>
+    <string name="draft_save">ഡ്രാഫ്ട് സേവ്</string>
+    <string name="submit">സമര്‍പ്പിക്കുക</string>
+
+
+    <string name="saved">സേവ് ചെയ്തു</string>
+    <string name="synced">സിങ്ക് ചെയ്തു</string>
+    <string name="draft">ഡ്രാഫ്ട് </string>
+
+    <string name="cancel">റദ്ദാക്കുക</string>
+    <string name="gallery">ഗ്യാലറി</string>
+    <string name="camera">ക്യാമറ</string>
+    <string name="pending_questions">അവശേഷിക്കുന്ന ചോദ്യങ്ങള്‍</string>
+
+    <string name="select_date">തീയതി തെരഞ്ഞെടുക്കുക</string>
+    <string name="day">ദിവസം</string>
+    <string name="month">മാസം</string>
+    <string name="year">വര്‍ഷം</string>
+    <string name="delete">ഡിലീറ്റ് ചെയ്യുക</string>
+    <string name="data_will_be_removed">ഡാറ്റ നീക്കം ചെയ്യുന്നതാണ്</string>
+    <string name="data_deleted">ഡാറ്റ ഡിലീറ്റ് ചെയ്തു</string>
+    <string name="save_data">ഡാറ്റ സേവ് ചെയ്യുക</string>
+    <string name="do_you_want_to_save_as_draft">ഡ്രാഫ്ട് ആയി സേവ് ചെയ്യാന്‍ നിങ്ങള്‍ ആഗ്രഹിക്കുന്നുണ്ടോ</string>
+    <string name="yes">അതെ</string>
+    <string name="no">ഇല്ല</string>
+    <string name="aadhaar_card_number">ആധാര്‍ കാര്‍ഡ് നമ്പര്‍</string>
+    <string name="permission_required">അനുമതി ആവശ്യമാണ്</string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">ദയവായി ക്യാമറയ്ക്കും സ്റ്റോറേജിനുമുള്ള അനുമതി സ്വീകരിക്കുക</string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">ഈ ഫോം പൂരിപ്പിക്കുന്നതിനായി, ദയവായി ജി.പി.എസ്. അനുമതി സ്വീകരിക്കുക</string>
+    <string name="login_permission">ജി.പി.എസ്., സ്റ്റോറേജ്, ഫോണ്‍ സ്റ്റേറ്റ് അനുമതി ദയവായി സ്വീകരിക്കുക</string>
+    <string name="please_fill_at_least_one_field">ദയവായി കുറഞ്ഞത് ഒരു ഫീള്‍ഡെങ്കിലും പൂരിപ്പിക്കുക</string>
+    <string name="questions_answered">ഉത്തരം നല്കിയ ചോദ്യങ്ങള്‍</string>
+    <string name="sorry_failed_to_capture_photo">ക്ഷമിക്കണം! ഫോട്ടോ ക്യാപ്ചര്‍ ചെയ്യുന്നതില്‍ പരാജയപ്പെട്ടു</string>
+    <string name="sorry_failed_to_pick_photo">ഫോട്ടോ എടുക്കുന്നതില്‍ പരാജയപ്പെട്ടു</string>
+    <string name="form_submitted_successfully">ഫോം വിജയകരമായ സബ്മിറ്റ് ചെയ്തു</string>
+    <string name="image_not_captured">ചിത്രം ശരിയല്ല!! ദയവായി മറ്റൊരു ചിത്രം തെരഞ്ഞെടുക്കുക</string>
+    <string name="form_saved_draft">ഫോം ഡ്രാഫ്ട് ആയി സേവ് ചെയ്തു</string>
+    <string name="gps_is_required_for_this_form">ഈ ഫോമിന് ജി.പി.എസ്. ആവശ്യമാണ്</string>
+    <string name="app_update_is_require">അപ്ലിക്കേഷൻ അപ്ഡേറ്റുചെയ്യുക!</string>
+    <string name="more_questions">കൂടുതൽ ചോദ്യങ്ങൾ ...</string>
+    <string name="question_still_not_loaded">കാഴ്ചയിൽ ലോഡ് ചെയ്യാത്ത ചോദ്യത്തിന് എല്ലാ ചോദ്യങ്ങളും ലോഡ് ചെയ്യുക</string>
+    <string name="search_txt">തിരയുക ...</string>
+    <string name="preparing_form">ഫോം തയ്യാറെടുക്കുന്നു</string>
+    <string name="loading">ലോഡിംഗ്...</string>
+    <string name="view_details">വിശദാംശങ്ങൾ കാണുക</string>
+    <string name="add_details">വിശദാംശങ്ങൾ ചേർക്കുക</string>
+
+
+    <string name="play">Play</string>
+    <string name="reset">Reset</string>
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
+    <string name="information">Information</string>
+    <string name="option_not_availble">Option not available!</string>
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+
+    <string name="alert_msg" >Alert : Question </string>
+</resources>

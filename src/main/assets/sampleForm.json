@@ -1,0 +1,3162 @@
+{
+        "_id": "5cc20bcf9a1be75db0e83089",
+        "formId": 71,
+        "languages": [
+            {
+                "_id": "5cc20bcf9a1be75db0e830a4",
+                "lng": "hi",
+                "title": "VDP PRIORITY(Gram Panchayat)",
+                "question": [
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830b0",
+                        "order": "1",
+                        "input_type": "3",
+                        "title": "स्थान चुनें",
+                        "hint": "स्थान चुनें",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "2"
+                            }
+                        ],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec2b6e732c0e5e6b96d1",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम"
+                            },
+                            {
+                                "_id": "5b5aa99a6e732c0e5e8e1aed",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "झारखण्ड - सरायकेला"
+                            },
+                            {
+                                "_id": "5b6c2da06e732c0e5e2fd9f4",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पूरबी सिंघभूम"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "1",
+                        "information": "",
+                        "shortKey": "1",
+                        "label": "1"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830af",
+                        "order": "2",
+                        "input_type": "3",
+                        "title": "स्थान चुनें",
+                        "hint": "स्थान चुनें",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "1"
+                            }
+                        ],
+                        "child": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "3"
+                            }
+                        ],
+                        "restrictions": [
+                            {
+                                "_id": "5d1229174816ca518f3e0295",
+                                "type": "11",
+                                "orders": [
+                                    {
+                                        "_id": "5d1229174816ca518f3e0296",
+                                        "value": "",
+                                        "order": "1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec356e732c0e5e6b96f4",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - जगन्नाथपुर"
+                            },
+                            {
+                                "_id": "5b59939c6e732c0e5e8878c8",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - चाईबासा"
+                            },
+                            {
+                                "_id": "5b59939c6e732c0e5e8878ca",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - झींकपानी"
+                            },
+                            {
+                                "_id": "5b5aa99e6e732c0e5e8e1b38",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99a6e732c0e5e8e1aed"
+                                    }
+                                ],
+                                "name": "झारखण्ड - सरायकेला - राजनगर"
+                            },
+                            {
+                                "_id": "5b5b85ab6e732c0e5e941f2c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - हैट गम्हरिया"
+                            },
+                            {
+                                "_id": "5b6288ff6e732c0e5ec3eca2",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - टोंटो"
+                            },
+                            {
+                                "_id": "5b6c2da36e732c0e5e2fda06",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da06e732c0e5e2fd9f4"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पूरबी सिंघभूम - पोटका"
+                            },
+                            {
+                                "_id": "5b6c2da36e732c0e5e2fda08",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da06e732c0e5e2fd9f4"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पूरबी सिंघभूम - जमशेदपुर"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "2",
+                        "information": "",
+                        "shortKey": "2",
+                        "label": "2"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830ae",
+                        "order": "3",
+                        "input_type": "3",
+                        "title": "स्थान चुनें",
+                        "hint": "स्थान चुनें",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "2"
+                            }
+                        ],
+                        "child": [],
+                        "restrictions": [
+                            {
+                                "_id": "5d1229174816ca518f3e0292",
+                                "type": "11",
+                                "orders": [
+                                    {
+                                        "_id": "5d1229174816ca518f3e0293",
+                                        "value": "",
+                                        "order": "2"
+                                    }
+                                ]
+                            }
+                        ],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec406e732c0e5e6b971e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - पतनजईत"
+                            },
+                            {
+                                "_id": "5b52ec406e732c0e5e6b9720",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - जयतीगढ़"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887ddb",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - चाईबासा - बादरी"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887de7",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - केलेंड"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887ddd",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - कुड़ाहतु"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887de1",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - टुटुघुटु"
+                            },
+                            {
+                                "_id": "5b5aa9a16e732c0e5e8e1b62",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - बीजडीह"
+                            },
+                            {
+                                "_id": "5b5aa9a16e732c0e5e8e1b64",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - पोटका"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f75",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - बसीरा"
+                            },
+                            {
+                                "_id": "5b716bbb6e732c0e5e71419c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - छोटा मूलडीहा"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a42",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - कुसुमिता "
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f7b",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - गुमरिअ"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f80",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - जयपुर"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f84",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - नूरदा"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed73",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - एमडीहा"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed5c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - कटंगा"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed63",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - गोविंदपुर"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed6a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - गंभरिया"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed6e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - कुज्जु"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed58",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - चाईबासा - हरीला"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed7c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6288ff6e732c0e5ec3eca2"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - टोंटो - बारे झींकपानी"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed5a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - जोड़ा पोखर"
+                            },
+                            {
+                                "_id": "5b6bc2ac6e732c0e5e29d002",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - राजनगर"
+                            },
+                            {
+                                "_id": "5b6bc38e6e732c0e5e29da78",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - एडेल"
+                            },
+                            {
+                                "_id": "5b6bc38e6e732c0e5e29da7a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - बरसिजुलता"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda80",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda06"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - पोटका - तेतला"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda82",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda06"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - पोटका - जुड़ी"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda86",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - पुरिहासा"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda8c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - बायबिल"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda91",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - केरडुंग्री"
+                            },
+                            {
+                                "_id": "5b716bbb6e732c0e5e714199",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - करांजिआ"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a3a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - चाईबासा - तमलबांध "
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a38",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - नवागांव "
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b6c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - साउथ करण्डी"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b74",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - नार्थ ईस्ट बागबेड़ा"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b6e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - ईस्ट कीताडीह"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            },
+                            {
+                                "error_msg": "Village Level Limit",
+                                "_id": "57"
+                            }
+                        ],
+                        "viewSequence": "3",
+                        "information": "",
+                        "shortKey": "3",
+                        "label": "3"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830ad",
+                        "order": "4",
+                        "input_type": "10",
+                        "title": "ग्राम पंचायत",
+                        "hint": "ग्राम पंचायत",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [],
+                        "validation": [],
+                        "viewSequence": "4",
+                        "information": "",
+                        "shortKey": "14",
+                        "label": "4"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830ac",
+                        "order": "5",
+                        "input_type": "3",
+                        "title": "पंचायत भवन की मरम्मत",
+                        "hint": "पंचायत भवन की मरम्मत",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "5",
+                        "information": "",
+                        "shortKey": "5b87d03f32fdf86b252b6372",
+                        "label": "5"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830ab",
+                        "order": "6",
+                        "input_type": "3",
+                        "title": "पंचायत भवन में शौचालय की मरम्मत",
+                        "hint": "पंचायत भवन में शौचालय की मरम्मत",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "6",
+                        "information": "",
+                        "shortKey": "5b87d46132fdf86b252b6379",
+                        "label": "6"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830aa",
+                        "order": "7",
+                        "input_type": "3",
+                        "title": "ग्राम पंचायत में पंचायत भवन का निर्माण",
+                        "hint": "ग्राम पंचायत में पंचायत भवन का निर्माण",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "7",
+                        "information": "",
+                        "shortKey": "5b8a02dcbd86d2173e59dd8f",
+                        "label": "7"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a9",
+                        "order": "8",
+                        "input_type": "3",
+                        "title": "सार्वजनिक पुस्तकालय का निर्माण",
+                        "hint": "सार्वजनिक पुस्तकालय का निर्माण",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "8",
+                        "information": "",
+                        "shortKey": "5b8a038f8dfabb173d2b290d",
+                        "label": "8"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a8",
+                        "order": "9",
+                        "input_type": "3",
+                        "title": "श्मशान केंद्र प्रदान करना",
+                        "hint": "श्मशान केंद्र प्रदान करना",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "9",
+                        "information": "",
+                        "shortKey": "5ba9268425ede3109ca0ecf9",
+                        "label": "9"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a7",
+                        "order": "10",
+                        "input_type": "3",
+                        "title": "ई-सेवा / जन सेवा केंद्र की स्थापना",
+                        "hint": "ई-सेवा / जन सेवा केंद्र की स्थापना",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "10",
+                        "information": "",
+                        "shortKey": "5b8e709b50fbbd674be7b895",
+                        "label": "10"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a6",
+                        "order": "11",
+                        "input_type": "3",
+                        "title": "दफन ग्राउंड प्रदान करना",
+                        "hint": "दफन ग्राउंड प्रदान करना",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "11",
+                        "information": "",
+                        "shortKey": "5ba92568d465b5109bfd60e1",
+                        "label": "11"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a5",
+                        "order": "12",
+                        "input_type": "3",
+                        "title": "सामुदायिक केंद्र",
+                        "hint": "सामुदायिक केंद्र",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "उच्च"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "मध्यम"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "कम"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "12",
+                        "information": "",
+                        "shortKey": "5ba927de25ede3109ca0ecfb",
+                        "label": "12"
+                    }
+                ]
+            },
+            {
+                "_id": "5cc20bcf9a1be75db0e83097",
+                "lng": "en",
+                "title": "VDP PRIORITY(Gram Panchayat)",
+                "question": [
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a3",
+                        "order": "1",
+                        "input_type": "3",
+                        "title": "Select District",
+                        "hint": "Select District",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "2"
+                            }
+                        ],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec2b6e732c0e5e6b96d1",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "Jharkhand - Pashchimi Singhbhum"
+                            },
+                            {
+                                "_id": "5b5aa99a6e732c0e5e8e1aed",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "Jharkhand - Saraikela"
+                            },
+                            {
+                                "_id": "5b6c2da06e732c0e5e2fd9f4",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "Jharkhand - Purbi Singhbhum"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "1",
+                        "information": "",
+                        "shortKey": "1",
+                        "label": "1"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a2",
+                        "order": "2",
+                        "input_type": "3",
+                        "title": "Select Block",
+                        "hint": "Select Block",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "1"
+                            }
+                        ],
+                        "child": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "3"
+                            }
+                        ],
+                        "restrictions": [
+                            {
+                                "_id": "5d1229174816ca518f3e0284",
+                                "type": "11",
+                                "orders": [
+                                    {
+                                        "_id": "5d1229174816ca518f3e0285",
+                                        "value": "",
+                                        "order": "1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec356e732c0e5e6b96f4",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "Jharkhand - Pashchimi Singhbhum - Jagannathpur"
+                            },
+                            {
+                                "_id": "5b59939c6e732c0e5e8878c8",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "Jharkhand - Pashchimi Singhbhum - Chaibasa"
+                            },
+                            {
+                                "_id": "5b59939c6e732c0e5e8878ca",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "Jharkhand - Pashchimi Singhbhum - Jhinkpani"
+                            },
+                            {
+                                "_id": "5b5aa99e6e732c0e5e8e1b38",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99a6e732c0e5e8e1aed"
+                                    }
+                                ],
+                                "name": "Jharkhand - Saraikela - Rajnagar"
+                            },
+                            {
+                                "_id": "5b5b85ab6e732c0e5e941f2c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "Jharkhand - Pashchimi Singhbhum - Hat Gamharia"
+                            },
+                            {
+                                "_id": "5b6288ff6e732c0e5ec3eca2",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "Jharkhand - Pashchimi Singhbhum - Tonto"
+                            },
+                            {
+                                "_id": "5b6c2da36e732c0e5e2fda06",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da06e732c0e5e2fd9f4"
+                                    }
+                                ],
+                                "name": "Jharkhand - Purbi Singhbhum - Potka"
+                            },
+                            {
+                                "_id": "5b6c2da36e732c0e5e2fda08",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da06e732c0e5e2fd9f4"
+                                    }
+                                ],
+                                "name": "Jharkhand - Purbi Singhbhum - Jamshedpur"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "2",
+                        "information": "",
+                        "shortKey": "2",
+                        "label": "2"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a1",
+                        "order": "3",
+                        "input_type": "3",
+                        "title": "Select Gram Panchayat",
+                        "hint": "Select Village",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "2"
+                            }
+                        ],
+                        "child": [],
+                        "restrictions": [
+                            {
+                                "_id": "5d1229174816ca518f3e0281",
+                                "type": "11",
+                                "orders": [
+                                    {
+                                        "_id": "5d1229174816ca518f3e0282",
+                                        "value": "",
+                                        "order": "2"
+                                    }
+                                ]
+                            }
+                        ],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec406e732c0e5e6b971e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jagannathpur - Patajaint"
+                            },
+                            {
+                                "_id": "5b52ec406e732c0e5e6b9720",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jagannathpur - Jayatigarh"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887ddb",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Chaibasa - Baduri"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887de7",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jhinkpani - KELENDE"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887ddd",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jhinkpani - Kudahatu"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887de1",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jhinkpani - Tutughutu"
+                            },
+                            {
+                                "_id": "5b5aa9a16e732c0e5e8e1b62",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Bijadih"
+                            },
+                            {
+                                "_id": "5b5aa9a16e732c0e5e8e1b64",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Potka"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f75",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jagannathpur - KASIRA"
+                            },
+                            {
+                                "_id": "5b716bbb6e732c0e5e71419c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jagannathpur - CHOTA MULDIHA"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a42",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Hat Gamharia - KUSUMITA"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f7b",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jagannathpur - GUMURIA"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f80",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Hat Gamharia - JAIPUR"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f84",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Hat Gamharia - NURDA"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed73",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Hat Gamharia - AMADIHA"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed5c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Katanga"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed63",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Govindpur"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed6a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Ghambharia"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed6e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Kujju"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed58",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Chaibasa - Harila"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed7c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6288ff6e732c0e5ec3eca2"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Tonto - Bara Jhinkpani"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed5a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jhinkpani - Joda Pokhor"
+                            },
+                            {
+                                "_id": "5b6bc2ac6e732c0e5e29d002",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Rajnagar"
+                            },
+                            {
+                                "_id": "5b6bc38e6e732c0e5e29da78",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Edel"
+                            },
+                            {
+                                "_id": "5b6bc38e6e732c0e5e29da7a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "Saraikela - Rajnagar - Barasijulata"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda80",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda06"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Potka - Tentla"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda82",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda06"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Potka - Juri"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda86",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Jamshedpur - Purihasa"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda8c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Jamshedpur - Bayanbil"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda91",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Jamshedpur - Keruadungri"
+                            },
+                            {
+                                "_id": "5b716bbb6e732c0e5e714199",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jagannathpur - Karanjia"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a3a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Chaibasa - TAMALBAND"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a38",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "Pashchimi Singhbhum - Jhinkpani - NAWAGAON"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b6c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Jamshedpur - South Karandi"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b74",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Jamshedpur - North East Bagbera"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b6e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "Purbi Singhbhum - Jamshedpur - East Kitadih"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            },
+                            {
+                                "error_msg": "Village Level Limit",
+                                "_id": "57"
+                            }
+                        ],
+                        "viewSequence": "3",
+                        "information": "",
+                        "shortKey": "3",
+                        "label": "3"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e830a0",
+                        "order": "4",
+                        "input_type": "10",
+                        "title": "GramPanchayat",
+                        "hint": "GramPanchayat",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [],
+                        "validation": [],
+                        "viewSequence": "4",
+                        "information": "",
+                        "shortKey": "14",
+                        "label": "4"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8309f",
+                        "order": "5",
+                        "input_type": "3",
+                        "title": "Repairing Panchayat Bhavan",
+                        "hint": "Repairing Panchayat Bhavan",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "5",
+                        "information": "",
+                        "shortKey": "5b87d03f32fdf86b252b6372",
+                        "label": "5"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8309e",
+                        "order": "6",
+                        "input_type": "3",
+                        "title": "Repairing the toilet in Panchayat Bhavan",
+                        "hint": "Repairing the toilet in Panchayat Bhavan",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "6",
+                        "information": "",
+                        "shortKey": "5b87d46132fdf86b252b6379",
+                        "label": "6"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8309d",
+                        "order": "7",
+                        "input_type": "3",
+                        "title": "Construction of Panchayat Bhavan in Gram Panchayat",
+                        "hint": "Construction of Panchayat Bhavan in Gram Panchayat",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "7",
+                        "information": "",
+                        "shortKey": "5b8a02dcbd86d2173e59dd8f",
+                        "label": "7"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8309c",
+                        "order": "8",
+                        "input_type": "3",
+                        "title": "Construction of public library",
+                        "hint": "Construction of public library",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "8",
+                        "information": "",
+                        "shortKey": "5b8a038f8dfabb173d2b290d",
+                        "label": "8"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8309b",
+                        "order": "9",
+                        "input_type": "3",
+                        "title": "Providing Cremation Center",
+                        "hint": "Providing Cremation Center",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "9",
+                        "information": "",
+                        "shortKey": "5ba9268425ede3109ca0ecf9",
+                        "label": "9"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8309a",
+                        "order": "10",
+                        "input_type": "3",
+                        "title": "Setting up E-Seva/Jana Seva Kendra",
+                        "hint": "Setting up E-Seva/Jana Seva Kendra",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "10",
+                        "information": "",
+                        "shortKey": "5b8e709b50fbbd674be7b895",
+                        "label": "10"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83099",
+                        "order": "11",
+                        "input_type": "3",
+                        "title": "Providing Burial Ground",
+                        "hint": "Providing Burial Ground",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "11",
+                        "information": "",
+                        "shortKey": "5ba92568d465b5109bfd60e1",
+                        "label": "11"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83098",
+                        "order": "12",
+                        "input_type": "3",
+                        "title": "Community Centre",
+                        "hint": "Community Centre",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": "High"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": "Medium"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "Low"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "12",
+                        "information": "",
+                        "shortKey": "5ba927de25ede3109ca0ecfb",
+                        "label": "12"
+                    }
+                ]
+            },
+            {
+                "_id": "5cc20bcf9a1be75db0e8308a",
+                "lng": "or",
+                "title": "VDP PRIORITY(Gram Panchayat)",
+                "question": [
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83096",
+                        "order": "1",
+                        "input_type": "3",
+                        "title": "Select District",
+                        "hint": "Select District",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "2"
+                            }
+                        ],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec2b6e732c0e5e6b96d1",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम"
+                            },
+                            {
+                                "_id": "5b5aa99a6e732c0e5e8e1aed",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "झारखण्ड - सरायकेला"
+                            },
+                            {
+                                "_id": "5b6c2da06e732c0e5e2fd9f4",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec236e732c0e5e6b96b0"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पूरबी सिंघभूम"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "1",
+                        "information": "",
+                        "shortKey": "1",
+                        "label": "1"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83095",
+                        "order": "2",
+                        "input_type": "3",
+                        "title": "Select Block",
+                        "hint": "Select Block",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "1"
+                            }
+                        ],
+                        "child": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "3"
+                            }
+                        ],
+                        "restrictions": [
+                            {
+                                "_id": "5d1229174816ca518f3e0273",
+                                "type": "11",
+                                "orders": [
+                                    {
+                                        "_id": "5d1229174816ca518f3e0274",
+                                        "value": "",
+                                        "order": "1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec356e732c0e5e6b96f4",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - जगन्नाथपुर"
+                            },
+                            {
+                                "_id": "5b59939c6e732c0e5e8878c8",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - चाईबासा"
+                            },
+                            {
+                                "_id": "5b59939c6e732c0e5e8878ca",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - झींकपानी"
+                            },
+                            {
+                                "_id": "5b5aa99e6e732c0e5e8e1b38",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99a6e732c0e5e8e1aed"
+                                    }
+                                ],
+                                "name": "झारखण्ड - सरायकेला - राजनगर"
+                            },
+                            {
+                                "_id": "5b5b85ab6e732c0e5e941f2c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - हैट गम्हरिया"
+                            },
+                            {
+                                "_id": "5b6288ff6e732c0e5ec3eca2",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec2b6e732c0e5e6b96d1"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पश्चिमी सिंहभूम - टोंटो"
+                            },
+                            {
+                                "_id": "5b6c2da36e732c0e5e2fda06",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da06e732c0e5e2fd9f4"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पूरबी सिंघभूम - पोटका"
+                            },
+                            {
+                                "_id": "5b6c2da36e732c0e5e2fda08",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da06e732c0e5e2fd9f4"
+                                    }
+                                ],
+                                "name": "झारखण्ड - पूरबी सिंघभूम - जमशेदपुर"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "2",
+                        "information": "",
+                        "shortKey": "2",
+                        "label": "2"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83094",
+                        "order": "3",
+                        "input_type": "3",
+                        "title": "Select Gram Panchayat",
+                        "hint": "Select Village",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [
+                            {
+                                "type": "3",
+                                "value": ".*",
+                                "order": "2"
+                            }
+                        ],
+                        "child": [],
+                        "restrictions": [
+                            {
+                                "_id": "5d1229174816ca518f3e0270",
+                                "type": "11",
+                                "orders": [
+                                    {
+                                        "_id": "5d1229174816ca518f3e0271",
+                                        "value": "",
+                                        "order": "2"
+                                    }
+                                ]
+                            }
+                        ],
+                        "answer_option": [
+                            {
+                                "_id": "5b52ec406e732c0e5e6b971e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - पतनजईत"
+                            },
+                            {
+                                "_id": "5b52ec406e732c0e5e6b9720",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - जयतीगढ़"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887ddb",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - चाईबासा - बादरी"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887de7",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - केलेंड"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887ddd",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - कुड़ाहतु"
+                            },
+                            {
+                                "_id": "5b5994006e732c0e5e887de1",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - टुटुघुटु"
+                            },
+                            {
+                                "_id": "5b5aa9a16e732c0e5e8e1b62",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - बीजडीह"
+                            },
+                            {
+                                "_id": "5b5aa9a16e732c0e5e8e1b64",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - पोटका"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f75",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - बसीरा"
+                            },
+                            {
+                                "_id": "5b716bbb6e732c0e5e71419c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - छोटा मूलडीहा"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a42",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - कुसुमिता "
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f7b",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - गुमरिअ"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f80",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - जयपुर"
+                            },
+                            {
+                                "_id": "5b5b85bf6e732c0e5e941f84",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - नूरदा"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed73",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5b85ab6e732c0e5e941f2c"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - हैट गम्हरिया - एमडीहा"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed5c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - कटंगा"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed63",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - गोविंदपुर"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed6a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - गंभरिया"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed6e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - कुज्जु"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed58",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - चाईबासा - हरीला"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed7c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6288ff6e732c0e5ec3eca2"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - टोंटो - बारे झींकपानी"
+                            },
+                            {
+                                "_id": "5b6289046e732c0e5ec3ed5a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - जोड़ा पोखर"
+                            },
+                            {
+                                "_id": "5b6bc2ac6e732c0e5e29d002",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - राजनगर"
+                            },
+                            {
+                                "_id": "5b6bc38e6e732c0e5e29da78",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - एडेल"
+                            },
+                            {
+                                "_id": "5b6bc38e6e732c0e5e29da7a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b5aa99e6e732c0e5e8e1b38"
+                                    }
+                                ],
+                                "name": "सरायकेला - राजनगर - बरसिजुलता"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda80",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda06"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - पोटका - तेतला"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda82",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda06"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - पोटका - जुड़ी"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda86",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - पुरिहासा"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda8c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - बायबिल"
+                            },
+                            {
+                                "_id": "5b6c2da66e732c0e5e2fda91",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - केरडुंग्री"
+                            },
+                            {
+                                "_id": "5b716bbb6e732c0e5e714199",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b52ec356e732c0e5e6b96f4"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - जगन्नाथपुर - करांजिआ"
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a3a",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878c8"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - चाईबासा - तमलबांध "
+                            },
+                            {
+                                "_id": "5b7cb9436e732c0e5efb6a38",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b59939c6e732c0e5e8878ca"
+                                    }
+                                ],
+                                "name": "पश्चिमी सिंहभूम - झींकपानी - नवागांव "
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b6c",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - साउथ करण्डी"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b74",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - नार्थ ईस्ट बागबेड़ा"
+                            },
+                            {
+                                "_id": "5bf8dae0c539f7f525447b6e",
+                                "viewSequence": "1",
+                                "did": [
+                                    {
+                                        "parent_option": "5b6c2da36e732c0e5e2fda08"
+                                    }
+                                ],
+                                "name": "पूरबी सिंघभूम - जमशेदपुर - ईस्ट कीताडीह"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            },
+                            {
+                                "error_msg": "Village Level Limit",
+                                "_id": "57"
+                            }
+                        ],
+                        "viewSequence": "3",
+                        "information": "",
+                        "shortKey": "3",
+                        "label": "3"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83093",
+                        "order": "4",
+                        "input_type": "10",
+                        "title": "ଗ୍ରାମ ପଂଚାୟ",
+                        "hint": "ଗ୍ରାମ ପଂଚାୟ",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [],
+                        "validation": [],
+                        "viewSequence": "4",
+                        "information": "",
+                        "shortKey": "14",
+                        "label": "4"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83092",
+                        "order": "5",
+                        "input_type": "3",
+                        "title": "ପଞ୍ଚାୟତ ଭବନ ମରାମତି କରିବା",
+                        "hint": "ପଞ୍ଚାୟତ ଭବନ ମରାମତି କରିବା",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "5",
+                        "information": "",
+                        "shortKey": "5b87d03f32fdf86b252b6372",
+                        "label": "5"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83091",
+                        "order": "6",
+                        "input_type": "3",
+                        "title": "ପଞ୍ଚାୟତ ଭବନର ଶୌଚାଳୟର ମରାମତି କରିବା",
+                        "hint": "ପଞ୍ଚାୟତ ଭବନର ଶୌଚାଳୟର ମରାମତି କରିବା",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "6",
+                        "information": "",
+                        "shortKey": "5b87d46132fdf86b252b6379",
+                        "label": "6"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e83090",
+                        "order": "7",
+                        "input_type": "3",
+                        "title": "ଗ୍ରାମ ପଞ୍ଚାୟତରେ ପଞ୍ଚାୟତ ଭବନା ନିର୍ମାଣ କରିବା",
+                        "hint": "ଗ୍ରାମ ପଞ୍ଚାୟତରେ ପଞ୍ଚାୟତ ଭବନା ନିର୍ମାଣ କରିବା",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "7",
+                        "information": "",
+                        "shortKey": "5b8a02dcbd86d2173e59dd8f",
+                        "label": "7"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8308f",
+                        "order": "8",
+                        "input_type": "3",
+                        "title": "ଜନସାଧାରଣଙ୍କ ପାଇଁ ପାଠାଗାର ନିର୍ମାଣ କରିବା",
+                        "hint": "ଜନସାଧାରଣଙ୍କ ପାଇଁ ପାଠାଗାର ନିର୍ମାଣ କରିବା",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "8",
+                        "information": "",
+                        "shortKey": "5b8a038f8dfabb173d2b290d",
+                        "label": "8"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8308e",
+                        "order": "9",
+                        "input_type": "3",
+                        "title": "Providing Cremation Center",
+                        "hint": "Providing Cremation Center",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "9",
+                        "information": "",
+                        "shortKey": "5ba9268425ede3109ca0ecf9",
+                        "label": "9"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8308d",
+                        "order": "10",
+                        "input_type": "3",
+                        "title": "ଇ-ସେବା/ ଯନ ସେବା କେନ୍ଦ୍ର ପାଇଁ ଯୋଜନା କରିବା",
+                        "hint": "ଇ-ସେବା/ ଯନ ସେବା କେନ୍ଦ୍ର ପାଇଁ ଯୋଜନା କରିବା",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "10",
+                        "information": "",
+                        "shortKey": "5b8e709b50fbbd674be7b895",
+                        "label": "10"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8308c",
+                        "order": "11",
+                        "input_type": "3",
+                        "title": "Providing Burial Ground",
+                        "hint": "Providing Burial Ground",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "11",
+                        "information": "",
+                        "shortKey": "5ba92568d465b5109bfd60e1",
+                        "label": "11"
+                    },
+                    {
+                        "_id": "5cc20bcf9a1be75db0e8308b",
+                        "order": "12",
+                        "input_type": "3",
+                        "title": "ଗୋଷ୍ଠୀ କେନ୍ଦ୍ର",
+                        "hint": "ଗୋଷ୍ଠୀ କେନ୍ଦ୍ର",
+                        "pattern": "",
+                        "min": null,
+                        "max": null,
+                        "constant": "",
+                        "editable": false,
+                        "resource_urls": [],
+                        "parent": [],
+                        "child": [],
+                        "restrictions": [],
+                        "answer_option": [
+                            {
+                                "_id": "1",
+                                "viewSequence": "1",
+                                "did": [],
+                                "name": " ହ୍ୱିଘ"
+                            },
+                            {
+                                "_id": "2",
+                                "viewSequence": "2",
+                                "did": [],
+                                "name": " ମେଡିଉଁ"
+                            },
+                            {
+                                "_id": "3",
+                                "viewSequence": "3",
+                                "did": [],
+                                "name": "ଲୋବ"
+                            },
+                            {
+                                "_id": "4",
+                                "viewSequence": "4",
+                                "did": [],
+                                "name": "NA"
+                            }
+                        ],
+                        "validation": [
+                            {
+                                "error_msg": "",
+                                "_id": "1"
+                            }
+                        ],
+                        "viewSequence": "12",
+                        "information": "",
+                        "shortKey": "5ba927de25ede3109ca0ecfb",
+                        "label": "12"
+                    }
+                ]
+            }
+        ],
+        "groupType": "gramPanchayat",
+        "createDynamicOption": [],
+        "getDynamicOption": []
+    }

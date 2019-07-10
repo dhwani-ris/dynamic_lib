@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <!-- <string name="app_name">ఇంటర్నెట్ సాథి</string>-->
+    <string name="are_you_sure">నిజంగా చెయ్యాలనుకుంటున్నారా?</string>
+    <string name="something_went_wrong">ఎక్కడో తప్పు జరిగింది</string>
+    <string name="ok">అలాగే</string>
+    <string name="clear">ఖాళి </string>
+    <string name="warning">హెచ్చరిక </string>
+    <string name="draft_save">డ్రాఫ్ట్ సేవ్</string>
+    <string name="submit"> సమర్పించండి</string>
+
+
+    <string name="saved">సేవ్</string>
+    <string name="synced">సింక్ చెయ్యబడిన </string>
+    <string name="draft"> డ్రాఫ్ట్</string>
+
+    <string name="cancel">రద్దు</string>
+    <string name="gallery">గ్యాలరీ</string>
+    <string name="camera">కెమెరా</string>
+    <string name="pending_questions">పెండింగ్ ప్రశ్నలు</string>
+
+    <string name="select_date">తేదీని ఎంచుకోండి</string>
+    <string name="day">రోజు </string>
+    <string name="month">నెల</string>
+    <string name="year">సంవత్సరం </string>
+    <string name="delete">తొలగించు</string>
+    <string name="data_will_be_removed">డేటా తీసివేయబడుతుంది</string>
+    <string name="data_deleted">డేటా తొలగించబడింది</string>
+    <string name="save_data">డేటాను సేవ్ చేయండి</string>
+    <string name="do_you_want_to_save_as_draft">మీరు డ్రాఫ్ట్ గా సేవ్ చేయాలనుకుంటున్నారా?</string>
+    <string name="yes">అవును</string>
+    <string name="no">కాదు </string>
+    <string name="aadhaar_card_number">ఆధార్ కార్డ్ సంఖ్య</string>
+    <string name="permission_required">అనుమతి అవసరం</string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">దయచేసి కెమెరా మరియు నిల్వ కోసం అనుమతులను ఆమోదించండి</string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">ఈ ఫారమ్ను పూరించడానికి, దయచేసి జిపీస్ అనుమతిని అంగీకరించండి</string>
+    <string name="login_permission">దయచేసి జిపీస్, నిల్వ మరియు ఫోన్ స్థితి అనుమతిని ఆమోదించండి</string>
+    <string name="please_fill_at_least_one_field">దయచేసి కనీసం ఒక ఫీల్డ్ని పూరించండి</string>
+    <string name="questions_answered">సమాధానం ఇచ్చిన ప్రశ్నలు</string>
+    <string name="sorry_failed_to_capture_photo">క్షమించాలి! ఫోటోను సంగ్రహించడానికి విఫలమైంది</string>
+    <string name="sorry_failed_to_pick_photo">ఫోటోను ఎంచుకోవడం విఫలమైంది</string>
+    <string name="form_submitted_successfully">ఫారమ్ విజయవంతంగా సమర్పించబడింది</string>
+    <string name="image_not_captured">చిత్రం తప్పు !! దయచేసి మరొక చిత్రాన్ని ఎంచుకోండి.</string>
+    <string name="form_saved_draft">ఫారమ్ డ్రాఫ్ట్ వలె సేవ్ చేయబడింది</string>
+    <string name="gps_is_required_for_this_form">ఈ రూపానికి జిపీస్ అవసరం</string>
+    <string name="app_update_is_require">దయచేసి అనువర్తనాన్ని నవీకరించండి!</string>
+    <string name="more_questions">మరిన్ని ప్రశ్నలు ...</string>
+    <string name="question_still_not_loaded">వీక్షణలో లోడ్ చేయబడని ప్రశ్నను దయచేసి అన్ని ప్రశ్నలను లోడ్ చేయండి</string>
+    <string name="search_txt">శోధన ...</string>
+    <string name="preparing_form">ఫారం సిద్ధం</string>
+    <string name="loading">లోడ్...</string>
+    <string name="view_details">వివరాలను వీక్షించండి</string>
+    <string name="add_details">వివరాలను జోడించండి</string>
+
+
+    <string name="play"> ప్లే</string>
+    <string name="reset">రీసెట్ చేయు </string>
+    <string name="record">రికార్డు చేయు</string>
+    <string name="stop">ఆపండి </string>
+    <string name="information">సమాచారం</string>
+    <string name="option_not_availble">ఎంపిక అందుబాటులో లేదు !</string>
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+    <string name="alert_msg" >Alert : Question </string>
+
+
+
+
+</resources>

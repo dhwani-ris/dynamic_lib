@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="hint" format="string" />
+    <attr name="edit_text_hint" format="string" />
+    <attr name="title" format="string" />
+    <attr name="src" format="string" />
+    <attr name="bottom_hint" format="string" />
+    <attr name="answer" format="string" />
+    <attr name="order" format="string" />
+    <attr name="maxLines" format="integer" />
+    <attr name="maxLength" format="integer" />
+    <attr name="clickable" format="boolean" />
+    <attr name="focusable" format="enum">
+        <enum name="focusable" value="0" />
+        <enum name="notFocusable" value="1" />
+    </attr>
+    <attr name="answer_status" format="enum">
+        <enum name="none" value="0" />
+        <enum name="answered" value="1" />
+        <enum name="not_answered" value="2" />
+    </attr>
+
+
+    <declare-styleable name="EditTextRowView">
+        <attr name="hint" />
+        <attr name="edit_text_hint" />
+        <attr name="bottom_hint" />
+        <attr name="answer" />
+
+        <attr name="order" />
+        <attr name="maxLines" />
+        <attr name="maxLength" />
+
+        <attr name="clickable" />
+        <attr name="focusable" />
+
+        <attr name="answer_status" />
+
+    </declare-styleable>
+
+    <declare-styleable name="ImageRowView">
+        <attr name="title" />
+        <attr name="src" />
+        <attr name="order" />
+        <attr name="clickable" />
+        <attr name="answer_status" />
+    </declare-styleable>
+
+</resources>

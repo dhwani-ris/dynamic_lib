@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_order"
+            android:layout_width="@dimen/orderviewsize"
+            android:layout_height="@dimen/orderviewsize"
+            android:background="@drawable/white_circle"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ordertextsize2" />
+
+        <TextView
+            android:id="@+id/titletext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="8dp"
+            android:text="Enter Name" />
+
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="4dp"
+            android:src="@drawable/ic_information"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="4dp"
+            android:src="@drawable/ic_error_msg"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/star"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:text=""
+            android:textColor="@color/red" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:text="@string/Acurracy"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_accuracy"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:textAlignment="center" />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/btnGetLoaction"
+            style="@style/buttonsOnQuestionStyle"
+            android:layout_width="0dp"
+            android:layout_marginLeft="@dimen/margin_submit_btns"
+            android:layout_weight="0.5"
+            android:background="@color/saved"
+            android:text="@string/get_location" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:text="@string/latitude"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_latitude"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:textAlignment="center" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4"
+                android:text="@string/longitude"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_longitude"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:textAlignment="center" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/additionalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="@string/additional_info"
+        android:visibility="gone"
+        android:textColor="@color/white" />
+</LinearLayout>

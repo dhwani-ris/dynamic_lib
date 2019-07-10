@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_text_size">16sp</dimen>
+
+    <dimen name="button_hieght">60dp</dimen>
+
+    <dimen name="ordertextsize2">14sp</dimen>
+    <dimen name="ordertextsize3">16sp</dimen>
+    <dimen name="dialog_item_text">20sp</dimen>
+    <dimen name="dialog_title_text">22sp</dimen>
+
+    <dimen name="dialog_close_icon">50dp</dimen>
+    <dimen name="dialog_item_padding">16dp</dimen>
+    <dimen name="imageframeHeight">500dp</dimen>
+    <dimen name="title_size">18sp</dimen>
+
+</resources>

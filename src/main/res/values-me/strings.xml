@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<!--<string name="app_name">ইন্তরনেত সাথি </string>-->
+    <string name="are_you_sure">নহাক য়ারব্রা? </string>
+    <string name="something_went_wrong">করিগুম্বা অশোয়বা অমা য়াওরে </string>
+    <string name="ok">ওকে </string>
+<string name="clear">ক্লয়ার </string>
+    <string name="warning">ৱার্নিং </string>
+    <string name="draft_save">দ্রাফ সেব</string>
+<string name="submit">সবমিত </string>
+
+
+    <string name="saved">সেব </string>
+<string name="synced">সিঙ্ক </string>
+<string name="draft">দ্রাফ </string>
+
+    <!--<string name="choose_language">লোন খল্লু  / भाषा चुनें</string>-->
+    <string name="cancel">কেন্সেল </string>
+    <string name="gallery">গেলরি </string>
+<string name="camera">কেমেরা </string>
+    <string name="pending_questions">ৱাৎলিবা ৱাহংশিং </string>
+
+    <string name="select_date">তারিক খল্লু </string>
+<string name="day">নুমিৎ</string>
+<string name="month">থা </string>
+<string name="year">চহী </string>
+    <string name="delete">মুথৎলো </string>
+<string name="data_will_be_removed">দেতা অদু লৌথোক্লনি </string>
+    <string name="data_deleted">দেতা মুথৎখ্রে </string>
+<string name="save_data">দেতা সেব তৌ্রো </string>
+<string name="do_you_want_to_save_as_draft">দ্রাফ ওইনা সেব তৌবা পাম্ব্রা </string>
+<string name="yes">য়েশ</string>
+<string name="no">নো</string>
+    <string name="aadhaar_card_number">আধার নম্বর </string>
+    <string name="permission_required">অয়াবা দরকার ওই </string>
+<string name="please_accept_the_both_permissions_camera_and_storage">কেম্মেরাগী অয়াবা অদুম পীবীয়ু </string>
+<string name="to_fill_this_form_please_accept_the_gps_permission">ফোর্ম অসি মেনশিন্নবা জি পি এস য়াহনবীয়ু </string>
+    <string name="login_permission">জি পি এস অদু য়াহনবিয়ু, স্তোরেজ অমসুং </string>
+    <string name="please_fill_at_least_one_field">অহাংবা অসিদা অমদি মেনশিল্লু</string>
+    <string name="questions_answered">" পাউখুম পিরবা ৱাহংশিং  "</string>
+    <string name="sorry_failed_to_capture_photo">ঙাকপীগনি ফোতো কাপ্পা য়াদ্রে </string>
+<string name="sorry_failed_to_pick_photo">ফোতো লৌবা ঙমদ্রে </string>
+    <string name="form_submitted_successfully">ফোর্ম মায় পাকনা সবমিত তৌখ্রে </string>
+    <string name="image_not_captured">ইমেজ অদু লাল্লে!! অতোপ্পা অমা খল্লু </string>
+<string name="form_saved_draft">দ্রাফ ওইনা সেব তৌরবা ফোর্ম</string>
+<string name="gps_is_required_for_this_form">ফোর্ম অসি ওইনা জি পি এস মতৌ তাগনি </string>
+    <string name="app_update_is_require">এপ অসি অপদেত তৌবীয়ু  !</string>
+<string name="more_questions">ৱাহং খরা অমুক ...</string>
+<string name="question_still_not_loaded">ৱাহং অদু য়েংবা য়াদ্রে অমুক্তা</string>
+<string name="search_txt">থিবা......</string>
+<string name="preparing_form">ফোর্ম শেম শারি </string>
+<string name="loading">লোদিং তৌরি ...</string>
+<string name="view_details">দিতেলশিং য়েংঊ </string>
+<string name="add_details">দিতেলশিং হেন্না হাপ্পূ </string>
+    <string name="play">প্লে তৌ</string>
+<string name="reset">হন্না সেত তৌ</string>
+<string name="record">রেকোর্দ তৌ</string>
+    <string name="stop">লেপ্পু</string>
+<string name="information">ৱারোল</string>
+    <string name="option_not_availble">ওপসন ফংদে!</string>
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+
+    <string name="alert_msg" >Alert : Question </string>
+</resources>

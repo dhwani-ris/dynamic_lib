@@ -1,0 +1,72 @@
+<resources>
+  <!--  <string name="app_name">ইন্টাৰনেট চাথী</string>-->
+    <string name="are_you_sure">আপুনি নিশ্চিত নে?</string>
+    <string name="something_went_wrong">কিবা এটা ভুল ঘটিছে</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="clear">খালী</string>
+    <string name="warning">সতৰ্কবাণী</string>
+    <string name="draft_save">ড্ৰাফ্ট ছেভ</string>
+    <string name="submit">জমা দিয়ক</string>
+
+
+    <string name="saved">ছেভ কৰা হ’ল</string>
+    <string name="synced">ছিংক কৰা হ’ল</string>
+    <string name="draft">ড্ৰাফ্ট</string>
+
+    <!--&lt;!&ndash;<string name="choose_language">ভাষা নিৰ্বাচন কৰক</string>-->
+    <string name="cancel">বাতিল কৰক</string>
+    <string name="gallery">গেলেৰী</string>
+    <string name="camera">কেমেৰা</string>
+    <string name="pending_questions">পেণ্ডিং প্ৰশ্ন</string>
+
+    <string name="select_date">তাৰিখ নিৰ্বাচন কৰক</string>
+    <string name="day">দিন</string>
+    <string name="month">মাহ</string>
+    <string name="year">বছৰ</string>
+    <string name="delete">ডিলিট কৰক</string>
+    <string name="data_will_be_removed">ডাটা মচি দিয়া হ’ব</string>
+    <string name="data_deleted">ডাটা মচি দিয়া হ’ল</string>
+    <string name="save_data">ডাটা ছেভ কৰক</string>
+    <string name="do_you_want_to_save_as_draft">আপুনি ড্ৰাফ্ট হিচাপে ছেভ কৰিব খোজে নে</string>
+    <string name="yes">হয়</string>
+    <string name="no">নহয়</string>
+    <string name="aadhaar_card_number">আধাৰ কাৰ্ড সংখ্যা</string>
+    <string name="permission_required">অনুমতিৰ প্ৰয়োজন</string>
+    <string name="please_accept_the_both_permissions_camera_and_storage">কেমেৰা আৰু ষ্টৰেজৰ অনুমতি গ্ৰহণ কৰক</string>
+    <string name="to_fill_this_form_please_accept_the_gps_permission">এই ফৰ্ম পূৰ কৰিবৰ বাবে জিপিএছৰ অনুমতি লওক</string>
+    <string name="login_permission">জিপিএছ, ষ্টৰেজ আৰু ফোন ষ্টেটৰ অনুমতি লওক</string>
+    <string name="please_fill_at_least_one_field">কমেও এটি স্থান পূৰ কৰক</string>
+    <string name="questions_answered">উত্তৰ দিয়া প্ৰশ্নসমূহ</string>
+    <string name="sorry_failed_to_capture_photo">ক্ষমা কৰিব! ফটো তুলিব পৰা নগৈছে</string>
+    <string name="sorry_failed_to_pick_photo">ফটো তুলিবলৈ সক্ষম নহ’ল</string>
+    <string name="form_submitted_successfully">সফলতাৰে ফৰ্ম জমা হ’ল</string>
+    <string name="image_not_captured">ভুল চিত্ৰ! অন্য চিত্ৰ নিৰ্বাচন কৰক</string>
+    <string name="form_saved_draft">ড্ৰাফ্ট হিচাপে ফৰ্ম ছেভ হ’ল</string>
+    <string name="gps_is_required_for_this_form">এই ফৰ্মৰ বাবে জিপিএছৰ প্ৰয়োজন</string>
+    <string name="app_update_is_require">অনুগ্রহ করি অপ টু আপডেট করুক!</string>
+
+    <string name="more_questions"> আৰু প্রশ্ন...</string>
+    <string name="question_still_not_loaded">প্রশ্ন লোড নাইহুয়া, অনুগ্রহ কৰি হকলু প্রশ্ন লোড কৰক</string>
+    <string name="search_txt"> সার্চ...</string>
+    <string name="preparing_form">ফর্ম প্রস্তুত কৰা হয়সে</string>
+    <string name="loading">লোডিং...</string>
+    <string name="view_details">ভিউ ডিটেলস</string>
+    <string name="add_details">অ্যাড ডিটেলস</string>
+
+    <string name="play">প্লে </string>
+    <string name="reset">ৰিছেট</string>
+    <string name="record">ৰেকৰ্ড</string>
+    <string name="stop">ষ্টপ</string>
+    <string name="information">তথ্যা</string>
+    <string name="option_not_availble">বিকল্প উপলব্ধ নহয়!</string>
+
+    <string name="get_location">Get Location</string>
+    <string name="Acurracy">Accuracy</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+
+    <string name="alert_msg" >Alert : Question </string>
+
+
+
+</resources>
