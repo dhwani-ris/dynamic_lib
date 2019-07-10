@@ -4,7 +4,7 @@ import com.dhwaniris.dynamicForm.db.dbhelper.ResourceUrlsBean;
 
 import java.util.List;
 
-public class QuestionBean  implements Cloneable, Comparable<QuestionBean> {
+public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
 
 
     private String _id;
@@ -46,6 +46,16 @@ public class QuestionBean  implements Cloneable, Comparable<QuestionBean> {
     private List<RestrictionsBean> restrictions;
 
     private List<ResourceUrlsBean> resource_urls;
+
+    private String columnName;
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
 
     public String getInformation() {
         return information;
@@ -119,8 +129,7 @@ public class QuestionBean  implements Cloneable, Comparable<QuestionBean> {
         this.pattern = pattern;
     }
 
-    public String getMin()
-    {
+    public String getMin() {
         if (min == null) {
             min = "";
         }

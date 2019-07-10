@@ -21,7 +21,7 @@ class DashboardActivity : AppCompatActivity() {
         setTitle(R.string.dashboard)
 
         imageView.setOnClickListener {
-            startActivity(Intent(this, FormActivity::class.java))
+            //        startActivity(Intent(this, FormActivity::class.java))
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
 import com.dhwaniris.dynamicForm.R;
+import com.dhwaniris.dynamicForm.SingletonForm;
 import com.dhwaniris.dynamicForm.adapters.UnansweredQusAdapter;
 import com.dhwaniris.dynamicForm.base.BaseActivity;
 import com.dhwaniris.dynamicForm.db.FilledForms;
@@ -41,10 +42,10 @@ import com.dhwaniris.dynamicForm.utils.PermissionHandler;
 import com.dhwaniris.dynamicForm.utils.PermissionHandlerListener;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 import com.dhwaniris.dynamicForm.utils.Utility;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,6 +91,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
 
     List<String> duplicateCheckQuestions;
     Form formModel = null;
+    SingletonForm singletonForm;
 
     public FormActivity() {
     }
@@ -129,6 +131,12 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         permissionHandler = new PermissionHandler(this, this);
         locationReceiver = new LocationReceiver(locationDataN);
         locationHandler.setGPSonOffListener(this);
+
+        singletonForm = SingletonForm.getInstance();
+        if (singletonForm.getForm() == null) {
+            myFinishActivity();
+        }
+
         prepareQuestionView();
 
     }
@@ -173,7 +181,6 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
             createViewObject(questionBean, formStatus);
         }
         submit.setVisibility(View.VISIBLE);
-        save.setVisibility(View.VISIBLE);
         isFormValid = true;
         hideLoader();
     }
@@ -196,14 +203,29 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         if (isLocationRequired) {
             locationHandler.onStop();
         }
-        if (!saved && isFormValid) {
-            saveData(DRAFT, false);
-        }
     }
 
     @Override
     public void onBackPressed() {
-        if (requirdAlertMap.containsValue(true)) {
+
+        new AlertDialog.Builder(ctx)
+                .setTitle(R.string.are_you_sure)
+                .setMessage(R.string.are_you_sure)
+                .setNeutralButton(R.string.cancel, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        myFinishActivity();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                })
+                .setCancelable(true)
+                .show();
+      /*  if (requirdAlertMap.containsValue(true)) {
             List<String> orderlist = checkRegexHashMap(requirdAlertMap);
             if (orderlist.size() > 0) {
                 String text = answerBeanHelperList.get(orderlist.get(0)).getAnswer().get(0).getValue();
@@ -233,7 +255,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
 
         } else {
             RemoveAnyChange();
-        }
+        }*/
     }
 
     //Removing changes in form
@@ -280,7 +302,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         if (view.getId() == R.id.save) {
             //draft save action
             save.clearFocus();
-
+/*
             if (requirdAlertMap.containsValue(true)) {
                 List<String> orderlist = checkRegexHashMap(requirdAlertMap);
                 if (orderlist.size() > 0) {
@@ -307,7 +329,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                 Snackbar.make(submit, R.string.please_fill_at_least_one_field, Snackbar.LENGTH_SHORT)
                         .setAction(R.string.ok, null)
                         .show();
-            }
+            }*/
         } else if (view.getId() == R.id.submit) {
             //submit action
             validateData();
@@ -427,6 +449,23 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         QuestionsUtils.sortAnsList(answerFilledList);
         filledFormList.setQuestion(answerFilledList);
         filledFormList.setMedia(formIsMedia);
+        JSONObject jsonObject = singletonForm.getJsonObject();
+        for (QuestionBean questionBean : questionBeenList.values()) {
+            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            if (questionBeanFilled != null) {
+
+                String value = questionBeanFilled.getAnswer().get(0).getValue();
+
+                try {
+                    jsonObject.put(questionBean.getColumnName(), value);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        singletonForm.setJsonObject(jsonObject);
+        SingletonForm.setResult(jsonObject);
+
 
         if (isFinish) {
             if (status == SUBMITTED) {
@@ -435,7 +474,8 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                 showCustomToast(getString(R.string.form_saved_draft), 2);
             }
             saved = true;
-            finish();
+            myFinishActivity();
+
         }
 
         /*dataRepository.getLocalRepository().submitForm(filledFormList, status, formModel, answerBeanHelperList).subscribe(new SingleObserver<Boolean>() {
@@ -482,6 +522,11 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         }
     };
 
+    void myFinishActivity() {
+        finish();
+
+    }
+
     private void showGPSPermissionAlert() {
 
         new AlertDialog.Builder(this)
@@ -501,7 +546,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         saved = true;
-                        finish();
+                        myFinishActivity();
                     }
                 })
                 .show();
@@ -552,7 +597,15 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         protected List<QuestionBean> doInBackground(Void... voids) {
 
             List<QuestionBean> questionBeanList = new ArrayList<>();
-            formModel = new Gson().fromJson(readJSONFromAsset("sampleForm.json"), Form.class);
+            //    formModel = new Gson().fromJson(readJSONFromAsset("sampleForm.json"), Form.class);
+            formModel = singletonForm.getForm();
+            JSONObject jsonObject = singletonForm.getJsonObject();
+            try {
+                uniqueTransactionId = jsonObject.getString("uniqueId");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             try {
                 if (formModel != null) {
                     f_id = formModel.get_id();
