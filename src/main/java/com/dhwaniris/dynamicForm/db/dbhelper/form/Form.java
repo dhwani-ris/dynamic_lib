@@ -1,60 +1,84 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
-public class Form  {
+public class Form {
 
 
-
+    @SerializedName("_id")
     private String _id;
 
+    @SerializedName("formId")
     private int formId;
 
+    @SerializedName("modifiedAt")
     private String modifiedAt;
 
+    @SerializedName("createdAt")
     private String createdAt;
 
+    @SerializedName("version")
     private String version;
 
+    @SerializedName("fillCount")
     private int fillCount;
 
+    @SerializedName("formIcon")
     private String formIcon;
 
+    @SerializedName("editable")
     private boolean editable;
 
+    @SerializedName("isActive")
     private boolean isActive;
 
-    private List<LanguageBean> languages;
+    @SerializedName("language")
+    private List<LanguageBean> language;
 
+    @SerializedName("location")
     private boolean location;
 
+    @SerializedName("isMedia")
     private boolean isMedia;
 
+    @SerializedName("expiryDate")
     private long expiryDate;
 
-    private String minAppVersion;
+//@SerializedName("minAppVersion")    private String minAppVersion;
 
+    @SerializedName("dynamicData")
     private boolean dynamicData;
 
+    @SerializedName("externalResource")
     private List<ExternalResourceBean> externalResource;
 
-    private ProjectNameBean project;
+//@SerializedName("project")    private ProjectNameBean project;
 
+    @SerializedName("formSynced")
     private boolean formSynced;
 
+    @SerializedName("dataUpdateStatus")
     private boolean dataUpdateStatus;
 
+    @SerializedName("errorManagementStatus")
     private boolean errorManagementStatus;
 
+    @SerializedName("dataCollectionStatus")
     private boolean dataCollectionStatus;
 
+    @SerializedName("duplicateCheckQuestions")
     private List<String> duplicateCheckQuestions;
 
+    @SerializedName("keyInfoOrders")
     private List<String> keyInfoOrders;
 
+    @SerializedName("getDynamicOptionsList")
     private List<GetDynamicOption> getDynamicOptionsList;
 
+    @SerializedName("createDynamicOptionList")
     private List<CreateDynamicOption> createDynamicOptionList;
 
 
@@ -213,12 +237,12 @@ public class Form  {
         this.isActive = isActive;
     }
 
-    public List<LanguageBean> getLanguages() {
-        return languages;
+    public List<LanguageBean> getLanguage() {
+        return language;
     }
 
-    public void setLanguages(List<LanguageBean> languages) {
-        this.languages = languages;
+    public void setLanguage(List<LanguageBean> language) {
+        this.language = language;
     }
 
     public boolean isActive() {
@@ -238,13 +262,13 @@ public class Form  {
     }
 
 
-    public String getMinAppVersion() {
-        return minAppVersion;
-    }
+//    public String getMinAppVersion() {
+//        return minAppVersion;
+//    }
 
-    public void setMinAppVersion(String minAppVersion) {
-        this.minAppVersion = minAppVersion;
-    }
+//    public void setMinAppVersion(String minAppVersion) {
+//        this.minAppVersion = minAppVersion;
+//    }
 
 
     public boolean isDynamicData() {
@@ -271,11 +295,11 @@ public class Form  {
         this.expiryDate = expiryDate;
     }
 
-    public ProjectNameBean getProject() {
-        return project;
-    }
+//    public ProjectNameBean getProject() {
+//        return project;
+//    }
 
-    public void setProject(ProjectNameBean project) {
-        this.project = project;
-    }
+//    public void setProject(ProjectNameBean project) {
+//        this.project = project;
+//    }
 }
