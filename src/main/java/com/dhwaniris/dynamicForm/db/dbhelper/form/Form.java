@@ -8,78 +8,55 @@ import java.util.List;
 public class Form {
 
 
-    @SerializedName("_id")
-    private String _id;
+    @SerializedName("_id") private String _id;
 
-    @SerializedName("formId")
-    private int formId;
+    @SerializedName("formId") private int formId;
 
-    @SerializedName("modifiedAt")
-    private String modifiedAt;
+    @SerializedName("modifiedAt") private String modifiedAt;
 
-    @SerializedName("createdAt")
-    private String createdAt;
+    @SerializedName("createdAt") private String createdAt;
 
-    @SerializedName("version")
-    private String version;
+    @SerializedName("version") private String version;
 
-    @SerializedName("fillCount")
-    private int fillCount;
+    @SerializedName("fillCount") private int fillCount;
 
-    @SerializedName("formIcon")
-    private String formIcon;
+    @SerializedName("formIcon") private String formIcon;
 
-    @SerializedName("editable")
-    private boolean editable;
+    @SerializedName("editable") private boolean editable;
 
-    @SerializedName("isActive")
-    private boolean isActive;
+    @SerializedName("isActive") private boolean isActive;
 
-    @SerializedName("language")
-    private List<LanguageBean> language;
+    @SerializedName("language") private List<LanguageBean> language;
 
-    @SerializedName("location")
-    private boolean location;
+    @SerializedName("location") private boolean location;
 
-    @SerializedName("isMedia")
-    private boolean isMedia;
+    @SerializedName("isMedia") private boolean isMedia;
 
-    @SerializedName("expiryDate")
-    private long expiryDate;
+    @SerializedName("expiryDate") private long expiryDate;
 
-//@SerializedName("minAppVersion")    private String minAppVersion;
+//@SerializedName("minAppVersion")   private String minAppVersion;
 
-    @SerializedName("dynamicData")
-    private boolean dynamicData;
+    @SerializedName("dynamicData") private boolean dynamicData;
 
-    @SerializedName("externalResource")
-    private List<ExternalResourceBean> externalResource;
+    @SerializedName("externalResource") private List<ExternalResourceBean> externalResource;
 
-//@SerializedName("project")    private ProjectNameBean project;
+//@SerializedName("project")   private ProjectNameBean project;
 
-    @SerializedName("formSynced")
-    private boolean formSynced;
+    @SerializedName("formSynced") private boolean formSynced;
 
-    @SerializedName("dataUpdateStatus")
-    private boolean dataUpdateStatus;
+    @SerializedName("dataUpdateStatus") private boolean dataUpdateStatus;
 
-    @SerializedName("errorManagementStatus")
-    private boolean errorManagementStatus;
+    @SerializedName("errorManagementStatus") private boolean errorManagementStatus;
 
-    @SerializedName("dataCollectionStatus")
-    private boolean dataCollectionStatus;
+    @SerializedName("dataCollectionStatus") private boolean dataCollectionStatus;
 
-    @SerializedName("duplicateCheckQuestions")
-    private List<String> duplicateCheckQuestions;
+    @SerializedName("duplicateCheckQuestions") private List<String> duplicateCheckQuestions;
 
-    @SerializedName("keyInfoOrders")
-    private List<String> keyInfoOrders;
+    @SerializedName("keyInfoOrders") private List<String> keyInfoOrders;
 
-    @SerializedName("getDynamicOptionsList")
-    private List<GetDynamicOption> getDynamicOptionsList;
+    @SerializedName("getDynamicOptionsList") private List<GetDynamicOption> getDynamicOptionsList;
 
-    @SerializedName("createDynamicOptionList")
-    private List<CreateDynamicOption> createDynamicOptionList;
+    @SerializedName("createDynamicOptionList") private List<CreateDynamicOption> createDynamicOptionList;
 
 
     public List<GetDynamicOption> getGetDynamicOptionsList() {

@@ -144,7 +144,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
             Form dataBean = null;
             //= realm.where(Form.class).equalTo("formId", formId).findFirst();
-            for (LanguageBean languageBean : dataBean.getLanguages()) {
+            for (LanguageBean languageBean : dataBean.getLanguage()) {
                 if (languageBean.getLng().equals(formLang)) {
                     formName = languageBean.getTitle();
                     break;

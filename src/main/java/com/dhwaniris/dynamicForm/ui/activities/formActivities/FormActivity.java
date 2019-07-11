@@ -615,14 +615,14 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                     formVersion = formModel.getVersion();
                     String userLanguage = userLanguage();
                     boolean isFoundLanguage = false;
-                    for (LanguageBean languageBean : formModel.getLanguages()) {
+                    for (LanguageBean languageBean : formModel.getLanguage()) {
                         if (languageBean.getLng().equals(userLanguage)) {
                             isFoundLanguage = true;
                             break;
                         }
                     }
                     userLanguage = isFoundLanguage ? userLanguage() : "en";
-                    for (LanguageBean languageBean : formModel.getLanguages()) {
+                    for (LanguageBean languageBean : formModel.getLanguage()) {
                         if (languageBean.getLng().equals(userLanguage)) {
                             titleInLanguage = languageBean.getTitle();
                             for (QuestionBean questionBean : languageBean.getQuestion()) {

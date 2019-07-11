@@ -2404,7 +2404,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 Integer.parseInt(fid))
                 .sort("version", Sort.DESCENDING).findAll();
         if (dataBean.size() > 0)
-            for (LanguageBean languageBean : dataBean.get(0).getLanguages()) {
+            for (LanguageBean languageBean : dataBean.get(0).getLanguage()) {
                 for (QuestionBean questionBean : languageBean.getQuestion()) {
                     if (QuestionsUtils.getQuestionUniqueId(questionBean).equals(questionUid)) {
                         for (AnswerOptionsBean answerOptionsBean : questionBean.getAnswer_options()) {
