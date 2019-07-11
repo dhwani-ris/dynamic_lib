@@ -50,7 +50,7 @@ public class LoopingSingleSelect extends BaseEditTextWithButtonType {
                 hideKeyboard();
                 preventDoubleClicks(view);
 
-                List<AnswerOptionsBean> filteredList = QuestionsUtils.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
+                List<AnswerOptionsBean> filteredList = QuestionsUtils.Companion.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
                         answerBeanHelperList, dataListener.getUserLanguage(), formId);
 
                 createSelector(filteredList, questionBean,

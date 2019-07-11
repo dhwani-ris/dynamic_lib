@@ -123,7 +123,7 @@ public class MultiSelect extends BaseSelectType {
                     }
                 }
                 List<AnswerOptionsBean> filteredList;
-                filteredList = QuestionsUtils.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
+                filteredList = QuestionsUtils.Companion.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
                         answerBeanHelperList, dataListener.getUserLanguage(), formId);
 
                 //    filteredList = getAnsOptionFromQuestionAfterFilter(questionBean);

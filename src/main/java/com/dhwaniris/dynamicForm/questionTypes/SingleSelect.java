@@ -145,7 +145,7 @@ public class SingleSelect extends BaseSelectType {
                 hideKeyboard();
                 preventDoubleClicks(view);
                 List<AnswerOptionsBean> filteredList;
-                filteredList = QuestionsUtils.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
+                filteredList = QuestionsUtils.Companion.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
                         answerBeanHelperList, dataListener.getUserLanguage(), formId);
                 //filteredList = getAnsOptionFromQuestionAfterFilter(questionBean);
                 createSelector(filteredList, questionBean,

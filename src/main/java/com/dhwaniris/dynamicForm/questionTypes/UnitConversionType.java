@@ -61,7 +61,7 @@ public class UnitConversionType extends BaseType {
         if (iniitList) {
             initListener();
         }
-        answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+        answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
 
         if (formStatus == DRAFT ||
                 formStatus == SUBMITTED ||

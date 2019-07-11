@@ -1,45 +1,38 @@
 package com.dhwaniris.dynamicForm.utils
 
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing
-import com.dhwaniris.dynamicForm.db.dbhelper.MasterBlockBean
-import com.dhwaniris.dynamicForm.db.dbhelper.MasterDistrictBean
-import com.dhwaniris.dynamicForm.db.dbhelper.MasterVillageBean
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled
-import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean
-import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers
-import com.dhwaniris.dynamicForm.db.dbhelper.form.ChildBean
-import com.dhwaniris.dynamicForm.db.dbhelper.form.Did
-import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested
-import com.dhwaniris.dynamicForm.db.dbhelper.form.OrdersBean
-import com.dhwaniris.dynamicForm.db.dbhelper.form.ParentBean
-import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean
-import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean
-import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean
-
+import com.dhwaniris.dynamicForm.db.dbhelper.form.*
 import java.util.ArrayList
 import java.util.Collections
 import java.util.HashMap
 import java.util.LinkedHashMap
-import java.util.regex.Pattern
-
 import java.util.regex.Pattern.matches
+import kotlin.Boolean
+import kotlin.Comparator
+import kotlin.Exception
+import kotlin.Int
+import kotlin.String
+import kotlin.arrayOf
 
 
 class QuestionsUtils {
 
-    fun getDecimalOrder(parentOrder: String, childOrder: String, decimalCount: Int): String {
-        val childOrderInt = Integer.parseInt(childOrder)
-        var newOrder = "$parentOrder.$childOrder"
-        val decimalPlaces = String.format("%0" + decimalCount + "d", childOrderInt)
-        if (childOrderInt % 10 == 0) {
-            newOrder = parentOrder + "." + decimalPlaces.substring(0, decimalPlaces.length - 1)
-        } else {
-            newOrder = "$parentOrder.$decimalPlaces"
-        }
-        return newOrder
-    }
 
     companion object {
+
+        fun getNewAnswerList(): ArrayList<Answers> {
+            val answerBeanHelperList = ArrayList<Answers>()
+            val answers = Answers()
+            answers.label = ""
+            answers.reference = ""
+            answers.value = ""
+            answers.textValue = ""
+            answerBeanHelperList.add(answers)
+            return answerBeanHelperList
+
+        }
+
         fun isAnswerIsExpected(uniqueKey: String, value: String, questionBeanFilledList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
 
             val questionBeanFilled = questionBeanFilledList[uniqueKey]
@@ -48,7 +41,7 @@ class QuestionsUtils {
                 for (answers1 in answers) {
                     val answers1Value = answers1.value
                     if (answers1Value != "") {
-                        val isMatchPatten = Pattern.matches(value, answers1Value)
+                        val isMatchPatten = matches(value, answers1Value)
                         val isMatchValue = value == answers1Value
                         if (isMatchPatten || isMatchValue) {
                             return true
@@ -65,9 +58,9 @@ class QuestionsUtils {
 
         fun checkValueForVisibility(questionBean: QuestionBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
             var isMatch: Boolean
-            if (questionBean != null && questionBean.parent.size > 0) {
+            if (questionBean != null && questionBean.parent.isNotEmpty()) {
                 val parentBean1 = questionBean.parent[0]
-                isMatch = isAnswerIsExpected(getParentUniqueId(parentBean1), parentBean1.value, answerBeanHelperList)
+                isMatch = isAnswerIsExpected(getParentUniqueId(parentBean1!!), parentBean1.value, answerBeanHelperList)
 
                 if (questionBean.parent.size > 1) {
                     isMatch = validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList)
@@ -78,8 +71,8 @@ class QuestionsUtils {
             return isMatch
         }
 
-        fun validateVisibilityWithMultiParent(questionBean: QuestionBean, isMatch: Boolean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
-            var isMatch = isMatch
+        fun validateVisibilityWithMultiParent(questionBean: QuestionBean, isMatchOld: Boolean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
+            var isMatch = isMatchOld
             var isOrCase = false
             var isVisibleOnParentsDiffrentValue = false
             for (validationBean in questionBean.validation) {
@@ -119,8 +112,8 @@ class QuestionsUtils {
 
             if (questionBeanFilled != null) {
                 val answers = questionBeanFilled.answer
-                if (!answers.isEmpty() && answers[0] != null) {
-                    return answers[0].value
+                if (answers.isNotEmpty() && answers[0] != null) {
+                    return answers[0]!!.value
                 }
             }
             return null
@@ -128,36 +121,45 @@ class QuestionsUtils {
 
         fun getAnswerListFormRestriction(allOptions: List<AnswerOptionsBean>, restrictionsBean: RestrictionsBean?, questionBean: QuestionBean, questionBeanFilledList: LinkedHashMap<String, QuestionBeanFilled>): List<AnswerOptionsBean> {
 
-            var avlList: MutableList<AnswerOptionsBean> = ArrayList()
+            var avlList = ArrayList<AnswerOptionsBean>()
             if (restrictionsBean == null) {
                 return allOptions
             }
             when (restrictionsBean.type) {
                 AppConfing.REST_GET_ANS_OPTION, AppConfing.REST_GET_ANS_OPTION_LOOPING -> {
-                    val answers = ArrayList<Answers>()
                     //     avlList.addAll(allOptions);
-                    for (ordersBean in restrictionsBean.orders) {
-                        //requiredValue null if not want to match with any value
-                        if (restrictionsBean.type == AppConfing.REST_GET_ANS_OPTION) {
+                    //requiredValue null if not want to match with any value
+                    if (restrictionsBean.type == AppConfing.REST_GET_ANS_OPTION) {
+                        val answers = ArrayList<Answers>()
+                        for (ordersBean in restrictionsBean.orders) {
                             answers.addAll(getAnswerListbyOder(getRestrictionOrderUniqueId(ordersBean), ordersBean.value, questionBeanFilledList))
-                        } else {
-                            //// get Answer_option_ data from looping (Nested Answer)
-                            if (questionBean.parent.size > 0)
-                                answers.addAll(getNestedAnswerListFromNestedType(getParentUniqueId(questionBean.parent[0]),
-                                        getRestrictionOrderUniqueId(ordersBean), ordersBean.value, questionBeanFilledList))
+                        }
+                        var tempID = 1
+                        for (answers1 in answers) {
+                            if (getValueFormTextInputType(answers1).isNotBlank()) {
+                                val answerOptionsBean = AnswerOptionsBean()
+                                answerOptionsBean.name = appendAnswer(answers1)
+                                answerOptionsBean._id = tempID.toString()
+                                answerOptionsBean.did = ArrayList()
+                                avlList.add(answerOptionsBean)
+                            }
+                            tempID++
+                        }
+                    } else {
+                        //// get Answer_option_ data from looping (Nested Answer)
+                        if (questionBean.parent.isNotEmpty()) {
+                            val loopingParent = questionBean.parent.find { arrayOf(AppConfing.QUS_LOOPING, AppConfing.QUS_LOOPING_MILTISELECT).contains(it.type) }
+                            if (loopingParent != null) {
+                                for (ordersBean in restrictionsBean.orders) {
+                                    val nestedAns = getNestedAnswerListFromNestedTypeNew(getParentUniqueId(loopingParent),
+                                            getRestrictionOrderUniqueId(ordersBean), ordersBean.value, questionBeanFilledList)
+                                    avlList.addAll(getRequiredAnsFromNestedData(nestedAns, ordersBean))
+                                }
+
+                            }
                         }
                     }
-                    var tempID = 1
-                    for (answers1 in answers) {
-                        if (answers1.value != "" && answers1.textValue == "") {
-                            val answerOptionsBean = AnswerOptionsBean()
-                            answerOptionsBean.name = answers1.textValue + "" + answers1.value + " " + answers1.label
-                            answerOptionsBean._id = tempID.toString()
-                            answerOptionsBean.did = ArrayList()
-                            avlList.add(answerOptionsBean)
-                        }
-                        tempID++
-                    }
+
 
                     //handling or case for filter (default AND case)
                     var isOrCase = false
@@ -167,22 +169,26 @@ class QuestionsUtils {
                             break
                         }
                     }
-                    var tempList: List<AnswerOptionsBean> = ArrayList()
+                    var tempList = ArrayList<AnswerOptionsBean>()
                     ///apply filters on collected option
                     var isfilter = false
                     for (filterRestriction in questionBean.restrictions) {
-                        if (filterRestriction.type == AppConfing.REST_GET_ANS_OPTION_FILTER || filterRestriction.type == AppConfing.REST_GET_ANS_OPTION_LOOPING_FILTER) {
+                        if (filterRestriction.type == AppConfing.REST_GET_ANS_OPTION_FILTER ||
+                                filterRestriction.type == AppConfing.REST_GET_ANS_OPTION_LOOPING_FILTER) {
                             isfilter = true
-                            if (tempList.size == 0) {
+                            if (tempList.isEmpty()) {
                                 tempList = filterOnAnsOptFormRestriction(avlList, filterRestriction, questionBean, questionBeanFilledList)
-                            } else {
-                                if (!isOrCase) {
-                                    tempList = filterOnAnsOptFormRestriction(tempList, filterRestriction, questionBean, questionBeanFilledList)
-                                } else {
-                                    tempList = getOrCaseListFormAnswerBean(tempList, filterOnAnsOptFormRestriction(avlList, filterRestriction, questionBean, questionBeanFilledList))
+                                if (tempList.isEmpty() && !isOrCase) {
+                                    break
                                 }
-
+                            } else {
+                                tempList = if (!isOrCase) {
+                                    filterOnAnsOptFormRestriction(tempList, filterRestriction, questionBean, questionBeanFilledList)
+                                } else {
+                                    getOrCaseListFormAnswerBean(tempList, filterOnAnsOptFormRestriction(avlList, filterRestriction, questionBean, questionBeanFilledList))
+                                }
                             }
+
 
                         }
                     }
@@ -208,14 +214,41 @@ class QuestionsUtils {
 
                 AppConfing.REST_DID_RELATION -> {
                     val ordersBean = restrictionsBean.orders[0]
-                    avlList = getDIDAnswerFormRestriction(allOptions, ordersBean, questionBeanFilledList)
+                    avlList.clear()
+                    avlList.addAll(getDIDAnswerFormRestriction(allOptions, ordersBean, questionBeanFilledList));
                 }
             }
 
             return avlList
         }
 
-        fun filterOnAnsOptFormRestriction(allOptions: List<AnswerOptionsBean>, restrictionsBean: RestrictionsBean?, questionBean: QuestionBean, questionBeanFilledList: LinkedHashMap<String, QuestionBeanFilled>): List<AnswerOptionsBean> {
+        private fun getRequiredAnsFromNestedData(nestedAns: ArrayList<Nested>, ordersBean: OrdersBean): ArrayList<AnswerOptionsBean> {
+            val optionsBean: ArrayList<AnswerOptionsBean> = ArrayList()
+            for (nested in nestedAns) {
+                for (questionBeanFilled in nested.answerNestedData) {
+                    if (getAnswerUniqueId(questionBeanFilled) == getRestrictionOrderUniqueId(ordersBean)) {
+                        if (!questionBeanFilled.answer.isEmpty()) {
+                            val answerObject = questionBeanFilled.answer[0]
+                            if (getValueFormTextInputType(answerObject!!).isNotBlank()) {
+                                val answerOptionsBean = AnswerOptionsBean()
+                                answerOptionsBean.name = appendAnswer(answerObject)
+                                answerOptionsBean._id = nested.forParentValue
+                                answerOptionsBean.did = ArrayList()
+                                optionsBean.add(answerOptionsBean)
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+            return optionsBean
+        }
+
+        private fun appendAnswer(answers1: Answers): String {
+            return answers1.value + "" + answers1.textValue + " " + answers1.label
+        }
+
+        private fun filterOnAnsOptFormRestriction(allOptions: ArrayList<AnswerOptionsBean>, restrictionsBean: RestrictionsBean?, questionBean: QuestionBean, questionBeanFilledList: LinkedHashMap<String, QuestionBeanFilled>): ArrayList<AnswerOptionsBean> {
 
             val avlList = ArrayList<AnswerOptionsBean>()
             val tempList = ArrayList<AnswerOptionsBean>()
@@ -237,11 +270,11 @@ class QuestionsUtils {
 
                     if (answers.size == restrictionsBean.orders.size) {
                         for (i in answers.indices) {
-                            val isMatchPatten = Pattern.matches(resOrder[i].value, answers[i].value)
-                            val isMatchValue = answers[i].value == resOrder[i].value
+                            val isMatchPatten = matches(resOrder[i]!!.value, answers[i]!!.value)
+                            val isMatchValue = answers[i]!!.value == resOrder[i]!!.value
                             if (isMatchPatten || isMatchValue) {
                                 val answerOptionsBean = AnswerOptionsBean()
-                                answerOptionsBean.name = answers[i].textValue + "" + answers[i].value + " " + answers[i].label
+                                answerOptionsBean.name = appendAnswer(answers[i]!!)
                                 answerOptionsBean._id = (i + 1).toString()
                                 answerOptionsBean.did = ArrayList()
                                 tempList.add(answerOptionsBean)
@@ -250,72 +283,59 @@ class QuestionsUtils {
                         }
                     }
 
-                    for (answerOptionsBean in allOptions) {
-                        for (answerOptionsBeanTemp in tempList) {
-                            if (answerOptionsBean._id == answerOptionsBeanTemp._id) {
-                                avlList.add(answerOptionsBean)
-                                break
-                            }
 
-                        }
-                    }
                 }
 
                 AppConfing.REST_GET_ANS_OPTION_LOOPING_FILTER -> {
-                    val answers = ArrayList<Answers>()
+                    ArrayList<Answers>()
                     if ((restrictionsBean.orders.size == 0) or (questionBean.parent.size == 0)) {
                         return allOptions
                     }
                     val resOrder = restrictionsBean.orders
 
                     for (ordersBean in resOrder) {
-                        answers.addAll(getNestedAnswerListFromNestedType(getParentUniqueId(questionBean.parent[0]), getRestrictionOrderUniqueId(ordersBean), null, questionBeanFilledList))
-                    }
-                    //       int tempID = 1;
-
-                    if (answers.size > 0 && restrictionsBean.orders.size > 0) {
-                        for (i in answers.indices) {
-                            val isMatchPatten = Pattern.matches(resOrder[0].value, answers[i].value)
-                            val isMatchValue = answers[i].value == resOrder[0].value
-                            if (isMatchPatten || isMatchValue) {
-                                val answerOptionsBean = AnswerOptionsBean()
-                                answerOptionsBean.name = answers[i].textValue + answers[i].value + " " + answers[i].label
-                                answerOptionsBean._id = (i + 1).toString()
-                                answerOptionsBean.did = ArrayList()
-                                tempList.add(answerOptionsBean)
+                        if (questionBean.parent.isNotEmpty()) {
+                            val loopingParent = questionBean.parent.find { arrayOf(AppConfing.QUS_LOOPING, AppConfing.QUS_LOOPING_MILTISELECT).contains(it.type) }
+                            if (loopingParent != null) {
+                                val nestedAns = getNestedAnswerListFromNestedTypeNew(getParentUniqueId(loopingParent),
+                                        getRestrictionOrderUniqueId(ordersBean), ordersBean.value, questionBeanFilledList)
+                                val allAvailableOption = getRequiredAnsFromNestedData(nestedAns, ordersBean)
+                                tempList.addAll(allAvailableOption)
                             }
-
                         }
                     }
 
-                    for (answerOptionsBean in allOptions) {
-                        for (answerOptionsBeanTemp in tempList) {
-                            if (answerOptionsBean._id == answerOptionsBeanTemp._id) {
-                                avlList.add(answerOptionsBean)
-                                break
-                            }
+                }
+            }
 
-                        }
+
+            for (answerOptionsBean in allOptions) {
+                for (answerOptionsBeanTemp in tempList) {
+                    if (answerOptionsBean._id == answerOptionsBeanTemp._id) {
+                        avlList.add(answerOptionsBean)
+                        break
                     }
+
                 }
             }
 
             return avlList
         }
 
-        fun getNestedAnswerListFromNestedType(parentQuestionUniqueKey: String?, nestedUniqueKey: String?, requiredValueOrPattern: String?, answerList: LinkedHashMap<String, QuestionBeanFilled>): List<Answers> {
+
+        fun getNestedAnswerListFromNestedType(parentQuestionUniqueKey: String?, nestedUniqueKey: String?, requiredValueOrPattern: String?, answerList: LinkedHashMap<String, QuestionBeanFilled>): ArrayList<Answers> {
             //
             val finalAns = ArrayList<Answers>()
             if (parentQuestionUniqueKey != null && parentQuestionUniqueKey != "" && nestedUniqueKey != null && nestedUniqueKey != "") {
                 val questionBeanFilled = answerList[parentQuestionUniqueKey]
                 if (questionBeanFilled != null) {
-                    val nestedList = questionBeanFilled.nestedAnswer
+                    val nestedArrayList = questionBeanFilled.nestedAnswer
                     val tempAns = ArrayList<Answers>()
-                    if (nestedList != null && nestedList.size > 0) {
-                        for (nested in nestedList) {
+                    if (nestedArrayList != null && nestedArrayList.isNotEmpty()) {
+                        for (nested in nestedArrayList) {
                             val answerNestedData = nested.answerNestedData
                             for (questionBeanFilled1 in answerNestedData) {
-                                if (!questionBeanFilled1.answer.isEmpty()) {
+                                if (questionBeanFilled1.answer.isNotEmpty()) {
                                     if (getAnswerUniqueId(questionBeanFilled1) == nestedUniqueKey) {
                                         tempAns.add(questionBeanFilled1.answer[0])
                                     }
@@ -329,7 +349,7 @@ class QuestionsUtils {
                             finalAns.addAll(tempAns)
                         } else {
                             for (answers in tempAns) {
-                                val isMatchPatten = Pattern.matches(requiredValueOrPattern, answers.value)
+                                val isMatchPatten = matches(requiredValueOrPattern, answers.value)
                                 val isMatchValue = answers.value == requiredValueOrPattern
                                 if (isMatchPatten || isMatchValue) {
                                     finalAns.addAll(tempAns)
@@ -350,9 +370,56 @@ class QuestionsUtils {
             return finalAns
         }
 
+        fun getNestedAnswerListFromNestedTypeNew(parentQuestionUniqueKey: String?, nestedUniqueKey: String?, requiredValueOrPattern: String?, answerList: LinkedHashMap<String, QuestionBeanFilled>): ArrayList<Nested> {
+            //
+            val finalAns = ArrayList<Nested>()
+            if (parentQuestionUniqueKey != null && parentQuestionUniqueKey != "" && nestedUniqueKey != null && nestedUniqueKey != "") {
+                val questionBeanFilled = answerList[parentQuestionUniqueKey]
+                if (questionBeanFilled != null) {
+                    val nestedArrayList = questionBeanFilled.nestedAnswer
+                    if (nestedArrayList != null && nestedArrayList.isNotEmpty()) {
+                        for (nested in nestedArrayList) {
+                            val answerNestedData = nested.answerNestedData
+                            for (questionBeanFilled1 in answerNestedData) {
+                                if (getAnswerUniqueId(questionBeanFilled1) == nestedUniqueKey) {
+                                    if (questionBeanFilled1.answer.isNotEmpty()) {
+                                        if (requiredValueOrPattern == null) {
+                                            finalAns.add(nested)
+                                        } else if (requiredValueOrPattern == "") {
+                                            finalAns.add(nested)
+                                        } else {
+                                            for (answers in questionBeanFilled1.answer) {
+                                                val isMatchPatten = matches(requiredValueOrPattern, answers.value)
+                                                val isMatchValue = answers.value == requiredValueOrPattern
+                                                if (isMatchPatten || isMatchValue) {
+                                                    finalAns.add(nested)
+                                                    break
+                                                }
+                                            }
+                                        }
 
-        fun getOrCaseListFormAnswerBean(answerOptionsBeans1: List<AnswerOptionsBean>,
-                                        answerOptionsBeans2: List<AnswerOptionsBean>): List<AnswerOptionsBean> {
+                                        break
+                                    }
+                                }
+                            }
+
+                        }
+
+
+                    } else {
+                        return finalAns
+                    }
+
+                }
+
+            }
+
+            return finalAns
+        }
+
+
+        private fun getOrCaseListFormAnswerBean(answerOptionsBeans1: ArrayList<AnswerOptionsBean>,
+                                                answerOptionsBeans2: ArrayList<AnswerOptionsBean>): ArrayList<AnswerOptionsBean> {
             val oRCaseList = ArrayList<AnswerOptionsBean>()
             val oRCaseListMap = HashMap<String, AnswerOptionsBean>()
             for (answerOptionsBean in answerOptionsBeans1) {
@@ -365,9 +432,9 @@ class QuestionsUtils {
             return oRCaseList
         }
 
-        fun getDIDAnswerFormRestriction(allOptions: List<AnswerOptionsBean>, ordersBean: OrdersBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): MutableList<AnswerOptionsBean> {
+        private fun getDIDAnswerFormRestriction(allOptions: List<AnswerOptionsBean>, ordersBean: OrdersBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): List<AnswerOptionsBean> {
 
-            var avlList: MutableList<AnswerOptionsBean> = ArrayList()
+            var avlList = ArrayList<AnswerOptionsBean>()
 
             if (ordersBean == null) {
                 return allOptions
@@ -386,20 +453,19 @@ class QuestionsUtils {
         fun isValidFloat(value: String?): Boolean {
             if (value == null)
                 return false
-            if (value == "")
-                return false
-            return if (value[0] == '.') false else true
+            return if (value == "") false else value[0] != '.'
         }
 
-        fun getDidAnswerFormParentAns(allOptions: List<AnswerOptionsBean>, parentsAnswer: List<Answers>): MutableList<AnswerOptionsBean> {
+        private fun getDidAnswerFormParentAns(allOptions: List<AnswerOptionsBean>, parentsAnswer: List<Answers>): ArrayList<AnswerOptionsBean> {
 
             val avlList = ArrayList<AnswerOptionsBean>()
 
-            if (parentsAnswer.size == 0) {
-                return allOptions
+            if (parentsAnswer.isEmpty()) {
+                avlList.addAll(allOptions)
+                return avlList
             }
             for (aob in allOptions) {
-                if (aob.did.size > 0 && parentsAnswer.size > 0) {
+                if (aob.did.isNotEmpty() && parentsAnswer.isNotEmpty()) {
                     var isInList = false
                     for (`as` in parentsAnswer) {
                         for (did in aob.did) {
@@ -424,7 +490,7 @@ class QuestionsUtils {
             return avlList
         }
 
-        fun getAnswerListbyOder(uniqueKey: String?, requiredValueOrPattern: String?, answerBeanList: LinkedHashMap<String, QuestionBeanFilled>): List<Answers> {
+        fun getAnswerListbyOder(uniqueKey: String?, requiredValueOrPattern: String?, answerBeanList: LinkedHashMap<String, QuestionBeanFilled>): ArrayList<Answers> {
 
             //
 
@@ -440,7 +506,7 @@ class QuestionsUtils {
                         finalAns.addAll(p_ans)
                     } else {
                         for (answers in p_ans) {
-                            val isMatchPatten = Pattern.matches(requiredValueOrPattern, answers.value)
+                            val isMatchPatten = matches(requiredValueOrPattern, answers.value)
                             val isMatchValue = answers.value == requiredValueOrPattern
                             if (isMatchPatten || isMatchValue) {
                                 finalAns.addAll(p_ans)
@@ -496,7 +562,7 @@ class QuestionsUtils {
 
         fun validateMultiAnsRestriction(restrictionsBean: RestrictionsBean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>, questionBeenList: LinkedHashMap<String, QuestionBean>): Boolean {
 
-            if (!restrictionsBean.orders.isEmpty()) {
+            if (restrictionsBean.orders.isNotEmpty()) {
                 val ordersBean = restrictionsBean.orders[0]
                 if (ordersBean != null) {
                     val uniqueKey = getRestrictionOrderUniqueId(ordersBean)
@@ -511,7 +577,7 @@ class QuestionsUtils {
                                     restrictionType == AppConfing.REST_GET_ANS_OPTION_LOOPING ||
                                     restrictionType == AppConfing.REST_GET_ANS_SUM_LOOPING) {
 
-                                allOptions = QuestionsUtils.getAnswerListFormRestriction(allOptions, parentRestrictionBean, parentQuestion, answerBeanHelperList)
+                                allOptions = getAnswerListFormRestriction(allOptions, parentRestrictionBean, parentQuestion, answerBeanHelperList)
                                 break
                             }
 
@@ -541,14 +607,14 @@ class QuestionsUtils {
         }
 
         private fun getParentAnswer(questionBean: QuestionBean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>,
-                                    questionBeenList: LinkedHashMap<String, QuestionBean>): List<Answers> {
+                                    questionBeenList: LinkedHashMap<String, QuestionBean>): ArrayList<Answers> {
             var parentQuestion: QuestionBean?
-            var parentAnswer: List<Answers> = ArrayList()
+            val parentAnswer = ArrayList<Answers>()
             for (parentBean in questionBean.parent) {
                 parentQuestion = questionBeenList[getParentUniqueId(parentBean)]
                 val parentAnswerBean = answerBeanHelperList[getParentUniqueId(parentBean)]
                 if (parentQuestion != null && parentAnswerBean != null) {
-                    parentAnswer = parentAnswerBean.answer
+                    parentAnswer.addAll(parentAnswerBean.answer)
                     break
                 }
             }
@@ -560,15 +626,15 @@ class QuestionsUtils {
                                                 questionBeenList: LinkedHashMap<String, QuestionBean>,
                                                 answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>,
                                                 userLanguage: String,
-                                                formId: Int): List<AnswerOptionsBean> {
+                                                formId: Int): ArrayList<AnswerOptionsBean> {
 
-            var filteredList: MutableList<AnswerOptionsBean> = ArrayList()
+            var filteredList = ArrayList<AnswerOptionsBean>()
             var allOptions = questionBean.answer_options
 
 
             var masterVillage = false
             var masterDistrict = false
-            var masterBlocl = false
+            var masterBlock = false
             var isDynamicOption = false
             var isDefaultOptionWhen0 = false
             var isDefaultOptionWhen = false
@@ -577,8 +643,7 @@ class QuestionsUtils {
             for (validationBean in questionBean.validation) {
                 when (validationBean._id) {
                     AppConfing.VAL_MASTER_DISTRICT -> masterDistrict = true
-                    AppConfing.VAL_MASTER_BLOCK -> masterBlocl = true
-
+                    AppConfing.VAL_MASTER_BLOCK -> masterBlock = true
                     AppConfing.VAL_MASTER_VILLAGE -> masterVillage = true
                     AppConfing.VAL_DYNAMIC_ANSWER_OPTION -> isDynamicOption = true
                     AppConfing.VAL_ADD_DEFAULT_OPTION_DY_AO -> isDefaultOptionWhen = true
@@ -586,164 +651,118 @@ class QuestionsUtils {
                 }
 
             }
-            val isDynamic = masterDistrict || masterBlocl || masterVillage || isDynamicOption
-            if (isDynamic) {
-                /*
+            val isDynamic = masterDistrict || masterBlock || masterVillage || isDynamicOption
+            /*    if (isDynamic) {
 
-            Realm realm = Realm.getDefaultInstance();
-            Form singleform = realm.where(Form.class).equalTo("formId", formId).findFirst();
-            String projectId = singleform.getProject().get_id();
-            if (masterDistrict) {
-                RealmResults<MasterDistrictBean> districtBeanRealmResults = realm.where(MasterDistrictBean.class).equalTo("projectId", projectId).findAll().sort("name");
-                filteredList.clear();
-                filteredList = prepareDistrictList(districtBeanRealmResults, userLanguage);
-
-
-            } else if (masterBlocl) {
-                List<Answers> parentAnswerDistrict = getParentAnswer(questionBean, answerBeanHelperList, questionBeenList);
-                String districtId = parentAnswerDistrict.get(0).getValue();
-                RealmResults<MasterBlockBean> blockListByDistrictId = realm.where(MasterBlockBean.class).equalTo("district", districtId).equalTo("projectId", projectId).findAll().sort("name");
-                filteredList.clear();
-                filteredList = prepareBlockList(blockListByDistrictId, userLanguage);
-
-            } else if (masterVillage) {
-                List<Answers> parentAnswerBlock = getParentAnswer(questionBean, answerBeanHelperList, questionBeenList);
-                String blockId = parentAnswerBlock.get(0).getValue();
-                RealmResults<MasterVillageBean> villageListByBlockId = realm.where(MasterVillageBean.class).equalTo("block", blockId).equalTo("projectId", projectId).findAll().sort("name");
-                filteredList.clear();
-                filteredList = prepareVillageList(villageListByBlockId, userLanguage);
-            } else if (isDynamicOption) {
-                String uniqueKey = formId + "_" + questionBean.getOrder();
-                DynamicAnswerOption dyamicAnswerOption = realm.where(DynamicAnswerOption.class)
-                        .equalTo("uniqueId", uniqueKey).findFirst();
-                if (dyamicAnswerOption != null) {
-                    allOptions.clear();
-                    allOptions.addAll(realm.copyFromRealm(dyamicAnswerOption.getAnswer_option()));
-
-                }
-
-            }
+                    val realm = Realm.getDefaultInstance()
+                    val singleform = realm.where(Form::class.java).equalTo("formId", formId).findFirst()
+                    val projectId = singleform!!.project._id
+                    if (masterDistrict) {
+                        val districtBeanRealmResults = realm.where(MasterDistrictBean::class.java).equalTo("projectId", projectId).findAll().sort("name")
+                        filteredList.clear()
+                        filteredList = prepareDistrictList(districtBeanRealmResults, userLanguage)
 
 
-            realm.close();
-*/
+                    } else if (masterBlock) {
+                        val parentAnswerDistrict = getParentAnswer(questionBean, answerBeanHelperList, questionBeenList)
+                        val districtId = parentAnswerDistrict[0]!!.value
+                        val blockListByDistrictId = realm.where(MasterBlockBean::class.java).equalTo("district", districtId).equalTo("projectId", projectId).findAll().sort("name")
+                        filteredList.clear()
+                        filteredList = prepareBlockList(blockListByDistrictId, userLanguage)
 
-            }
+                    } else if (masterVillage) {
+                        val parentAnswerBlock = getParentAnswer(questionBean, answerBeanHelperList, questionBeenList)
+                        val blockId = parentAnswerBlock[0]!!.value
+                        val villageListByBlockId = realm.where(MasterVillageBean::class.java).equalTo("block", blockId).equalTo("projectId", projectId).findAll().sort("name")
+                        filteredList.clear()
+                        filteredList = prepareVillageList(villageListByBlockId, userLanguage)
+                    } else if (isDynamicOption) {
+                        val uniqueKey = formId.toString() + "_" + questionBean.order
+                        val dyamicAnswerOption = realm.where(DynamicAnswerOption::class.java)
+                                .equalTo("uniqueId", uniqueKey).findFirst()
+                        if (dyamicAnswerOption != null) {
+                            allOptions.clear()
+                            allOptions.addAll(realm.copyFromRealm(dyamicAnswerOption.answer_option))
 
-            ///restriction with did logic with any question;
+                        }
 
-            if (questionBean.restrictions.size > 0) {
-                for (restrictionsBean in questionBean.restrictions) {
-                    val restrictionType = restrictionsBean.type
-                    if (restrictionType == AppConfing.REST_DID_RELATION ||
-                            restrictionType == AppConfing.REST_GET_ANS_OPTION ||
-                            restrictionType == AppConfing.REST_GET_ANS_OPTION_LOOPING ||
-                            restrictionType == AppConfing.REST_GET_ANS_SUM_LOOPING) {
-                        allOptions = QuestionsUtils.getAnswerListFormRestriction(allOptions, restrictionsBean, questionBean, answerBeanHelperList)
-                        break
                     }
 
-                }
-            }
+                    realm.close()
 
+                }*/
+
+            ///restriction with did logic with any question;
+            if (isContainsDynamicRestriction(questionBean.restrictions)) {
+                val restriction = questionBean.restrictions.find { arrayOf(AppConfing.REST_GET_ANS_OPTION, AppConfing.REST_GET_ANS_OPTION_LOOPING, AppConfing.REST_DID_RELATION).contains(it.type) }
+                allOptions = getAnswerListFormRestriction(allOptions, restriction, questionBean, answerBeanHelperList)
+            }
             /////////////////////////////////to show option which are  in parent
-            if (questionBean.input_type == AppConfing.QUS_MULTI_SELECT
-                    || questionBean.input_type == AppConfing.QUS_DROPDOWN
-                    || questionBean.input_type == AppConfing.QUS_LOOPING
-                    || questionBean.input_type == AppConfing.QUS_LOOPING_MILTISELECT) {
+
+            if (arrayOf(AppConfing.QUS_DROPDOWN,
+                            AppConfing.QUS_MULTI_SELECT,
+                            AppConfing.QUS_MULTI_SELECT_LIMITED,
+                            AppConfing.QUS_LOOPING,
+                            AppConfing.QUS_LOOPING_MILTISELECT).contains(questionBean.input_type)) {
                 filteredList.addAll(allOptions)
 
             } else
-            /*if (questionBean.getInput_type().equals(AppConfing.QUS_DROPDOWN_HIDE)
-                || questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT_HIDE))*/ {
-
-                ///////////////////////////////////to hide option in parent
-                ////nested parent
-                val grandParentAns = ArrayList<Answers>()
-                var parentQuestion: QuestionBean?
-                for (parentBean in questionBean.parent) {
-                    parentQuestion = questionBeenList[getParentUniqueId(parentBean)]
-                    if (parentQuestion != null) {
-                        val parentQuestionType = parentQuestion.input_type
-                        if (parentQuestionType == AppConfing.QUS_DROPDOWN ||
-                                parentQuestionType == AppConfing.QUS_MULTI_SELECT ||
-                                parentQuestionType == AppConfing.QUS_MULTI_SELECT_LIMITED ||
-                                parentQuestionType == AppConfing.QUS_DROPDOWN_HIDE ||
-                                parentQuestionType == AppConfing.QUS_MULTI_SELECT_HIDE) {
-                            grandParentAns.addAll(getGrandParentAns(parentQuestion, questionBeenList, answerBeanHelperList))
-                            break
+                if (questionBean.input_type == AppConfing.QUS_DROPDOWN_HIDE
+                        || questionBean.input_type == AppConfing.QUS_MULTI_SELECT_HIDE) {
+                    ///////////////////////////////////to hide option in parent
+                    ////nested parent
+                    val grandParentAns = ArrayList<Answers>()
+                    var parentQuestion: QuestionBean?
+                    for (parentBean in questionBean.parent) {
+                        parentQuestion = questionBeenList[getParentUniqueId(parentBean)]
+                        if (parentQuestion != null) {
+                            if (arrayOf(AppConfing.QUS_DROPDOWN,
+                                            AppConfing.QUS_MULTI_SELECT,
+                                            AppConfing.QUS_MULTI_SELECT_LIMITED,
+                                            AppConfing.QUS_DROPDOWN_HIDE,
+                                            AppConfing.QUS_MULTI_SELECT_HIDE).contains(parentQuestion.input_type)) {
+                                grandParentAns.addAll(getGrandParentAns(parentQuestion, questionBeenList, answerBeanHelperList))
+                            }
                         }
                     }
+
+                    filteredList = getSkipAnswerFormParentAns(allOptions, grandParentAns)
+
                 }
 
-                filteredList = getSkipAnswerFormParentAns(allOptions, grandParentAns)
 
-            }
-
-
-            if (isDefaultOptionWhen) {
-                filteredList.addAll(questionBean.answer_options)
-            } else if (isDefaultOptionWhen0 && filteredList.isEmpty()) {
-                filteredList.addAll(questionBean.answer_options)
-            }
+            /* if (isDefaultOptionWhen) {
+                 filteredList.addAll(questionBean.answer_options)
+             } else if (isDefaultOptionWhen0 && filteredList.isEmpty()) {
+                 filteredList.addAll(questionBean.answer_options)
+             }*/
             return filteredList
         }
 
-        private fun prepareDistrictList(districtBeanRealmResults: List<MasterDistrictBean>, userLanguage: String): List<AnswerOptionsBean> {
-            val districtBeanList = ArrayList<AnswerOptionsBean>()
-
-            for (districtBean in districtBeanRealmResults) {
-                val districtOption = AnswerOptionsBean()
-                if (districtBean != null) {
-                    districtOption._id = districtBean.id
-                    districtBeanList.add(districtOption)
-                    districtOption.name = if (userLanguage == "en") districtBean.name else districtBean.regionalName
+        private fun isContainsDynamicRestriction(restrictions: List<RestrictionsBean>): Boolean {
+            for (restrictionsBean in restrictions) {
+                val restrictionType = restrictionsBean.type
+                if (restrictionType == AppConfing.REST_DID_RELATION ||
+                        restrictionType == AppConfing.REST_GET_ANS_OPTION ||
+                        restrictionType == AppConfing.REST_GET_ANS_OPTION_LOOPING ||
+                        restrictionType == AppConfing.REST_GET_ANS_SUM_LOOPING) {
+                    return true
                 }
+
             }
 
-            return districtBeanList
-
-        }
-
-        private fun prepareVillageList(villageListByBlockId: List<MasterVillageBean>, userLanguage: String): List<AnswerOptionsBean> {
-            val villageBeanList = ArrayList<AnswerOptionsBean>()
-
-            for (villageBean in villageListByBlockId) {
-                val villageOption = AnswerOptionsBean()
-                if (villageBean != null) {
-                    villageOption.name = if (userLanguage == "en") villageBean.name else villageBean.regionalName
-                    villageOption._id = villageBean.id
-                    villageBeanList.add(villageOption)
-                }
-            }
-
-
-            return villageBeanList
-        }
-
-        private fun prepareBlockList(blockListByDistrictId: List<MasterBlockBean>, userLanguage: String): List<AnswerOptionsBean> {
-            val blockBeanList = ArrayList<AnswerOptionsBean>()
-
-            for (blockBean in blockListByDistrictId) {
-                val blockOption = AnswerOptionsBean()
-                if (blockBean != null) {
-                    blockOption._id = blockBean.id
-                    blockOption.name = if (userLanguage == "en") blockBean.name else blockBean.regionalName
-                    blockBeanList.add(blockOption)
-                }
-            }
-            return blockBeanList
+            return false
         }
 
 
-        private fun getGrandParentAns(questionBean: QuestionBean?, questionBeenList: LinkedHashMap<String, QuestionBean>, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): List<Answers> {
-            var questionBean = questionBean
+        private fun getGrandParentAns(questionBeanOld: QuestionBean?, questionBeenList: LinkedHashMap<String, QuestionBean>, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): ArrayList<Answers> {
+            var questionBean = questionBeanOld
             val finalAns = ArrayList<Answers>()
             val questionBeanFilled = answerBeanHelperList[getQuestionUniqueId(questionBean!!)]
 
             while (questionBean != null && questionBeanFilled != null) {
-                val p_ans = questionBeanFilled.answer
-                finalAns.addAll(p_ans)
+                val parentAns = questionBeanFilled.answer
+                finalAns.addAll(parentAns)
                 var nextQuestion: QuestionBean? = null
                 if (questionBean.input_type == AppConfing.QUS_DROPDOWN_HIDE || questionBean.input_type == AppConfing.QUS_MULTI_SELECT_HIDE) {
 
@@ -769,16 +788,17 @@ class QuestionsUtils {
             return finalAns
         }
 
-        private fun getSkipAnswerFormParentAns(allOptions: List<AnswerOptionsBean>, parentsAnswer: List<Answers>): MutableList<AnswerOptionsBean> {
+        private fun getSkipAnswerFormParentAns(allOptions: List<AnswerOptionsBean>, parentsAnswer: ArrayList<Answers>): ArrayList<AnswerOptionsBean> {
 
             val avlList = ArrayList<AnswerOptionsBean>()
 
             if (parentsAnswer.size == 0) {
-                return allOptions
+                avlList.addAll(allOptions)
+                return avlList
             }
 
             for (aob in allOptions) {
-                if (parentsAnswer.size > 0) {
+                if (parentsAnswer.isNotEmpty()) {
                     var isInList = false
                     for (parentAns in parentsAnswer) {
                         if (parentAns.value == aob._id) {
@@ -795,19 +815,6 @@ class QuestionsUtils {
             }
             return avlList
         }
-
-
-        val newAnswerList: List<Answers>
-            get() {
-                val answerBeanHelperList = ArrayList<Answers>()
-                val answers = Answers()
-                answers.label = ""
-                answers.reference = ""
-                answers.value = ""
-                answers.textValue = ""
-                answerBeanHelperList.add(answers)
-                return answerBeanHelperList
-            }
 
         fun getAnswerUniqueId(questionBeanFilled: QuestionBeanFilled): String {
             return questionBeanFilled.order
@@ -830,61 +837,45 @@ class QuestionsUtils {
         }
 
 
-        fun sortAnsList(questionBeanFilledList: List<QuestionBeanFilled>) {
-            Collections.sort(questionBeanFilledList) { o1, o2 ->
+        fun sortAnsList(questionBeanFilledArrayList: List<QuestionBeanFilled>) {
+
+            Collections.sort(questionBeanFilledArrayList, Comparator { o1, o2 ->
                 try {
                     val currentOrder = Integer.parseInt(o1.viewSequence)
                     val secondOrder = Integer.parseInt(o2.viewSequence)
-                    return@Collections.sort currentOrder -secondOrder
+                    return@Comparator currentOrder - secondOrder
 
                 } catch (e: Exception) {
                     val currentOrder = Integer.parseInt(o1.order)
                     val secondOrder = Integer.parseInt(o2.order)
-                    return@Collections.sort currentOrder -secondOrder
+                    return@Comparator currentOrder - secondOrder
                 }
-
-
-            }
+            })
         }
 
-        fun sortQusList(questionBeanFilledList: List<QuestionBean>) {
-            Collections.sort(questionBeanFilledList) { o1, o2 ->
+        fun sortQusList(questionBeanFilledArrayList: List<QuestionBean>) {
+            Collections.sort(questionBeanFilledArrayList, Comparator { o1, o2 ->
                 try {
                     val currentOrder = Integer.parseInt(o1.viewSequence)
                     val secondOrder = Integer.parseInt(o2.viewSequence)
-                    return@Collections.sort currentOrder -secondOrder
+                    return@Comparator currentOrder - secondOrder
 
                 } catch (e: Exception) {
                     val currentOrder = Integer.parseInt(o1.order)
                     val secondOrder = Integer.parseInt(o2.order)
-                    return@Collections.sort currentOrder -secondOrder
+                    return@Comparator currentOrder - secondOrder
                 }
 
 
-            }
-        }
-
-        fun sortQusChildList(questionBeanFilledList: List<QuestionBean>) {
-            Collections.sort(questionBeanFilledList) { o1, o2 ->
-                try {
-                    val currentOrder = Integer.parseInt(o1.viewSequence)
-                    val secondOrder = Integer.parseInt(o2.viewSequence)
-                    return@Collections.sort currentOrder -secondOrder
-
-                } catch (e: Exception) {
-                    val currentOrder = Integer.parseInt(o1.order)
-                    val secondOrder = Integer.parseInt(o2.order)
-                    return@Collections.sort currentOrder -secondOrder
-                }
-
-
-            }
+            })
         }
 
         fun isLoopingType(questionBeanFilled: QuestionBeanFilled): Boolean {
-            return if (questionBeanFilled.input_type == AppConfing.QUS_LOOPING_MILTISELECT || questionBeanFilled.input_type == AppConfing.QUS_LOOPING) {
-                true
-            } else false
+            return questionBeanFilled.input_type == AppConfing.QUS_LOOPING_MILTISELECT || questionBeanFilled.input_type == AppConfing.QUS_LOOPING
+        }
+
+        fun isLoopingType(questionBean: QuestionBean): Boolean {
+            return questionBean.input_type == AppConfing.QUS_LOOPING_MILTISELECT || questionBean.input_type == AppConfing.QUS_LOOPING
         }
 
         fun isMediaUploadTypeQuestion(type: String): Boolean {
@@ -899,7 +890,7 @@ class QuestionsUtils {
         fun getAnswer(answers: Answers, inputType: String?): String {
             return if (inputType != null && inputType != "") {
                 if (inputType == AppConfing.QUS_TEXT || inputType == AppConfing.QUS_ADDRESS) {
-                    answers.textValue
+                    getValueFormTextInputType(answers)
                 } else {
                     answers.value
                 }
@@ -911,7 +902,7 @@ class QuestionsUtils {
 
         fun getViewableStringFormAns(questionBeanFilled: QuestionBeanFilled?): String {
             var viewText = StringBuilder()
-            if (questionBeanFilled != null && !questionBeanFilled.answer.isEmpty()) {
+            if (questionBeanFilled != null && questionBeanFilled.answer.isNotEmpty()) {
                 when (questionBeanFilled.input_type) {
                     AppConfing.QUS_MULTI_SELECT, AppConfing.QUS_MULTI_SELECT_HIDE, AppConfing.QUS_LOOPING_MILTISELECT -> {
                         var tempFix = ""
@@ -922,21 +913,28 @@ class QuestionsUtils {
                     }
 
                     AppConfing.QUS_DROPDOWN, AppConfing.QUS_DROPDOWN_HIDE, AppConfing.QUS_LOOPING, AppConfing.QUS_RADIO_BUTTONS -> if (questionBeanFilled.answer[0] != null) {
-                        viewText = StringBuilder(questionBeanFilled.answer[0].label)
+                        viewText = StringBuilder(questionBeanFilled.answer[0]!!.label)
                     }
 
                     AppConfing.QUS_TEXT, AppConfing.QUS_ADDRESS ->
 
                         if (questionBeanFilled.answer[0] != null) {
-                            viewText = StringBuilder(questionBeanFilled.answer[0].textValue)
+                            viewText = StringBuilder(getValueFormTextInputType(questionBeanFilled.answer[0]!!))
                         }
 
                     else -> if (questionBeanFilled.answer[0] != null) {
-                        viewText = StringBuilder(questionBeanFilled.answer[0].value)
+                        viewText = StringBuilder(questionBeanFilled.answer[0]!!.value)
                     }
                 }
             }
             return viewText.toString()
         }
+
+        private fun getValueFormTextInputType(answers: Answers): String {
+            val textValue = answers.textValue
+            val value = answers.value
+            return if (textValue.trim { it <= ' ' }.isNotEmpty()) textValue else value
+        }
     }
 }
+

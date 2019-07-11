@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -28,8 +29,6 @@ import com.dhwaniris.dynamicForm.base.BaseActivity;
 import com.dhwaniris.dynamicForm.db.dbhelper.MessageBeanX;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ChildBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.form.Form;
-import com.dhwaniris.dynamicForm.db.dbhelper.form.LanguageBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.OrdersBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ParentBean;
@@ -40,6 +39,7 @@ import com.dhwaniris.dynamicForm.interfaces.PermissionListener;
 import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.locationservice.LocationUpdatesService;
 import com.dhwaniris.dynamicForm.questionTypes.BaseType;
+import com.dhwaniris.dynamicForm.utils.InnerFormData;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationHandlerListener;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
@@ -55,7 +55,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
@@ -73,6 +72,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     Button submit;
     EditText loadmore;
     LinearLayout saveLayout;
+
     protected boolean isErrorViewRequired = false;
 
 
@@ -82,20 +82,16 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     ArrayList<String> countListString = new ArrayList<>();
     ArrayList<String> countListValue = new ArrayList<>();
     boolean isFinishSafe = false;
-    public LinkedHashMap<String, QuestionBeanFilled> originalityAnswerList;
     String originalAnswer;
     HashMap<String, List<MessageBeanX>> messageHashMap = new HashMap<>();
     String formLang = "";
-    int totalQuestionCount = 0;
-    String ansUniqueID;
+
+    InnerFormData innerFormData;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.dy_activity_form);
-        bindView();
-        superViewBind();
+        setContentView(R.layout.activity_form);
         ctx = InnerLoopingFormActivity.this;
         save.setVisibility(View.GONE);
         submit.setText(getString(R.string.ok));
@@ -110,7 +106,6 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         formStatus = NEW_FORM;
         questionBeenList = new LinkedHashMap<>();
         count.setOnClickListener(this);
-        originalityAnswerList = new LinkedHashMap<>();
         questionObjectList = new HashMap<>();
 
 
@@ -124,97 +119,23 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         String formName = "";
         int formId;
         Intent i = getIntent();
-        if (i.getExtras() != null) {
+        innerFormData = InnerFormData.Companion.getInstance();
+        if (i.getExtras() != null && innerFormData.getQuestionBeanFilled() != null) {
             childCount = i.getIntExtra("count", 0);
             countListString = i.getStringArrayListExtra("countListString");
             countListValue = i.getStringArrayListExtra("countListValue");
-            ansUniqueID = i.getStringExtra("ansUniqueId");
-            String qusUniqueID = i.getStringExtra("qusUniqueId");
             formStatus = i.getIntExtra("tvFormStatus", 0);
-            totalQuestionCount = i.getIntExtra("totalQuestionCount", 0);
             questionUid = i.getStringExtra("questionOrder");
             formId = i.getIntExtra("formId", 0);
-            //formLang = i.getStringExtra("formLang");
             isLocationRequired = i.getBooleanExtra("locationRequired", false);
             formLang = userLanguage();
-            nestedBean = new ArrayList<>();
             if (formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
                 isErrorViewRequired = true;
             }
-
-            Form dataBean = null;
-            //= realm.where(Form.class).equalTo("formId", formId).findFirst();
-            for (LanguageBean languageBean : dataBean.getLanguage()) {
-                if (languageBean.getLng().equals(formLang)) {
-                    formName = languageBean.getTitle();
-                    break;
-                } else if (languageBean.getLng().equals("en")) {
-                    formName = languageBean.getTitle();
-                }
-            }
             getSupportActionBar().setTitle(formName);
-            QuestionBeanFilled questionBeanFilled1 = null;
-            //realm.where(QuestionBeanFilled.class).equalTo("uid", ansUniqueID).findFirst();
-
-            List<Nested> nestedAnswer = questionBeanFilled1.getNestedAnswer();
-            for (Nested nested : nestedAnswer) {
-                String forParentValue = nested.getForParentValue();
-                for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
-                    QuestionBeanFilled questionBeanFilledCopy = questionBeanFilled;
-                    QuestionBeanFilled questionBeanFilledCopy2 = questionBeanFilled;
-                    questionBeanFilledCopy.setOrder(QuestionsUtils.getUpdatedChildOrder(forParentValue, questionBeanFilledCopy.getOrder()));
-                    questionBeanFilledCopy2.setOrder(QuestionsUtils.getUpdatedChildOrder(forParentValue, questionBeanFilledCopy.getOrder()));
-
-                    answerBeanHelperList.put(QuestionsUtils.getAnswerUniqueId(questionBeanFilledCopy), questionBeanFilledCopy);
-                    originalityAnswerList.put(QuestionsUtils.getAnswerUniqueId(questionBeanFilledCopy2), questionBeanFilledCopy2);
-                }
-            }
-
-            nestedBean.addAll(nestedAnswer);
 
 
-            /*SingleObserver<List<QuestionBean>> singleObserver = new SingleObserver<List<QuestionBean>>() {
-                @Override
-                public void onSubscribe(Disposable d) {
-                    showProcessing();
-                    compositeDisposable.add(d);
-                }
-
-                @Override
-                public void onSuccess(List<QuestionBean> questionBeanList) {
-
-                    QuestionsUtils.sortQusList(questionBeanList);
-                    for (QuestionBean questionBean : questionBeanList) {
-                        questionBeenList.put(QuestionsUtils.getQuestionUniqueId(questionBean), questionBean);
-                    }
-
-                    if (questionBeenList != null && questionBeenList.size() > 0) {
-                        AddDynamicView(questionBeenList);
-
-
-                        if (formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
-                            List<QuestionBeanFilled> tempList = findInvalidAnswersList(answerBeanHelperList, questionObjectList);
-
-                            if (tempList.size() > 0) {
-                                showUnansweredQuestions(tempList, false);
-                            }
-                        }
-
-                    }
-
-                    originalAnswer = new Gson().toJson(answerBeanHelperList);
-
-                    hideProcessing();
-
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Toast.makeText(ctx, "error", Toast.LENGTH_SHORT).show();
-                }
-            };*/
-//            prepareQuestionInBackground(singleObserver, qusUniqueID, countListString, countListValue);
+            prepareQuestionInBackground(countListString, countListValue);
 
 
             if (formStatus != SUBMITTED) {
@@ -244,6 +165,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
     }
 
+
     private void showProcessing() {
         linearLayout.setVisibility(View.GONE);
         layout.setVisibility(View.GONE);
@@ -264,11 +186,11 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
     //adding dynamic view in LinearLayout
 
-    private void AddDynamicView(LinkedHashMap<String, QuestionBean> questionBeanList) {
-        for (QuestionBean questionBean : questionBeanList.values()) {
+    private void AddDynamicView(LinkedHashMap<String, QuestionBean> questionBeanRealmList) {
+        for (QuestionBean questionBean : questionBeanRealmList.values()) {
             if (formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE) {
-                QuestionBeanFilled answer = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
-                if (!answer.isFilled() && answer.isRequired() && !(answer.getInput_type().equals("20") || answer.getInput_type().equals("21"))) {
+                QuestionBeanFilled answer = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+                if (!answer.isFilled() && answer.isRequired() && !QuestionsUtils.Companion.isLoopingType(answer)) {
                     questionBean.setEditable(true);
                 }
             }
@@ -276,7 +198,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
             createViewObject(questionBean, formStatus);
 
             if (formStatus != NEW_FORM && !(formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE)) {
-                String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+                String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
                 QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
                 if (questionBeanFilled != null && (questionBeanFilled.getTitle() == null || questionBeanFilled.getTitle().equals(""))) {
                     createOrModifyAnswerBeanObject(questionBean, questionBean.getParent().size() == 0);
@@ -305,8 +227,6 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         if (isLocationRequired) {
             locationHandler.onStop();
         }
-        if (!isFinishSafe)
-            saveData(NEW_FORM, false);
     }
 
 
@@ -314,7 +234,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     public void onBackPressed() {
         if (requirdAlertMap.containsValue(true)) {
             List<String> orderlist = checkRegexHashMap(requirdAlertMap);
-            if (orderlist.size() > 0) {
+            if (!orderlist.isEmpty()) {
                 String text = answerBeanHelperList.get(orderlist.get(0)).getAnswer().get(0).getValue();
 
                 checkAlert(text, questionBeenList.get(orderlist.get(0)));
@@ -351,31 +271,9 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     //Removing changes in form
     private void RemoveAnyChange() {
         isFinishSafe = true;
-       /* realm1.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-
-               *//* for (Nested nested : nestedBean) {
-                    for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
-                        List<Answers> answer = originalityAnswerList.get(QuestionsUtils.getAnswerUniqueId(questionBeanFilled)).getAnswer();
-                        questionBeanFilled.setAnswer(answer);
-                    }
-                }*//*
-                QuestionBeanFilled questionBeanFilled = null;
-                //realm.where(QuestionBeanFilled.class).equalTo("uid", ansUniqueID).findFirst();
-                if (questionBeanFilled != null) {
-                    QuestionBeanFilled questionBeanFilled1 = questionBeanFilled;
-                    questionBeanFilled1.setNestedAnswer(nestedBean);
-                    //  realm.insertOrUpdate(questionBeanFilled1);
-
-                }
-            }
-        });
-
-
-        */
         Intent intent = new Intent();
         intent.putExtra("childState", DRAFT);
+        intent.putExtra("isDiscard", true);
         intent.putExtra("questionOrder", questionUid);
         setResult(NESTEDCHILD_CODE, intent);
         finish();
@@ -387,11 +285,11 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     @Override
     public void onClick(View view) {
 
-        if (view.getId() == R.id.save) {
-            //draft save action
+        int i = view.getId();
+        if (i == R.id.save) {//draft save action
             if (requirdAlertMap.containsValue(true)) {
                 List<String> orderlist = checkRegexHashMap(requirdAlertMap);
-                if (orderlist.size() > 0) {
+                if (!orderlist.isEmpty()) {
                     String text = answerBeanHelperList.get(orderlist.get(0)).getAnswer().get(0).getValue();
 
                     checkAlert(text, questionBeenList.get(orderlist.get(0)));
@@ -416,11 +314,9 @@ public class InnerLoopingFormActivity extends BaseFormActivity
                         .setAction(R.string.ok, null)
                         .show();
             }
-        } else if (view.getId() == R.id.submit) {
-            //submit action
+        } else if (i == R.id.submit) {//submit action
             validateAnswers();
-        } else if (view.getId() == R.id.count) {
-            //submit action
+        } else if (i == R.id.count) {//submit action
             showUnansweredQuestions(new ArrayList<>(answerBeanHelperList.values()), true);
         }
 
@@ -428,14 +324,14 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
     //Validating data before save
     private void validateAnswers() {
-        if (answerBeanHelperList.size() > 0) {
+        if (!answerBeanHelperList.isEmpty()) {
             List<QuestionBeanFilled> tempList = findInvalidAnswersList(answerBeanHelperList, questionObjectList);
 
-            if (tempList.size() > 0) {
+            if (!tempList.isEmpty()) {
                 showUnansweredQuestions(tempList, false);
             } else if (requirdAlertMap.containsValue(true)) {
                 List<String> orderlist = checkRegexHashMap(requirdAlertMap);
-                if (orderlist.size() > 0) {
+                if (!orderlist.isEmpty()) {
                     String text = answerBeanHelperList.get(orderlist.get(0)).getAnswer().get(0).getValue();
 
                     checkAlert(text, questionBeenList.get(orderlist.get(0)));
@@ -498,55 +394,39 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
     //save data in DataBase
     private void saveData(final int status, final boolean isFinish) {
-        /*Realm realm1 = Realm.getDefaultInstance();
-        realm1.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-
-                for (Nested nested : nestedBean) {
-                    for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
-                        String order = questionBeanFilled.getOrder();
-                        String actualOrder = QuestionsUtils.getUpdatedChildOrder(nested.getForParentValue(), order);
-                        QuestionBeanFilled questionBeanFilled1 = answerBeanHelperList.get(actualOrder);
-                        List<Answers> answer = questionBeanFilled1.getAnswer();
-                        questionBeanFilled.setAnswer(answer);
-                        questionBeanFilled.setTitle(questionBeanFilled1.getTitle());
-                        questionBeanFilled.setRequired(questionBeanFilled1.isRequired());
-                        questionBeanFilled.setOptional(questionBeanFilled1.isOptional());
-                        questionBeanFilled.setFilled(questionBeanFilled1.isFilled());
-                        questionBeanFilled.setValidAns(questionBeanFilled1.isValidAns());
-                        questionBeanFilled.setImage(questionBeanFilled1.getImage());
-                        questionBeanFilled.setLocation(questionBeanFilled1.getLocation());
-                        questionBeanFilled.setInput_type(questionBeanFilled1.getInput_type());
-                        String uniqueOrder = QuestionsUtils.getAnswerUniqueId(questionBeanFilled1);
-                        String orderkey = uniqueOrder.split("_")[1];
-                        questionBeanFilled.setOrder(orderkey);
-
-                    }
-                }
-
-                QuestionBeanFilled questionBeanFilled = null;
-                //realm.where(QuestionBeanFilled.class).equalTo("uid", ansUniqueID).findFirst();
-                if (questionBeanFilled != null) {
-                    QuestionBeanFilled questionBeanFilled1 = questionBeanFilled;
-                    questionBeanFilled1.setNestedAnswer(nestedBean);
-                    //   realm.insertOrUpdate(questionBeanFilled1);
-
-                }
-            }
-        });
-
-        realm1.close();
 
 
         if (isFinish) {
+            for (Nested nested : nestedBean) {
+                for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
+                    String uniqueOrder = QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled);
+                    String orderKey = uniqueOrder.split("_")[1];
+                    questionBeanFilled.setOrder(orderKey);
+                }
+            }
+            InnerFormData.Companion.saveNestedAns(nestedBean);
             Intent intent = new Intent();
             intent.putExtra("childState", status);
             intent.putExtra("questionOrder", questionUid);
+            intent.putExtra("isDiscard", false);
             setResult(NESTEDCHILD_CODE, intent);
             finish();
             overridePendingTransition(R.anim.from_left, R.anim.to_left);
-        }*/
+        } else {
+            List<Nested> tempNestedList = new ArrayList<>();
+            Gson gson = new Gson();
+            for (Nested nested : nestedBean) {
+                Nested newTempNested = gson.fromJson(gson.toJson(nested), Nested.class);
+                for (QuestionBeanFilled questionBeanFilled : newTempNested.getAnswerNestedData()) {
+                    String uniqueOrder = QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled);
+                    String orderKey = uniqueOrder.split("_")[1];
+                    questionBeanFilled.setOrder(orderKey);
+                }
+                tempNestedList.add(newTempNested);
+            }
+            InnerFormData.Companion.saveNestedAns(tempNestedList);
+
+        }
     }
 
 
@@ -555,6 +435,9 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
 
         hideProgess();
+
+        if (!isFinishSafe)
+            saveData(NEW_FORM, false);
         super.onStop();
     }
 
@@ -573,26 +456,23 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         super.onDestroy();
     }
 
-    UnansweredListener unansweredListener = new UnansweredListener() {
-        @Override
-        public void Question(String questionUid) {
-            BaseType baseType = questionObjectList.get(questionUid);
-            if (baseType != null) {
-                int position = baseType.getViewIndex();
-                int parentPosition = linearLayout.getTop() + 1;
-                if (position >= 0 && position < linearLayout.getChildCount()) {
-                    int childPosition = linearLayout.getChildAt(position).getTop();
-                    final int scrollPosition = parentPosition + childPosition;
-                    moveToPosition(scrollPosition);
-                } else {
-                    showToast(R.string.question_still_not_loaded);
-                }
+    UnansweredListener unansweredListener = questionUid -> {
+        BaseType baseType = questionObjectList.get(questionUid);
+        if (baseType != null) {
+            int position = baseType.getViewIndex();
+            int parentPosition = linearLayout.getTop() + 1;
+            if (position >= 0 && position < linearLayout.getChildCount()) {
+                int childPosition = linearLayout.getChildAt(position).getTop();
+                final int scrollPosition = parentPosition + childPosition;
+                moveToPosition(scrollPosition);
             } else {
                 showToast(R.string.question_still_not_loaded);
-
             }
+        } else {
+            showToast(R.string.question_still_not_loaded);
 
         }
+
     };
 
 
@@ -644,60 +524,95 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         RemoveAnyChange();
     }
 
-/*
-    void prepareQuestionInBackground(SingleObserver<List<QuestionBean>> ListSingleObserver, final String qusUniqueID, final ArrayList<String> childListString, final ArrayList<String> childListValue) {
 
-        Single.create(new SingleOnSubscribe<List<QuestionBean>>() {
-            @Override
-            public void subscribe(SingleEmitter<List<QuestionBean>> e) throws Exception {
-                List<QuestionBean> questionBeanList = new ArrayList<>();
-                if (!e.isDisposed()) {
-                    Realm realm1 = Realm.getDefaultInstance();
-                    LanguageBean languageBean = null;
-                    //realm1.where(LanguageBean.class).equalTo("title", qusUniqueID).findFirst();
-                    if (languageBean != null) {
-                        questionBeanList.addAll(createQuestionNumberofTime(languageBean.getQuestion(), childListString, childListValue, realm1));
-                    }
-                    realm1.close();
-                    e.onSuccess(questionBeanList);
+    class LoadView extends AsyncTask<Void, Void, List<QuestionBean>> {
+
+        List<String> childListString;
+
+        public LoadView(List<String> childListString, List<String> childListValu) {
+            this.childListString = childListString;
+            this.childListValu = childListValu;
+        }
+
+        List<String> childListValu;
+
+        @Override
+        protected List<QuestionBean> doInBackground(Void... voids) {
+
+            ArrayList<QuestionBean> questionBeanRealmList = new ArrayList<>();
+
+            Gson gson = new Gson();
+            QuestionBeanFilled questionBeanFilled1 = innerFormData.getQuestionBeanFilled();
+            QuestionBeanFilled questionBeanFilled2 = gson.fromJson(gson.toJson(questionBeanFilled1), QuestionBeanFilled.class);
+
+            nestedBean = questionBeanFilled2.getNestedAnswer();
+            for (Nested nested : nestedBean) {
+                String forParentValue = nested.getForParentValue();
+                for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
+                    questionBeanFilled.setOrder(QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, questionBeanFilled.getOrder()));
+                    answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled), questionBeanFilled);
                 }
             }
-        }).subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ListSingleObserver);
+
+            if (innerFormData.getQuestionBeanRealmList() != null && !innerFormData.getQuestionBeanRealmList().isEmpty()) {
+                questionBeanRealmList.addAll(createQuestionNumberofTime(innerFormData.getQuestionBeanRealmList(), childListString, childListValu));
+            } else {
+                submit.setVisibility(View.GONE);
+            }
+            return questionBeanRealmList;
+        }
+
+        @Override
+        protected void onPostExecute(List<QuestionBean> questionBeans) {
+
+            if (innerFormData.getQuestionBeanRealmList() != null && innerFormData.getQuestionBeanRealmList().isEmpty()) {
+                submit.setVisibility(View.GONE);
+            }
+            super.onPostExecute(questionBeans);
+            hideProcessing();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProcessing();
+        }
+    }
 
 
-    }*/
+    void prepareQuestionInBackground(final ArrayList<String> childListString, final ArrayList<String> childListValue) {
+        new LoadView(childListString, childListValue);
+    }
 
     public List<QuestionBean> createQuestionNumberofTime(List<QuestionBean> groupQuestion,
-                                                         ArrayList<String> childListString, ArrayList<String> childListValue) {
-        List<QuestionBean> createdQuestions = new ArrayList<>();
-
+                                                         List<String> childListString, List<String> childListValue) {
+        ArrayList<QuestionBean> createdQuestions = new ArrayList<>();
         int viewSequence = 1;
         int index = 0;
+        Gson gson = new Gson();
         for (String forParentValue : childListValue) {
-            List<QuestionBean> tempQuestionGroup = new ArrayList<>();
-            tempQuestionGroup.addAll(groupQuestion);
+            ArrayList<QuestionBean> tempQuestionGroup = new ArrayList<>();
+            for (QuestionBean questionBean : groupQuestion) {
+                tempQuestionGroup.add(gson.fromJson(gson.toJson(questionBean), QuestionBean.class));
+            }
             String firstTitle = tempQuestionGroup.get(0).getTitle();
             firstTitle = firstTitle + " " + childListString.get(index++);
             tempQuestionGroup.get(0).setTitle(firstTitle);
             for (QuestionBean tempQuestionBean : tempQuestionGroup) {
                 QuestionBean questionBean1;
                 questionBean1 = tempQuestionBean;
-                String order = QuestionsUtils.getQuestionUniqueId(questionBean1);
-                String newOrder = QuestionsUtils.getUpdatedChildOrder(forParentValue, order);
+                String order = QuestionsUtils.Companion.getQuestionUniqueId(questionBean1);
+                String newOrder = QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, order);
                 questionBean1.setOrder(newOrder);
                 questionBean1.setViewSequence(String.valueOf(viewSequence++));
-
-
                 for (ChildBean childBean : questionBean1.getChild()) {
                     String childOrder = childBean.getOrder();
-                    childOrder = QuestionsUtils.getUpdatedChildOrder(forParentValue, childOrder);
+                    childOrder = QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, childOrder);
                     childBean.setOrder(childOrder);
                 }
                 for (ParentBean parentBean : questionBean1.getParent()) {
                     String parentOrder = parentBean.getOrder();
-                    parentOrder = QuestionsUtils.getUpdatedChildOrder(forParentValue, parentOrder);
+                    parentOrder = QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, parentOrder);
                     parentBean.setOrder(parentOrder);
                 }
 
@@ -720,14 +635,14 @@ public class InnerLoopingFormActivity extends BaseFormActivity
                                 OrdersBean ordersBean = new OrdersBean();
                                 ordersBean.set_id(originalOrderBean.get_id());
                                 ordersBean.setValue(originalOrderBean.getValue());
-                                ordersBean.setOrder(QuestionsUtils.getUpdatedChildOrder(forParentValue2, originalOrderBean.getOrder()));
+                                ordersBean.setOrder(QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue2, originalOrderBean.getOrder()));
                                 restrictionsBean.getOrders().add(ordersBean);
                             }
                         }
                     } else {
                         for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                             String resOrder = ordersBean.getOrder();
-                            resOrder = QuestionsUtils.getUpdatedChildOrder(forParentValue, resOrder);
+                            resOrder = QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, resOrder);
                             ordersBean.setOrder(resOrder);
                         }
 
@@ -766,7 +681,6 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         return isErrorViewRequired;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.error_view, menu);
@@ -780,10 +694,10 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         boolean isVisible = (isVisibleInHideList && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL));
 
         answerBeanHelper.setTitle(questionBean.getTitle());
-        answerBeanHelper.setOrder(QuestionsUtils.getQuestionUniqueId(questionBean));
+        answerBeanHelper.setOrder(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         answerBeanHelper.setInput_type(questionBean.getInput_type());
         List<ValidationBean> valiList = questionBean.getValidation();
-        if (valiList.size() > 0) {
+        if (!valiList.isEmpty()) {
             for (ValidationBean validationBean : valiList) {
                 if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
                     answerBeanHelper.setRequired(isVisible);
@@ -822,6 +736,5 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     public void deniedGPS() {
         RemoveAnyChange();
     }
-
 
 }

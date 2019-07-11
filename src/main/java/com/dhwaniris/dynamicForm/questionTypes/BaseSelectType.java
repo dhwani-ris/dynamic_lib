@@ -33,7 +33,7 @@ class BaseSelectType extends BaseQuestionType {
             createNewAnswerObjRequest(questionBean, dynamicEditTextRow.getVisibility() == View.VISIBLE);
         }
 
-        answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+        answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
     }
 
 

@@ -43,7 +43,7 @@ public class LanguageBean  {
     public LinkedHashMap<String, QuestionBean> getQuestionMap() {
         LinkedHashMap<String, QuestionBean> linkedHashMap = new LinkedHashMap<>();
         for (QuestionBean questionBean : question) {
-            linkedHashMap.put(QuestionsUtils.getQuestionUniqueId(questionBean), questionBean);
+            linkedHashMap.put(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), questionBean);
         }
         return linkedHashMap;
     }

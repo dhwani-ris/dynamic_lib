@@ -63,6 +63,7 @@ import com.dhwaniris.dynamicForm.questionTypes.ViewImageWithSingleSelect;
 import com.dhwaniris.dynamicForm.ui.activities.FullScreenImageActivity;
 import com.dhwaniris.dynamicForm.utils.Constant;
 import com.dhwaniris.dynamicForm.utils.HideQuestionsState;
+import com.dhwaniris.dynamicForm.utils.InnerFormData;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
 import com.dhwaniris.dynamicForm.utils.PermissionHandler;
@@ -94,8 +95,6 @@ import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REST_SHOULD_BE_
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REST_SHOULD_BE_LESS_THAN_EQUAL;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
-import static com.dhwaniris.dynamicForm.utils.QuestionsUtils.getNestedAnswerListFromNestedType;
-import static com.dhwaniris.dynamicForm.utils.QuestionsUtils.getNewAnswerList;
 import static java.util.regex.Pattern.matches;
 
 
@@ -326,24 +325,21 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         @Override
         public void onclickOnQuestionButton(QuestionBean questionBean) {
             showProgress(BaseFormActivity.this, getString(R.string.loading));
-            final List<QuestionBean> childQuestionsList = new ArrayList<>();
-            final String questionUid = QuestionsUtils.getQuestionUniqueId(questionBean);
+            final ArrayList<QuestionBean> childQuestionsList = new ArrayList<>();
+            final String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
             int childCount = 0;
             final ArrayList<String> childListString = new ArrayList<>();
             final ArrayList<String> childListValues = new ArrayList<>();
             LinkedHashMap<String, Nested> nestedLinkedHashMap = new LinkedHashMap<>();
-            boolean isvalidAns = false;
-            int totalChildQuestionCount;
-
-
+            boolean isValidAns = false;
             final QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
             if (questionBean.getInput_type().equals(AppConfing.QUS_LOOPING)) {
                 String currentCountOfRepetition = questionBeanFilled.getAnswer().get(0).getValue();
-                if (currentCountOfRepetition != null & !currentCountOfRepetition.equals("")) {
-                    isvalidAns = true;
-                    int numberofCount = Integer.parseInt(currentCountOfRepetition);
-                    childCount = numberofCount;
-                    for (int i = 1; i <= numberofCount; i++) {
+                if (currentCountOfRepetition != null && !currentCountOfRepetition.equals("")) {
+                    isValidAns = true;
+                    int numberOfCount = Integer.parseInt(currentCountOfRepetition);
+                    childCount = numberOfCount;
+                    for (int i = 1; i <= numberOfCount; i++) {
                         nestedLinkedHashMap.put(String.valueOf(i), null);
                         childListString.add(String.valueOf(i));
                         childListValues.add(String.valueOf(i));
@@ -352,7 +348,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             } else if (questionBean.getInput_type().equals(AppConfing.QUS_LOOPING_MILTISELECT)) {
                 List<Answers> questionAns = questionBeanFilled.getAnswer();
                 if (!questionAns.isEmpty() && !questionAns.get(0).getValue().equals("")) {
-                    isvalidAns = true;
+                    isValidAns = true;
                     childCount = questionAns.size();
                     for (Answers answers : questionAns) {
                         nestedLinkedHashMap.put(answers.getValue(), null);
@@ -362,11 +358,10 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
                 }
             }
-            String ansUniqueId;
             int childStatus;
             boolean isChildLocationRequired = false;
             for (QuestionBean questionBean1 : childQuestionBeenList.values()) {
-                String childQuestionOrder = QuestionsUtils.getQuestionUniqueId(questionBean1);
+                String childQuestionOrder = QuestionsUtils.Companion.getQuestionUniqueId(questionBean1);
                 String childQuestionGroup = childQuestionOrder.substring(0, childQuestionOrder.indexOf("."));
                 if (childQuestionGroup.equals(questionUid)) {
                     childQuestionsList.add(questionBean1);
@@ -381,17 +376,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 return;
             }
 
-            if (isvalidAns) {
-                ansUniqueId = questionBeanFilled.getUid();
-                totalChildQuestionCount = childQuestionsList.size();
+            if (isValidAns) {
                 List<Nested> oldNestedList = questionBeanFilled.getNestedAnswer();
-
-
                 if (!(formStatus == AppConfing.SUBMITTED || formStatus == EDITABLE_SUBMITTED)) {
                     if (oldNestedList == null || oldNestedList.size() == 0) {
 
                         //new create new answer for nested
-                        List<Nested> newNestedList = new ArrayList<>();
+                        ArrayList<Nested> newNestedList = new ArrayList<>();
                         for (Map.Entry<String, Nested> singleMap : nestedLinkedHashMap.entrySet()) {
                             Nested tempNested = getNestedNewItemUpdated(childQuestionsList, singleMap.getKey());
                             newNestedList.add(tempNested);
@@ -415,19 +406,19 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         }
 
                         //
-                        List<Nested> nestedList = new ArrayList<>();
+                        ArrayList<Nested> nestedRealmList = new ArrayList<>();
                         for (Map.Entry<String, Nested> item : nestedLinkedHashMap.entrySet()) {
                             boolean isFound = false;
                             for (Nested nested : oldNestedList) {
                                 if (item.getKey().equals(nested.getForParentValue())) {
-                                    nestedList.add(modifiedNestedUpdated(nested, item.getKey()));
+                                    nestedRealmList.add(modifiedNestedUpdated(nested, item.getKey(), childQuestionsList));
                                     isFound = true;
                                     break;
                                 }
                             }
                             if (!isFound) {
                                 Nested tempNested = getNestedNewItemUpdated(childQuestionsList, item.getKey());
-                                nestedList.add(tempNested);
+                                nestedRealmList.add(tempNested);
 
                             }
                         }
@@ -435,64 +426,25 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         //
 
                         oldNestedList.clear();
-                        oldNestedList.addAll(nestedList);
+                        oldNestedList.addAll(nestedRealmList);
                         questionBeanFilled.setNestedAnswer(oldNestedList);
                     }
 
                 } else {
                     childStatus = SUBMITTED;
                 }
-                final String questionUniqueId = UUID.randomUUID().
-                        toString();
 
-                final String finalAnsUniqueId = ansUniqueId;
-                final int finalChildStatus = childStatus;
-                findNested.put(questionUid, finalAnsUniqueId);
-                final int finalQuestionCount = childCount;
-                final int finalTotalChildQuestionCount = totalChildQuestionCount;
-                boolean finalIsChildLocationRequired = isChildLocationRequired;
-               /* realm.executeTransactionAsync(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-
-          *//*              LanguageBean languageBean = new LanguageBean();
-                        languageBean.setTitle(questionUniqueId);
-                        languageBean.setQuestion(childQuestionsList);
-                        realm.insertOrUpdate(languageBean);
-                        realm.insertOrUpdate(questionBeanFilled);
-*//*
-
-                    }
-                }, new Realm.Transaction.OnSuccess() {
-                    @Override
-                    public void onSuccess() {
-                        hideProgess();
-                        Intent intent = new Intent(BaseFormActivity.this, InnerLoopingFormActivity.class);
-                        intent.putExtra("count", finalQuestionCount);
-                        intent.putStringArrayListExtra("countListString", childListString);
-                        intent.putStringArrayListExtra("countListValue", childListValues);
-                        intent.putExtra("ansUniqueId", finalAnsUniqueId);
-                        intent.putExtra("qusUniqueId", questionUniqueId);
-                        intent.putExtra("tvFormStatus", finalChildStatus);
-                        intent.putExtra("totalQuestionCount", finalTotalChildQuestionCount);
-                        intent.putExtra("questionOrder", questionUid);
-                        intent.putExtra("formId", form_id);
-                        intent.putExtra("formLang", filledFormList.getLanguage());
-                        intent.putExtra("locationRequired", finalIsChildLocationRequired);
-                        startActivityForResult(intent, NESTEDCHILD_CODE);
-                        overridePendingTransition(R.anim.from_right, R.anim.to_right);
-
-
-                    }
-                }, new Realm.Transaction.OnError() {
-                    @Override
-                    public void onError(@NonNull Throwable error) {
-                        hideProgess();
-
-                    }
-                });
-                realm.close();*/
-
+                InnerFormData.Companion.createNew(childQuestionsList, questionBeanFilled);
+                Intent intent = new Intent(BaseFormActivity.this, InnerLoopingFormActivity.class);
+                intent.putExtra("count", childCount);
+                intent.putStringArrayListExtra("countListString", childListString);
+                intent.putStringArrayListExtra("countListValue", childListValues);
+                intent.putExtra("tvFormStatus", childStatus);
+                intent.putExtra("questionOrder", questionUid);
+                intent.putExtra("formId", form_id);
+                intent.putExtra("locationRequired", isChildLocationRequired);
+                startActivityForResult(intent, NESTEDCHILD_CODE);
+                overridePendingTransition(R.anim.from_right, R.anim.to_right);
             }
 
 
@@ -510,7 +462,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 intent.putExtra("titletext", questionBean.getTitle());
                 startActivity(intent);
                 overridePendingTransition(R.anim.from_right, R.anim.to_right);
-                twoStepValidation.put(QuestionsUtils.getQuestionUniqueId(questionBean), 1);
+                twoStepValidation.put(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), 1);
             }
 
 
@@ -531,8 +483,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         LocationGetType locationGetType = null;
 
-        BaseType baseType = questionObjectList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
-        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+        BaseType baseType = questionObjectList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         if (baseType instanceof LocationGetType) {
             locationGetType = (LocationGetType) baseType;
             if (isButtonHide)
@@ -597,13 +549,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         @Override
         public void onVoiceRecorded(QuestionBean questionBean, String path, String length, boolean isRecoded) {
-            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             if (questionBeanFilled != null) {
                 if (isRecoded) {
                     saveDataToAnsList(questionBeanFilled, path, length, "", path);
                     setFilledAns(questionBeanFilled, true, true);
                 } else {
-                    questionBeanFilled.setAnswer(getNewAnswerList());
+                    questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
                     setFilledAns(questionBeanFilled, false, false);
                 }
 
@@ -642,7 +594,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         @Override
         public void saveValue(String originalValue, String standardValue, String unit, QuestionBean questionBean) {
-            final String questionUid = QuestionsUtils.getQuestionUniqueId(questionBean);
+            final String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
             BaseType baseType = questionObjectList.get(questionUid);
             QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
             if (originalValue != null && baseType != null && questionBeanFilled != null) {
@@ -751,7 +703,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     protected void createViewObject(QuestionBean questionBean, int formStatus) {
         View view = null;
-        String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+        String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         switch (questionBean.getInput_type()) {
             case AppConfing.QUS_TEXT:
             case AppConfing.QUS_ADDRESS:
@@ -913,12 +865,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     || restrictionsBean.getType().equals(AppConfing.REST_SHOULD_BE_GRATER_THAN_EQUAL)
             ) {
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                    HashSet<String> ordersToNotify = notifyOnchangeMap.get(QuestionsUtils.getRestrictionOrderUniqueId(ordersBean));
+                    HashSet<String> ordersToNotify = notifyOnchangeMap.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
                     if (ordersToNotify == null) {
                         ordersToNotify = new HashSet<>();
                     }
-                    ordersToNotify.add(QuestionsUtils.getQuestionUniqueId(questionBean));
-                    notifyOnchangeMap.put(QuestionsUtils.getRestrictionOrderUniqueId(ordersBean), ordersToNotify);
+                    ordersToNotify.add(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+                    notifyOnchangeMap.put(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), ordersToNotify);
                 }
             }
         }
@@ -927,7 +879,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     //creating new Answer Object
     protected void createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
-        String questionUid = QuestionsUtils.getQuestionUniqueId(questionBean);
+        String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
 
         QuestionBeanFilled answerBeanHelper = answerBeanHelperList.get(questionUid);
         if (FormType == 0 || answerBeanHelper == null) {
@@ -935,12 +887,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             answerBeanHelper.setUid(UUID.randomUUID().toString());
             answerBeanHelper.setFilled(false);
             answerBeanHelper.setValidAns(false);
-            answerBeanHelper.setAnswer(getNewAnswerList());
+            answerBeanHelper.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
         } else {
             if (answerBeanHelper.getAnswer() == null && answerBeanHelper.getAnswer().size() == 0) {
                 answerBeanHelper.setFilled(false);
                 answerBeanHelper.setValidAns(false);
-                answerBeanHelper.setAnswer(getNewAnswerList());
+                answerBeanHelper.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
             }
         }
         answerBeanHelper.setInput_type(questionBean.getInput_type());
@@ -970,7 +922,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     }
 
     private void addDataToSaveList(final String text, final QuestionBean questionBean) {
-        final String questionUid = QuestionsUtils.getQuestionUniqueId(questionBean);
+        final String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         BaseType baseType = questionObjectList.get(questionUid);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
         if (text != null && baseType != null && questionBeanFilled != null) {
@@ -1079,7 +1031,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     isMatchPatten = true;
                 }
 
-                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (questionBeanFilled != null && (isMatchPatten || isMatchValue)) {
                     questionBeanFilled.setValidAns(false);
                 }
@@ -1128,7 +1080,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     baseType.setAdditionalVisibility(View.GONE);
                 }
 
-                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (questionBeanFilled != null && (isMatchPatten || isMatchValue)) {
                     questionBeanFilled.setValidAns(false);
                 }
@@ -1140,7 +1092,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     public void checkAlert(String text, QuestionBean questionBean) {
         String alertMsg = null;
         if (questionBean != null) {
-            final String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+            final String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
             BaseType baseType = questionObjectList.get(questionUniqueId);
             if (text != null && baseType != null) {
                 View linear = linearLayout.getChildAt(baseType.getViewIndex());
@@ -1230,7 +1182,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         @Override
         public void onFocusChange(QuestionBean questionBean, View v, boolean hasFocus) {
             focusOnEditext = hasFocus;
-            String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+            String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
             if (!hasFocus) {
                 if (notifyOnchangeMap.containsKey(questionUniqueId)) {
                     notifyOrdersOnChange(notifyOnchangeMap.get(questionUniqueId));
@@ -1246,19 +1198,19 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private boolean verifiyChild(QuestionBean childQuestion) {
 
-        QuestionBeanFilled childAnswerBean = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(childQuestion));
-        BaseType questionObject = questionObjectList.get(QuestionsUtils.getQuestionUniqueId(childQuestion));
+        QuestionBeanFilled childAnswerBean = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(childQuestion));
+        BaseType questionObject = questionObjectList.get(QuestionsUtils.Companion.getQuestionUniqueId(childQuestion));
         List<Answers> childAnswers = childAnswerBean.getAnswer();
         boolean currentlyValid = childAnswerBean.isFilled();
         boolean currentlyValidAns = childAnswerBean.isValidAns();
         boolean isValid = true;
         if (currentlyValid && currentlyValidAns) {
-            if (QuestionsUtils.isSelectType(childQuestion.getInput_type())) {
-                List<AnswerOptionsBean> availableOptions = QuestionsUtils.getAnsOptionFromQuestionAfterFilter(childQuestion, questionBeenList, answerBeanHelperList, dataListener.getUserLanguage(), form_id);
-                isValid = QuestionsUtils.validateAnswerListWithAnswerOptions(childAnswers, availableOptions);
+            if (QuestionsUtils.Companion.isSelectType(childQuestion.getInput_type())) {
+                List<AnswerOptionsBean> availableOptions = QuestionsUtils.Companion.getAnsOptionFromQuestionAfterFilter(childQuestion, questionBeenList, answerBeanHelperList, dataListener.getUserLanguage(), form_id);
+                isValid = QuestionsUtils.Companion.validateAnswerListWithAnswerOptions(childAnswers, availableOptions);
                 if (!isValid) {
                     questionObject.superResetQuestion();
-                    childAnswerBean.setAnswer(getNewAnswerList());
+                    childAnswerBean.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
                 }
             } else if (childQuestion.getInput_type().equals(AppConfing.QUS_NUMBER)) {
                 if (childAnswers.size() > 0) {
@@ -1306,7 +1258,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     @Override
     public void MultiSelector(final QuestionBean questionBean, final List<String> value, final String text) {
-        final String questionUid = QuestionsUtils.getQuestionUniqueId(questionBean);
+        final String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
         BaseType baseType = questionObjectList.get(questionUid);
         if (baseType != null) {
@@ -1381,7 +1333,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         applyTitleChangeRestriction(restrictionsBean, text);
                     } else if (restrictionsBean.getType().equals(REST_CLEAR_DID_CHILD)) {
                         for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                            QuestionBean questionBean1 = questionBeenList.get(QuestionsUtils.getRestrictionOrderUniqueId(ordersBean));
+                            QuestionBean questionBean1 = questionBeenList.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
                             if (questionBean1 != null) {
                                 clearAnswerAndView(questionBean1);
                             }
@@ -1430,7 +1382,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     //listen Single selector here
     @Override
     public void SingleSelector(final QuestionBean questionBean, final String value, final String id, boolean isSingle) {
-        String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+        String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
         BaseType baseType = questionObjectList.get(questionUniqueId);
         if (questionBeanFilled != null && baseType != null) {
@@ -1573,7 +1525,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     public void DateSelector(String dd, String mm, String yy, final QuestionBean questionBean) {
 
         final String date = dd + "-" + mm + "-" + yy;
-        String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+        String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         BaseType baseType = questionObjectList.get(questionUniqueId);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
         if (baseType != null) {
@@ -1632,7 +1584,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     @Override
     public void imagePath(final String path, final QuestionBean questionBean) {
 
-        String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+        String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
         BaseType baseType = questionObjectList.get(questionUniqueId);
         if (baseType != null) {
@@ -1661,7 +1613,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
             if (questionBean.getChild().size() > 0) {
-                String childUniqueId = QuestionsUtils.getChildUniqueId(questionBean.getChild().get(0));
+                String childUniqueId = QuestionsUtils.Companion.getChildUniqueId(questionBean.getChild().get(0));
                 QuestionBean questionBean1 = questionBeenList.get(childUniqueId);
                 if (questionBean1 != null) {
                     gpsOnSetLocation(questionBean1, true);
@@ -1711,7 +1663,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     private void saveRadioButtonData(QuestionBean questionBean, String id, String label) {
-        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         setFilledAns(questionBeanFilled, true, true);
         saveDataToAnsList(questionBeanFilled, id, label, "", "");
         if (questionBean.getRestrictions().size() > 0) {
@@ -1723,7 +1675,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
 
 
-        BaseType baseType = questionObjectList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+        BaseType baseType = questionObjectList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         if (baseType != null) {
             validateChildVisibility(questionBean, id, baseType);
         }
@@ -1831,8 +1783,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         view.setVisibility(visibility);
         boolean isActive = visibility == View.VISIBLE;
         if (!isActive) {
-            answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean)).setAnswer(getNewAnswerList());
-            answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean)).setNestedAnswer(new ArrayList<>());
+            answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean)).setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+            answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean)).setNestedAnswer(new ArrayList<>());
         }
         BaseType baseType = questionObjectList.get(childUid);
         baseType.superResetQuestion();
@@ -1854,7 +1806,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         //hiding nested child here //only one
         if (questionBean.getChild().size() > 0) {
             for (ChildBean childBean : questionBean.getChild()) {
-                String nestedChildUid = QuestionsUtils.getChildUniqueId(childBean);
+                String nestedChildUid = QuestionsUtils.Companion.getChildUniqueId(childBean);
                 QuestionBean nestedChildQuestion = questionBeenList.get(nestedChildUid);
                 BaseType baseType1 = questionObjectList.get(nestedChildUid);
                 if (baseType1 != null) {
@@ -1943,7 +1895,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     private boolean checkRestrictionOnNumberValues(QuestionBean questionBean, String text) {
-        if (!QuestionsUtils.isValidFloat(text))
+        if (!QuestionsUtils.Companion.isValidFloat(text))
             return false;
         float currentValue = Float.parseFloat(text);
 
@@ -1957,11 +1909,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 List<Float> parentValuesList = new ArrayList<>();
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                     try {
-                        List<Answers> answers = QuestionsUtils.getAnswerListbyOder(QuestionsUtils.getRestrictionOrderUniqueId(ordersBean), null, answerBeanHelperList);
+                        List<Answers> answers = QuestionsUtils.Companion.getAnswerListbyOder(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), null, answerBeanHelperList);
 
                         if (answers.size() > 0) {
                             String p_ans = answers.get(0).getValue();
-                            if (QuestionsUtils.isValidFloat(p_ans)) {
+                            if (QuestionsUtils.Companion.isValidFloat(p_ans)) {
                                 parentValuesList.add(Float.parseFloat(p_ans));
                             } else {
                                 return false;
@@ -2011,18 +1963,18 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     }
 
     private void callForExpressionsRestriction(QuestionBean questionBean, String text) {
-        if (!QuestionsUtils.isValidFloat(text))
+        if (!QuestionsUtils.Companion.isValidFloat(text))
             return;
         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
             if (restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_EXPRESSION)) {
                 List<String> listOfNotifyOrders = new ArrayList<>();
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                    String restrictionOrderUniqueId = QuestionsUtils.getRestrictionOrderUniqueId(ordersBean);
+                    String restrictionOrderUniqueId = QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean);
                     if (restrictionOrderUniqueId != null) {
                         listOfNotifyOrders.add(restrictionOrderUniqueId);
                     }
                 }
-                notifyOrdersForCalculation(listOfNotifyOrders, text, QuestionsUtils.getQuestionUniqueId(questionBean));
+                notifyOrdersForCalculation(listOfNotifyOrders, text, QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             }
         }
     }
@@ -2046,7 +1998,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_SUB) ||
                         restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_MUL) ||
                         restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_DIVD)) {
-                    solveExpressionAddSubMulDiv(QuestionsUtils.getQuestionUniqueId(questionBean), restrictionsBean, currentValue, currentQusUid);
+                    solveExpressionAddSubMulDiv(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), restrictionsBean, currentValue, currentQusUid);
                     break;
                 }
             }
@@ -2060,18 +2012,18 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             restrictionsBean, String currentValue, String currentQusUid) {
         List<Float> valuesForEquation = new ArrayList<>();
         float currentValueFloat = 0;
-        if (QuestionsUtils.isValidFloat(currentValue)) {
+        if (QuestionsUtils.Companion.isValidFloat(currentValue)) {
             currentValueFloat = Float.parseFloat(currentValue);
         } else {
             currentValueFloat = 0;
         }
         for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-            if (QuestionsUtils.getRestrictionOrderUniqueId(ordersBean) != null && !QuestionsUtils.getRestrictionOrderUniqueId(ordersBean).equals(currentQusUid)) {
+            if (QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean) != null && !QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean).equals(currentQusUid)) {
                 try {
-                    List<Answers> answers = QuestionsUtils.getAnswerListbyOder(QuestionsUtils.getRestrictionOrderUniqueId(ordersBean), null, answerBeanHelperList);
+                    List<Answers> answers = QuestionsUtils.Companion.getAnswerListbyOder(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), null, answerBeanHelperList);
                     if (answers.size() > 0) {
                         String p_ans = answers.get(0).getValue();
-                        if (QuestionsUtils.isValidFloat(p_ans)) {
+                        if (QuestionsUtils.Companion.isValidFloat(p_ans)) {
                             valuesForEquation.add(Float.parseFloat(p_ans));
                         } else {
                             valuesForEquation.add(0f);
@@ -2173,7 +2125,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     private void setChildStatus(ChildBean childBean, boolean isMatch, List<String> visibleList) {
 
 
-        String childUniqueId = QuestionsUtils.getChildUniqueId(childBean);
+        String childUniqueId = QuestionsUtils.Companion.getChildUniqueId(childBean);
         BaseType baseType = questionObjectList.get(childUniqueId);
 
         if (baseType != null) {
@@ -2183,12 +2135,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             if (view != null && childQuestionBean != null) {
                 //show child and add validation
                 if (childQuestionBean.getParent().size() > 1) {
-                    isMatch = QuestionsUtils.validateVisibilityWithMultiParent(childQuestionBean, isMatch, answerBeanHelperList);
+                    isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, isMatch, answerBeanHelperList);
                 }
                 for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
                     if (restrictionsBean.getType().equals(AppConfing.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
                         showProgress(this, getString(R.string.loading));
-                        isMatch = QuestionsUtils.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
+                        isMatch = QuestionsUtils.Companion.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
                         hideProgess();
                         break;
                     }
@@ -2224,7 +2176,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         switch (restrictionsBean.getType()) {
             case AppConfing.REST_VALUE_AS_TITLE_OF_CHILD:
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                    replaceTitleOfQuestion(QuestionsUtils.getRestrictionOrderUniqueId(ordersBean), AppConfing.BLANK_TITLE, text);
+                    replaceTitleOfQuestion(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), AppConfing.BLANK_TITLE, text);
                 }
 
                 break;
@@ -2276,7 +2228,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         nested.setForParentValue(forParentValue);
         List<QuestionBeanFilled> nestedAnswer = new ArrayList<>();
         for (QuestionBean questionBean : childQuestionBeenList) {
-            QuestionBeanFilled questionBeanFilled = getQuestionBeanFilledNewData(QuestionsUtils.getQuestionUniqueId(questionBean));
+            QuestionBeanFilled questionBeanFilled = getQuestionBeanFilledNewData(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             nestedAnswer.add(questionBeanFilled);
 
         }
@@ -2287,21 +2239,78 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     public Nested modifiedNestedUpdated(Nested nested, String
-            forParentValue) {
+            forParentValue, List<QuestionBean> childQuestionsList) {
         nested.setForParentValue(forParentValue);
         // to update to new order for the child
         for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
-            String childKey = QuestionsUtils.getAnswerUniqueId(questionBeanFilled);
+            String childKey = QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled);
             questionBeanFilled.setOrder(childKey);
         }
+
+        if (childQuestionsList.size() != nested.getAnswerNestedData().size()) {
+            for (QuestionBean childQues : childQuestionsList) {
+                boolean isFound = false;
+                for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
+                    if (QuestionsUtils.Companion.getQuestionUniqueId(childQues).equals(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled))) {
+                        isFound = true;
+                        break;
+                    }
+                }
+
+                if (!isFound) {
+                    QuestionBeanFilled newAnswerBeanObject = getNewAnswerBeanObject(childQues, childQues.getParent().isEmpty());
+                    nested.getAnswerNestedData().add(newAnswerBeanObject);
+                }
+
+            }
+        }
+
 
         return nested;
     }
 
+    //creating new Answer Object
+    protected QuestionBeanFilled getNewAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
+        String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
+
+
+        QuestionBeanFilled answerBeanHelper = new QuestionBeanFilled();
+        answerBeanHelper = new QuestionBeanFilled();
+        answerBeanHelper.setUid(UUID.randomUUID().toString());
+        answerBeanHelper.setFilled(false);
+        answerBeanHelper.setValidAns(false);
+        answerBeanHelper.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+        answerBeanHelper.setInput_type(questionBean.getInput_type());
+        answerBeanHelper.setOrder(questionUid);
+        answerBeanHelper.setLabel(questionBean.getLabel());
+        answerBeanHelper.setTitle(questionBean.getTitle());
+        answerBeanHelper.setViewSequence(questionBean.getViewSequence());
+        boolean isActive = (isVisibleInHideList || (questionBean.getParent().size() == 0)
+                && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL));
+
+        List<ValidationBean> valiList = questionBean.getValidation();
+        if (!valiList.isEmpty()) {
+            for (ValidationBean validationBean : valiList) {
+                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                    answerBeanHelper.setOptional(false);
+                    answerBeanHelper.setRequired(isActive);
+                    break;
+                }
+            }
+        } else {
+            answerBeanHelper.setRequired(false);
+            answerBeanHelper.setOptional(isActive);
+        }
+
+
+        return answerBeanHelper;
+    }
+
+
     private QuestionBeanFilled getQuestionBeanFilledNewData(String childQuestionKeyOrder) {
         QuestionBeanFilled questionBeanFilled = new QuestionBeanFilled();
         questionBeanFilled.setUid(UUID.randomUUID().toString());
-        questionBeanFilled.setAnswer(getNewAnswerList());
+        questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
         questionBeanFilled.setInput_type("");
         questionBeanFilled.setLabel("");
         questionBeanFilled.setOptional(false);
@@ -2423,11 +2432,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     }*/
 
     protected void clearAnswerAndView(QuestionBean questionBean) {
-        String questionUniqueId = QuestionsUtils.getQuestionUniqueId(questionBean);
+        String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         BaseType baseType = questionObjectList.get(questionUniqueId);
         if (answerBeanHelperList.containsKey(questionUniqueId)) {
             setFilledAns(answerBeanHelperList.get(questionUniqueId), false, false);
-            answerBeanHelperList.get(questionUniqueId).setAnswer(getNewAnswerList());
+            answerBeanHelperList.get(questionUniqueId).setAnswer(QuestionsUtils.Companion.getNewAnswerList());
         }
         if (baseType != null) {
             baseType.superChangeStatus(NONE);
@@ -2445,7 +2454,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     || (questionBeanFilled.isFilled() && !questionBeanFilled.isValidAns())) {
                 unansweredList.add(questionBeanFilled);
 
-                BaseType baseType = questionObjectList.get(QuestionsUtils.getAnswerUniqueId(questionBeanFilled));
+                BaseType baseType = questionObjectList.get(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled));
                 if (baseType != null) {
                     //updating value in dependent field
                     baseType.superChangeStatus(NOT_ANSWERED);
@@ -2471,23 +2480,23 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     List<QuestionBeanFilled> inValidAnswerWithLoopingDependent(QuestionBean loopingTypeQuestion) {
         List<QuestionBeanFilled> ansWithWrongValue = new ArrayList<>();
         for (ChildBean childBean : loopingTypeQuestion.getChild()) {
-            String childUniqueID = QuestionsUtils.getChildUniqueId(childBean);
+            String childUniqueID = QuestionsUtils.Companion.getChildUniqueId(childBean);
             QuestionBean childQuestionBean = questionBeenList.get(childUniqueID);
 
             if (childQuestionBean != null) {
                 for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
                     if (restrictionsBean.getType().equals(AppConfing.REST_GET_ANS_OPTION_LOOPING)) {
                         List<AnswerOptionsBean> currentAvailableAnswerOption = childQuestionBean.getAnswer_options();
-                        currentAvailableAnswerOption = QuestionsUtils.getAnswerListFormRestriction(currentAvailableAnswerOption, restrictionsBean, childQuestionBean, answerBeanHelperList);
-                        List<Answers> childAnswerList = QuestionsUtils.getAnswerListbyOder(childUniqueID, null, answerBeanHelperList);
-                        boolean isValidAnswer = QuestionsUtils.validateAnswerListWithAnswerOptions(childAnswerList, currentAvailableAnswerOption);
+                        currentAvailableAnswerOption = QuestionsUtils.Companion.getAnswerListFormRestriction(currentAvailableAnswerOption, restrictionsBean, childQuestionBean, answerBeanHelperList);
+                        List<Answers> childAnswerList = QuestionsUtils.Companion.getAnswerListbyOder(childUniqueID, null, answerBeanHelperList);
+                        boolean isValidAnswer = QuestionsUtils.Companion.validateAnswerListWithAnswerOptions(childAnswerList, currentAvailableAnswerOption);
                         if (!isValidAnswer) {
                             QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(childUniqueID);
                             if (questionBeanFilled != null) {
                                 setFilledAns(questionBeanFilled, false, false);
-                                questionBeanFilled.setAnswer(getNewAnswerList());
+                                questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
                             }
-                            String childAnsId = QuestionsUtils.getQuestionUniqueId(childQuestionBean);
+                            String childAnsId = QuestionsUtils.Companion.getQuestionUniqueId(childQuestionBean);
                             BaseType baseType = questionObjectList.get(childAnsId);
                             if (baseType != null) {
                                 //updating value in dependent field
@@ -2501,8 +2510,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         float sum = 0;
                         for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                             if (loopingTypeQuestion.getChild().size() > 0)
-                                answers.addAll(getNestedAnswerListFromNestedType(QuestionsUtils.getQuestionUniqueId(loopingTypeQuestion),
-                                        QuestionsUtils.getRestrictionOrderUniqueId(ordersBean), ordersBean.getValue(), answerBeanHelperList));
+                                answers.addAll(QuestionsUtils.Companion.getNestedAnswerListFromNestedType(QuestionsUtils.Companion.getQuestionUniqueId(loopingTypeQuestion),
+                                        QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), ordersBean.getValue(), answerBeanHelperList));
                         }
                         if (answers.size() > 0) {
 
@@ -2515,7 +2524,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         if (!answerBeanHelperList.get(childUniqueID).getAnswer().get(0).getValue().equals("")) {
 
                             if (Integer.parseInt(answerBeanHelperList.get(childUniqueID).getAnswer().get(0).getValue()) != Math.round(sum)) {
-                                String childAnsId = QuestionsUtils.getQuestionUniqueId(childQuestionBean);
+                                String childAnsId = QuestionsUtils.Companion.getQuestionUniqueId(childQuestionBean);
                                 BaseType baseType = questionObjectList.get(childAnsId);
                                 if (baseType != null) {
                                     //updating value in dependent field
@@ -2523,7 +2532,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                                 }
                             }
                         } else {
-                            String childAnsId = QuestionsUtils.getQuestionUniqueId(childQuestionBean);
+                            String childAnsId = QuestionsUtils.Companion.getQuestionUniqueId(childQuestionBean);
                             BaseType baseType = questionObjectList.get(childAnsId);
                             if (baseType != null) {
                                 //updating value in dependent field

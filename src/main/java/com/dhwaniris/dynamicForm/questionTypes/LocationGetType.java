@@ -48,7 +48,7 @@ public class LocationGetType extends BaseType {
         if (iniitList) {
             initListener();
         }
-        answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+        answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
 
         if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             setData(answerBeanFilled);

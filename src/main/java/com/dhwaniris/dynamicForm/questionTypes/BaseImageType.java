@@ -70,7 +70,7 @@ public class BaseImageType extends BaseType {
             } else {
                 dynamicImageViewRow.setVisibility(View.GONE);
             }
-            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             setData(answerBeanFilled);
 
         }

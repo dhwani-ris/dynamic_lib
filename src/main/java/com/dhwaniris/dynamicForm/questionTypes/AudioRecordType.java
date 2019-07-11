@@ -104,7 +104,7 @@ public class AudioRecordType extends BaseType {
                 dynamicRecordAudioView.setVisibility(View.GONE);
             }
 
-            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             if (answerBeanFilled != null && !answerBeanFilled.getAnswer().isEmpty()) {
                 Answers answers = answerBeanFilled.getAnswer().get(0);
                 if (answers != null) {

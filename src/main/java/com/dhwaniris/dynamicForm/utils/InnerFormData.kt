@@ -1,17 +1,15 @@
-package com.dhwaniris.tata_trust_delta.persistance
+package com.dhwaniris.dynamicForm.utils
 
-import com.dhwaniris.tata_trust_delta.db.dbhelper.QuestionBeanFilled
-import com.dhwaniris.tata_trust_delta.db.dbhelper.form.Nested
-import com.dhwaniris.tata_trust_delta.db.dbhelper.form.QuestionBean
-
-import io.realm.RealmList
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled
+import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested
+import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean
 
 /**
  * Created by ${Sahjad} on 7/11/2019.
  */
 class InnerFormData private constructor() {
 
-    var questionBeanRealmList: RealmList<QuestionBean>? = null
+    var questionBeanRealmList: List<QuestionBean>? = null
 
     var questionBeanFilled: QuestionBeanFilled? = null
 
@@ -26,7 +24,7 @@ class InnerFormData private constructor() {
             return instance as InnerFormData
         }
 
-        fun createNew(questionBeanRealmList: RealmList<QuestionBean>, questionBeanFilled: QuestionBeanFilled) {
+        fun createNew(questionBeanRealmList: List<QuestionBean>, questionBeanFilled: QuestionBeanFilled) {
             instance = InnerFormData()
             instance!!.questionBeanRealmList = questionBeanRealmList
             instance!!.questionBeanFilled = questionBeanFilled
@@ -41,7 +39,7 @@ class InnerFormData private constructor() {
             instance!!.questionBeanFilled = questionBeanFilled
         }
 
-        fun saveNestedAns(nestedList: RealmList<Nested>) {
+        fun saveNestedAns(nestedList: List<Nested>) {
             instance!!.questionBeanFilled!!.nestedAnswer = nestedList
         }
     }

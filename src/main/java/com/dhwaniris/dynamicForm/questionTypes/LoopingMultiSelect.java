@@ -59,7 +59,7 @@ public class LoopingMultiSelect extends BaseEditTextWithButtonType {
                         }
                     }
                 }
-                List<AnswerOptionsBean> filteredList = QuestionsUtils.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
+                List<AnswerOptionsBean> filteredList = QuestionsUtils.Companion.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
                         answerBeanHelperList, dataListener.getUserLanguage(), formId);
 
                 int checkLimit = 100;

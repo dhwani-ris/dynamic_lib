@@ -69,7 +69,7 @@ public class UnansweredQusAdapter extends RecyclerView.Adapter<UnansweredQusAdap
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         holder.mainView.setLayoutParams(lp);
 
-        QuestionBean questionBean = questionBeanHashMap.get(QuestionsUtils.getAnswerUniqueId(ansList.get(pos)));
+        QuestionBean questionBean = questionBeanHashMap.get(QuestionsUtils.Companion.getAnswerUniqueId(ansList.get(pos)));
 
         if (questionBean != null) {
             holder.text.setText(questionBean.getTitle());
@@ -99,7 +99,7 @@ public class UnansweredQusAdapter extends RecyclerView.Adapter<UnansweredQusAdap
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                formListener.Question(QuestionsUtils.getAnswerUniqueId(ansList.get(pos)));
+                formListener.Question(QuestionsUtils.Companion.getAnswerUniqueId(ansList.get(pos)));
                 dialog.dismiss();
             }
         });

@@ -125,7 +125,7 @@ public class RadioButtonType extends BaseType {
             }
 
 
-            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
 
             setData(answerBeanFilled);
 

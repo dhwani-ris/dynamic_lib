@@ -181,7 +181,7 @@ public class BaseQuestionType extends BaseType {
 
     @Override
     public void superSetAnswer(QuestionBeanFilled questionBeanFilled) {
-        String viewableStringFormAns = QuestionsUtils.getViewableStringFormAns(questionBeanFilled);
+        String viewableStringFormAns = QuestionsUtils.Companion.getViewableStringFormAns(questionBeanFilled);
         dynamicEditTextRow.setAnswerEditText(viewableStringFormAns);
     }
 }

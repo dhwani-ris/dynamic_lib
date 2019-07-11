@@ -47,7 +47,7 @@ public class ViewImageWithSingleSelect extends BaseEditTextWithButtonType {
         dynamicLoopingView.setOnCustomClickListener(view -> {
             hideKeyboard();
 
-            List<AnswerOptionsBean> filteredList = QuestionsUtils.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
+            List<AnswerOptionsBean> filteredList = QuestionsUtils.Companion.getAnsOptionFromQuestionAfterFilter(questionBean, questionBeenList,
                     answerBeanHelperList, dataListener.getUserLanguage(), formId);
             createSelector(filteredList, questionBean,
                     questionBean.getTitle());

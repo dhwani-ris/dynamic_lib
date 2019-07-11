@@ -60,14 +60,14 @@ public abstract class BaseType {
         boolean isMatch;
         if (questionBean.getParent().size() > 0) {
             ParentBean parentBean1 = questionBean.getParent().get(0);
-            isMatch = QuestionsUtils.isAnswerIsExpected(parentBean1.getOrder(), parentBean1.getValue(), answerBeanHelperList);
+            isMatch = QuestionsUtils.Companion.isAnswerIsExpected(parentBean1.getOrder(), parentBean1.getValue(), answerBeanHelperList);
 
             if (questionBean.getParent().size() > 1) {
-                isMatch = QuestionsUtils.validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList);
+                isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList);
             }
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                 if (restrictionsBean.getType().equals(AppConfing.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
-                    isMatch = QuestionsUtils.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
+                    isMatch = QuestionsUtils.Companion.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
                     break;
                 }
             }

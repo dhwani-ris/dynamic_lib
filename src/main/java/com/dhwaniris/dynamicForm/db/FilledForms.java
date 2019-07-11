@@ -196,7 +196,7 @@ public class FilledForms  {
     public LinkedHashMap<String, QuestionBeanFilled> getAnswersMap() {
         LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList= new LinkedHashMap<>();
         for (QuestionBeanFilled questionBeanFilled : question) {
-            answerBeanHelperList.put(QuestionsUtils.getAnswerUniqueId(questionBeanFilled), questionBeanFilled);
+            answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled), questionBeanFilled);
         }
         return answerBeanHelperList;
     }

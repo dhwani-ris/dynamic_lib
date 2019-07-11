@@ -36,7 +36,7 @@ public class ImageType extends BaseImageType {
             createNewImageObject(questionBean, dynamicImageViewRow.getVisibility() == View.VISIBLE);
         } else {
             //draft action
-            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             if (answerBeanFilled != null && answerBeanFilled.isRequired()) {
                 dynamicImageViewRow.isRequired(true);
             }

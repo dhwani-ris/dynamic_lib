@@ -56,7 +56,7 @@ public class BaseEditTextWithButtonType extends BaseType {
 
         } else {
             //draft action
-            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             if (answerBeanFilled != null && answerBeanFilled.isRequired()) {
                 dynamicLoopingView.isRequired(true);
             }
@@ -200,7 +200,7 @@ public class BaseEditTextWithButtonType extends BaseType {
 
     @Override
     public void superSetAnswer(QuestionBeanFilled questionBeanFilled) {
-        String viewableStringFormAns = QuestionsUtils.getViewableStringFormAns(questionBeanFilled);
+        String viewableStringFormAns = QuestionsUtils.Companion.getViewableStringFormAns(questionBeanFilled);
         dynamicLoopingView.setText(viewableStringFormAns);
     }
 }

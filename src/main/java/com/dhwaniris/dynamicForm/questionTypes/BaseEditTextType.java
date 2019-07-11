@@ -45,7 +45,7 @@ class BaseEditTextType extends BaseQuestionType {
             createNewAnswerObjRequest(questionBean, dynamicEditTextRow.getVisibility() == View.VISIBLE);
 
         } else {
-            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.getQuestionUniqueId(questionBean));
+            answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             if (answerBeanFilled != null) {
                 if (answerBeanFilled.isRequired()) {
                     dynamicEditTextRow.isRequired(true);

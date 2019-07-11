@@ -132,7 +132,7 @@ public class MultiSelectLimit extends BaseSelectType {
                     final List<ParentBean> perent = questionBean.getParent();
                     List<Answers> p_ans = new ArrayList<>();
                     if (perent.size() > 0 && perent.get(0) != null) {
-                        QuestionBeanFilled perentAnswer = answerBeanHelperList.get(QuestionsUtils.getParentUniqueId(perent.get(0)));
+                        QuestionBeanFilled perentAnswer = answerBeanHelperList.get(QuestionsUtils.Companion.getParentUniqueId(perent.get(0)));
                         if (perentAnswer != null)
                             p_ans = perentAnswer.getAnswer();
                     }
