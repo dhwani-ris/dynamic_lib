@@ -368,9 +368,10 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
 
     String getAnswerForm(QuestionBeanFilled questionBeanFilled) {
         StringBuilder answerBuilder = new StringBuilder();
-        String prefix = ",";
+        String prefix = "";
         for (Answers answers : questionBeanFilled.getAnswer()) {
             answerBuilder.append(prefix);
+            prefix = ",";
             if (questionBeanFilled.getInput_type().equals(AppConfing.TEMP_QUESTION)
                     || questionBeanFilled.getInput_type().equals(AppConfing.QUS_ADDRESS)) {
                 answerBuilder.append(answers.getTextValue());

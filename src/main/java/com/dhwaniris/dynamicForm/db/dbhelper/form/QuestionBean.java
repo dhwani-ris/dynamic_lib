@@ -1,53 +1,54 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 import com.dhwaniris.dynamicForm.db.dbhelper.ResourceUrlsBean;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
 
 
-    private String _id;
+    @SerializedName("_id") private String _id;
 
-    private String order;
+    @SerializedName("order") private String order;
 
-    private String viewSequence;
+    @SerializedName("viewSequence") private String viewSequence;
 
-    private String title;
+    @SerializedName("title") private String title;
 
-    private String input_type;
+    @SerializedName("input_type") private String input_type;
 
-    private String hint;
+    @SerializedName("hint") private String hint;
 
-    private String pattern;
+    @SerializedName("pattern") private String pattern;
 
-    private String min;
+    @SerializedName("min") private String min;
 
-    private String max;
+    @SerializedName("max") private String max;
 
-    private String constant;
+    @SerializedName("constant") private String constant;
 
-    private String label;
+    @SerializedName("label") private String label;
 
-    private String information;
+    @SerializedName("information") private String information;
 
-    private boolean editable;
+    @SerializedName("editable") private boolean editable;
 
-    private List<ChildBean> child;
+    @SerializedName("child") private List<ChildBean> child;
 
-    private List<ParentBean> parent;
+    @SerializedName("parent") private List<ParentBean> parent;
 
-    private List<ValidationBean> validation;
+    @SerializedName("validation") private List<ValidationBean> validation;
 
-    private List<AnswerOptionsBean> answer_option;
+    @SerializedName("answer_option") private List<AnswerOptionsBean> answer_option;
 
-    private List<Answers> answers;
+    @SerializedName("answers") private List<Answers> answers;
 
-    private List<RestrictionsBean> restrictions;
+    @SerializedName("restrictions") private List<RestrictionsBean> restrictions;
 
-    private List<ResourceUrlsBean> resource_urls;
+    @SerializedName("resource_urls") private List<ResourceUrlsBean> resource_urls;
 
-    private String columnName;
+    @SerializedName("columnName") private String columnName;
 
     public String getColumnName() {
         return columnName;
