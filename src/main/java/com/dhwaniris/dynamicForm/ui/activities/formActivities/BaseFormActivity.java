@@ -33,6 +33,7 @@ import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ChildBean;
+import com.dhwaniris.dynamicForm.db.dbhelper.form.Did;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.OrdersBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -1211,6 +1212,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 if (!isValid) {
                     questionObject.superResetQuestion();
                     childAnswerBean.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+                    childAnswerBean.setNestedAnswer(new ArrayList<>());
+
                 }
             } else if (childQuestion.getInput_type().equals(AppConfing.QUS_NUMBER)) {
                 if (childAnswers.size() > 0) {
@@ -1221,9 +1224,17 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 questionObject.superChangeStatus(NOT_ANSWERED);
                 setFilledAns(childAnswerBean, false);
                 questionObject.superSetEditable(true, childQuestion.getInput_type());
+                questionObject.superResetQuestion();
+                childAnswerBean.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+                childAnswerBean.setNestedAnswer(new ArrayList<>());
+
             }
         } else {
             questionObject.superSetEditable(true, childQuestion.getInput_type());
+            questionObject.superResetQuestion();
+            childAnswerBean.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+            childAnswerBean.setNestedAnswer(new ArrayList<>());
+
         }
 
         return isValid;
@@ -1782,12 +1793,16 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         List<ValidationBean> valList = questionBean.getValidation();
         view.setVisibility(visibility);
         boolean isActive = visibility == View.VISIBLE;
-        if (!isActive) {
-            answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean)).setAnswer(QuestionsUtils.Companion.getNewAnswerList());
-            answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean)).setNestedAnswer(new ArrayList<>());
+        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+        if (!isActive && questionBeanFilled != null) {
+            questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+            questionBeanFilled.setNestedAnswer(new ArrayList<>());
+            BaseType baseType = questionObjectList.get(childUid);
+            if (baseType != null) {
+                baseType.superResetQuestion();
+
+            }
         }
-        BaseType baseType = questionObjectList.get(childUid);
-        baseType.superResetQuestion();
         if (isActive && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL)) {
             if (valList.size() > 0) {
                 for (ValidationBean validationBean : valList) {
@@ -2495,6 +2510,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                             if (questionBeanFilled != null) {
                                 setFilledAns(questionBeanFilled, false, false);
                                 questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+                                questionBeanFilled.setNestedAnswer(new ArrayList<>());
+
                             }
                             String childAnsId = QuestionsUtils.Companion.getQuestionUniqueId(childQuestionBean);
                             BaseType baseType = questionObjectList.get(childAnsId);

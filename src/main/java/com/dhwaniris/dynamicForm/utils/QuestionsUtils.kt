@@ -213,9 +213,14 @@ class QuestionsUtils {
 
 
                 AppConfing.REST_DID_RELATION -> {
-                    val ordersBean = restrictionsBean.orders[0]
                     avlList.clear()
-                    avlList.addAll(getDIDAnswerFormRestriction(allOptions, ordersBean, questionBeanFilledList));
+                    avlList.addAll(allOptions)
+                    for (orderBean in restrictionsBean.orders) {
+                        val didAnswerFormRestriction = getDIDAnswerFormRestriction(avlList, orderBean, questionBeanFilledList, restrictionsBean.orders.size > 1)
+                        avlList.clear()
+                        avlList.addAll(didAnswerFormRestriction)
+                    }
+
                 }
             }
 
@@ -432,7 +437,7 @@ class QuestionsUtils {
             return oRCaseList
         }
 
-        private fun getDIDAnswerFormRestriction(allOptions: List<AnswerOptionsBean>, ordersBean: OrdersBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): List<AnswerOptionsBean> {
+        private fun getDIDAnswerFormRestriction(allOptions: List<AnswerOptionsBean>, ordersBean: OrdersBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>, isMultiParent: Boolean): List<AnswerOptionsBean> {
 
             var avlList = ArrayList<AnswerOptionsBean>()
 
@@ -440,10 +445,11 @@ class QuestionsUtils {
                 return allOptions
             }
             val didParentsAnswer: List<Answers>
-            val questionBeanFilled = answerBeanHelperList[getRestrictionOrderUniqueId(ordersBean)]
+            val restrictionOrderUniqueId = getRestrictionOrderUniqueId(ordersBean)
+            val questionBeanFilled = answerBeanHelperList[restrictionOrderUniqueId]
             if (questionBeanFilled != null) {
                 didParentsAnswer = questionBeanFilled.answer
-                avlList = getDidAnswerFormParentAns(allOptions, didParentsAnswer)
+                avlList = getDidAnswerFormParentAns(allOptions, didParentsAnswer, restrictionOrderUniqueId, isMultiParent)
             } else {
                 avlList.addAll(allOptions)
             }
@@ -456,7 +462,7 @@ class QuestionsUtils {
             return if (value == "") false else value[0] != '.'
         }
 
-        private fun getDidAnswerFormParentAns(allOptions: List<AnswerOptionsBean>, parentsAnswer: List<Answers>): ArrayList<AnswerOptionsBean> {
+        private fun getDidAnswerFormParentAns(allOptions: List<AnswerOptionsBean>, parentsAnswer: List<Answers>, restrictionOrderUniqueId: String, multiParent: Boolean): ArrayList<AnswerOptionsBean> {
 
             val avlList = ArrayList<AnswerOptionsBean>()
 
@@ -464,28 +470,32 @@ class QuestionsUtils {
                 avlList.addAll(allOptions)
                 return avlList
             }
-            for (aob in allOptions) {
-                if (aob.did.isNotEmpty() && parentsAnswer.isNotEmpty()) {
+            for (answerOptionsBean in allOptions) {
+                if (answerOptionsBean.did.isNotEmpty() && parentsAnswer.isNotEmpty()) {
                     var isInList = false
-                    for (`as` in parentsAnswer) {
-                        for (did in aob.did) {
-                            val didValueOrPattern = did.parent_option
-                            if (`as`.value != "") {
-                                val isMatchPatten = matches(didValueOrPattern, `as`.value)
-                                val isMatchValue = `as`.value == didValueOrPattern
+                    for (parentAns in parentsAnswer) {
+                        val did = if (!multiParent) {
+                            answerOptionsBean.did[0]
+                        } else {
+                            answerOptionsBean.did.find { it.parentOrder == restrictionOrderUniqueId }
+                        }
+                        did?.let {
+                            val didValueOrPattern = it.parent_option
+                            if (parentAns.value != "" && didValueOrPattern != null) {
+                                val isMatchPatten = matches(didValueOrPattern, parentAns.value)
+                                val isMatchValue = parentAns.value == didValueOrPattern
                                 isInList = isMatchPatten || isMatchValue
-                                break
                             }
                         }
+
                         if (isInList) {
-                            avlList.add(aob)
+                            avlList.add(answerOptionsBean)
                             break
                         }
                     }
 
-
                 } else
-                    avlList.add(aob)
+                    avlList.add(answerOptionsBean)
             }
             return avlList
         }

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Locale;
 
 
-
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
@@ -114,6 +113,7 @@ public class MultiSelect extends BaseSelectType {
                 hideKeyboard();
                 preventDoubleClicks(view);
                 List<String> strings = new ArrayList<>();
+                answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (answerBeanFilled != null) {
                     final List<Answers> ans2 = answerBeanFilled.getAnswer();
                     for (Answers answers : ans2) {

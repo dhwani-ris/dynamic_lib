@@ -51,6 +51,7 @@ public class LoopingMultiSelect extends BaseEditTextWithButtonType {
                 hideKeyboard();
                 preventDoubleClicks(view);
                 List<String> strings = new ArrayList<>();
+                answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (answerBeanFilled != null) {
                     final List<Answers> ans2 = answerBeanFilled.getAnswer();
                     for (Answers answers : ans2) {

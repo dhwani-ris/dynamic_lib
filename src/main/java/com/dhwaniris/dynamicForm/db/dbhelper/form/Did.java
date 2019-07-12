@@ -1,12 +1,20 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
+public class Did {
 
 
-public class Did  {
+    private String parent_option;
 
+    private String parentOrder;
 
-    String parent_option;
+    public String getParentOrder() {
+        return parentOrder;
+    }
+
+    public void setParentOrder(String parentOrder) {
+        this.parentOrder = parentOrder;
+    }
 
     public String getParent_option() {
         return parent_option;

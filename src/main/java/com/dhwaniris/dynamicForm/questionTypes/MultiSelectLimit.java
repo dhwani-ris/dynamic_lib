@@ -118,6 +118,7 @@ public class MultiSelectLimit extends BaseSelectType {
                 hideKeyboard();
                 List<String> strings = new ArrayList<>();
                 int checklimit = 100;
+                answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (answerBeanFilled != null) {
                     final List<Answers> ans2 = answerBeanFilled.getAnswer();
 
