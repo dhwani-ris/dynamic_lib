@@ -351,7 +351,6 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                 }
             }
             singletonForm.setJsonObject(jsonObject);
-            SingletonForm.setResult(jsonObject);
             return true;
         }
 

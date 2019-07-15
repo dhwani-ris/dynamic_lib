@@ -35,10 +35,6 @@ public class SingletonForm {
         return instance;
     }
 
-    public static void setResult(JSONObject jsonObject) {
-        SingletonForm.jsonObject = jsonObject;
-    }
-
 
     private static Form form;
     private static List<DynamicAnswerOption> dynamicAnswerOptions;

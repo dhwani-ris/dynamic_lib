@@ -3,6 +3,8 @@ package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Form {
@@ -270,6 +272,22 @@ public class Form {
 
     public void setExpiryDate(long expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public JSONObject getEmptyJson(){
+        JSONObject json = new JSONObject();
+        if(language!=null) {
+            for (LanguageBean jsonO: language) {
+                for (QuestionBean ques :jsonO.getQuestion()) {
+                    try {
+                        json.put(ques.getColumnName(), "");
+                    }catch (Exception e){
+
+                    }
+                }
+            }
+        }
+        return json;
     }
 
 //    public ProjectNameBean getProject() {
