@@ -1,9 +1,11 @@
 package com.dhwaniris.dynamicForm.ui.activities.formActivities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -117,6 +120,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         locationHandler.setGPSonOffListener(this);
         singletonForm = SingletonForm.getInstance();
         if (singletonForm.getForm() == null) {
+            setResult(Activity.RESULT_CANCELED);
             myFinishActivity();
         }
 
@@ -191,6 +195,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        setResult(Activity.RESULT_CANCELED);
                         myFinishActivity();
                     }
                 })
@@ -360,6 +365,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                     showCustomToast(getString(R.string.form_saved_draft), 2);
                 }
                 saved = true;
+                setResult(Activity.RESULT_OK);
                 myFinishActivity();
             }
             super.onPostExecute(aBoolean);
