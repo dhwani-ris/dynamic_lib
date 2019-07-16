@@ -23,7 +23,7 @@ public class SingletonForm {
         }
         return instance;
     }
-    public static void clear(){
+    public void clear(){
         form = null;
         dynamicAnswerOptions = null;
         jsonObject = null;
