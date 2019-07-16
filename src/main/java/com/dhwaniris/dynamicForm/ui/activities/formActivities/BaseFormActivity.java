@@ -33,7 +33,6 @@ import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ChildBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.form.Did;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.OrdersBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -879,7 +878,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     //creating new Answer Object
-    protected void createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
+     QuestionBeanFilled createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
         String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
 
         QuestionBeanFilled answerBeanHelper = answerBeanHelperList.get(questionUid);
@@ -920,6 +919,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
         answerBeanHelperList.put(questionUid, answerBeanHelper);
+        return answerBeanHelper;
     }
 
     private void addDataToSaveList(final String text, final QuestionBean questionBean) {

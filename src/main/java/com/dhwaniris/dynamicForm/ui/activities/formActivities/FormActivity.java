@@ -39,6 +39,7 @@ import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.locationservice.LocationUpdatesService;
 import com.dhwaniris.dynamicForm.questionTypes.BaseType;
+import com.dhwaniris.dynamicForm.utils.Constant;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationHandlerListener;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
@@ -54,6 +55,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -122,9 +124,11 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         if (singletonForm.getForm() == null) {
             setResult(Activity.RESULT_CANCELED);
             myFinishActivity();
+        } else {
+            prepareQuestionView();
         }
 
-        prepareQuestionView();
+
     }
 
     void bindView() {
@@ -339,17 +343,39 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
             filledFormList.setQuestion(answerFilledList);
             filledFormList.setMedia(formIsMedia);
             JSONObject jsonObject = singletonForm.getJsonObject();
+            HashMap<String, Boolean> answerMapper = new HashMap<>();
             for (QuestionBean questionBean : questionBeenList.values()) {
                 QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (questionBeanFilled != null) {
+                    String columnName = questionBean.getColumnName();
                     String value = getAnswerForm(questionBeanFilled);
-                    try {
-                        jsonObject.put(questionBean.getColumnName(), value);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (!answerMapper.containsKey(columnName)) {
+                        try {
+                            jsonObject.put(columnName, value);
+                            answerMapper.put(columnName, questionBeanFilled.isFilled());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (!answerMapper.get(columnName)) {
+                        try {
+                            jsonObject.put(columnName, value);
+                            answerMapper.put(columnName, questionBeanFilled.isFilled());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
+
+
                 }
             }
+            try {
+                jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
+                jsonObject.put(Constant.LOCATION, locationBean);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             singletonForm.setJsonObject(jsonObject);
             return true;
         }

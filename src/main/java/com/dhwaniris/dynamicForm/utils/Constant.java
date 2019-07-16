@@ -33,6 +33,9 @@ public class Constant {
     public static final String ANS_UID = "and_uid";
     public static final String QUS_UNIQUE_KEY = "QUS_UNIQUE_KEY";
     public static final String DURATION = "DURATION";
+    public static final String TIME_TAKKEN = "timeTaken";
+    public static final String LOCATION = "location";
+    public static final String UNIQUE_ID = "uniqueId";
 
 
 }
