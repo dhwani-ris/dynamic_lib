@@ -701,6 +701,24 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         return true;
     }
 
+
+    String getAnswerForm(QuestionBeanFilled questionBeanFilled) {
+        StringBuilder answerBuilder = new StringBuilder();
+        String prefix = "";
+        for (Answers answers : questionBeanFilled.getAnswer()) {
+            answerBuilder.append(prefix);
+            prefix = ",";
+            if (questionBeanFilled.getInput_type().equals(AppConfing.QUS_TEXT)
+                    || questionBeanFilled.getInput_type().equals(AppConfing.QUS_ADDRESS)) {
+                answerBuilder.append(answers.getTextValue());
+            } else {
+                answerBuilder.append(answers.getValue());
+            }
+        }
+        return answerBuilder.toString();
+    }
+
+
     protected void createViewObject(QuestionBean questionBean, int formStatus) {
         View view = null;
         String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);

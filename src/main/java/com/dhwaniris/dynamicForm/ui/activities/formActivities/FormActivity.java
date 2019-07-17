@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +30,6 @@ import com.dhwaniris.dynamicForm.base.BaseActivity;
 import com.dhwaniris.dynamicForm.db.FilledForms;
 import com.dhwaniris.dynamicForm.db.dbhelper.LocationBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
-import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Form;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.LanguageBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -214,6 +211,8 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
 
     //Removing changes in form
     private void RemoveAnyChange() {
+        setResult(Activity.RESULT_CANCELED);
+        finish();
 
     }
 
@@ -395,22 +394,6 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
             }
             super.onPostExecute(aBoolean);
         }
-    }
-
-    String getAnswerForm(QuestionBeanFilled questionBeanFilled) {
-        StringBuilder answerBuilder = new StringBuilder();
-        String prefix = "";
-        for (Answers answers : questionBeanFilled.getAnswer()) {
-            answerBuilder.append(prefix);
-            prefix = ",";
-            if (questionBeanFilled.getInput_type().equals(AppConfing.TEMP_QUESTION)
-                    || questionBeanFilled.getInput_type().equals(AppConfing.QUS_ADDRESS)) {
-                answerBuilder.append(answers.getTextValue());
-            } else {
-                answerBuilder.append(answers.getValue());
-            }
-        }
-        return answerBuilder.toString();
     }
 
 

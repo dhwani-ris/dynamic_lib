@@ -56,6 +56,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -83,7 +84,6 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     private boolean isListLoaded;
     private Form formModel;
     List<QuestionBean> tempQuestionbeanList = new ArrayList<>();
-    saynList saynList;
 
     Context ctx;
     Toolbar toolbar;
@@ -104,7 +104,6 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(locationReceiver);
 
-        saynList.cancel(true);
         hideProgess();
         super.onStop();
     }
@@ -142,8 +141,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
         singletonForm = SingletonForm.getInstance();
         if (singletonForm.getForm() == null) {
-            setResult(Activity.RESULT_CANCELED);
-            myFinishActivity();
+            myFinishActivity(true);
         } else {
             prepareQuestionView();
         }
@@ -278,19 +276,18 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                     }
                 }
 
-                if (questionBeenList.size() > 0) {
-                    for (QuestionBean questionBean : questionBeanList) {
-                        String columnName = questionBean.getColumnName();
-                        try {
-                            String string = jsonObject.getString(columnName);
-                            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
-                            answerBeanObject.setAnswer(getAnswerForm(string, questionBean));
-                            answerBeanObject.setFilled(true);
-                            answerBeanObject.setValidAns(true);
+                for (QuestionBean questionBean : questionBeanList) {
+                    String columnName = questionBean.getColumnName();
+                    try {
+                        String string = jsonObject.getString(columnName);
+                        QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
+                        answerBeanObject.setAnswer(getAnswerFormText(string, questionBean));
+                        answerBeanObject.setFilled(true);
+                        answerBeanObject.setValidAns(true);
+                        answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -310,8 +307,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
             } else {
                 showToast(R.string.something_went_wrong);
-                setResult(Activity.RESULT_CANCELED);
-                myFinishActivity();
+                myFinishActivity(true);
             }
 
 
@@ -321,6 +317,10 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     void checkRequiredStuff(List<QuestionBean> questionBeanList) {
 
         QuestionsUtils.Companion.sortQusList(questionBeanList);
+        for (QuestionBean questionBean : questionBeanList) {
+            questionBeenList.put(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), questionBean);
+        }
+
 
         if (questionBeenList.size() > 0) {
             if (isLocationRequired) {
@@ -348,13 +348,18 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     }
 
 
-    List<Answers> getAnswerForm(String originalAns, QuestionBean questionBean) {
+    List<Answers> getAnswerFormText(String originalAns, QuestionBean questionBean) {
         List<Answers> answersList = new ArrayList<>();
         if (originalAns != null && !originalAns.isEmpty()) {
             String[] split = originalAns.split(",");
             for (String ans : split) {
                 Answers answers = new Answers();
-                answers.setValue(ans);
+                if (QuestionsUtils.Companion.isEditTextType(questionBean.getInput_type())) {
+                    answers.setTextValue(ans);
+                } else {
+                    answers.setValue(ans);
+                }
+                answersList.add(answers);
             }
         }
         return answersList;
@@ -423,27 +428,37 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
 
-        new androidx.appcompat.app.AlertDialog.Builder(ctx)
-                .setTitle(R.string.are_you_sure)
-                .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        setResult(Activity.RESULT_CANCELED);
-                        myFinishActivity();
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
-                .setCancelable(true)
-                .show();
+        if (formStatus == SUBMITTED) {
+            new androidx.appcompat.app.AlertDialog.Builder(ctx)
+                    .setTitle(R.string.are_you_sure)
+                    .setMessage(R.string.are_you_sure)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            myFinishActivity(true);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    })
+                    .setCancelable(true)
+                    .show();
+        } else {
+            myFinishActivity(true);
+        }
+
     }
 
 
-    void myFinishActivity() {
+    void myFinishActivity(boolean isCanceled) {
+        if (isCanceled) {
+            setResult(Activity.RESULT_CANCELED);
+        } else {
+            setResult(Activity.RESULT_OK);
+        }
+
         finish();
 
     }
@@ -469,7 +484,6 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                saveData(false, filledFormList, (formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) ? EDITABLE_DARFT : DRAFT, true);
                             }
                         })
                         .setNegativeButton(R.string.no, null)
@@ -486,7 +500,6 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                saveData(false, filledFormList, (formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) ? EDITABLE_DARFT : DRAFT, true);
                             }
                         })
                         .setNegativeButton(R.string.no, null)
@@ -539,7 +552,9 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                saveData(false, filledFormList, formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_SUBMITTED ? EDITABLE_SUBMITTED : SUBMITTED, true);
+
+                                new UpdateDataData(SUBMITTED, true).execute();
+
                             }
                         })
                         .setNegativeButton(R.string.no, null)
@@ -586,64 +601,103 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
         alertDialog.show();
     }
 
-    //save data in DataBase
-    private void saveData(final boolean isDISCARD, final FilledForms formData,
-                          final int status, final boolean isFinish) {
 
-        LocationBean locationBean = new LocationBean();
-        Location locationData = locationReceiver.getLocationData().getValue();
-        if (locationData != null) {
-            longitutde = "" + locationData.getLongitude();
-            latitude = "" + locationData.getLatitude();
-            accuracy = "" + locationData.getAccuracy();
+    class UpdateDataData extends AsyncTask<Void, Void, Boolean> {
+        int status;
+        boolean isFinish;
+
+        UpdateDataData(int status, boolean isFinish) {
+            this.status = status;
+            this.isFinish = isFinish;
         }
 
-        locationBean.setAccuracy(accuracy);
-        locationBean.setLat(latitude);
-        locationBean.setLng(longitutde);
-        long timestamp = System.currentTimeMillis();
-        time = time + timestamp - lastTimestamp;
-        formData.setTimeTaken(String.valueOf(time));
-        formData.setVersion(formModel.getVersion());
-        formData.setFormId(String.valueOf(formModel.getFormId()));
-        formData.setMobileUpdatedAt("" + System.currentTimeMillis());
-        formData.setUpload_status(status);
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoading();
+        }
 
-        List<QuestionBeanFilled> answerFilledList = new ArrayList<>();
-        answerFilledList.addAll(answerBeanHelperList.values());
-        QuestionsUtils.Companion.sortAnsList(answerFilledList);
-        formData.setQuestion(answerFilledList);
+        @Override
+        protected Boolean doInBackground(Void... integers) {
 
-        /*dataRepository.getLocalRepository().submitForm(formData, status, formModel, answerBeanHelperList).subscribe(new SingleObserver<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                showLoading();
-                disposable = d;
+            LocationBean locationBean = new LocationBean();
+            Location locationData = locationReceiver.getLocationData().getValue();
+            if (locationData != null) {
+                longitutde = "" + locationData.getLongitude();
+                latitude = "" + locationData.getLatitude();
+                accuracy = "" + locationData.getAccuracy();
             }
 
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                hideLoading();
-                saved = true;
-                if (isFinish) {
-                    if (status == SUBMITTED) {
-                        showCustomToast(getString(R.string.form_submitted_successfully), 0);
-                    } else if (status == 2 && !isDISCARD) {
-                        showCustomToast(getString(R.string.form_saved_draft), 2);
+            locationBean.setAccuracy(accuracy);
+            locationBean.setLat(latitude);
+            locationBean.setLng(longitutde);
+            long timestamp = System.currentTimeMillis();
+            time = time + timestamp - lastTimestamp;
+            filledFormList.setTimeTaken(String.valueOf(time));
+            filledFormList.setVersion(formModel.getVersion());
+            filledFormList.setFormId(String.valueOf(formModel.getFormId()));
+            filledFormList.setMobileUpdatedAt("" + System.currentTimeMillis());
+            filledFormList.setUpload_status(status);
+
+
+            List<QuestionBeanFilled> answerFilledList = new ArrayList<>();
+            answerFilledList.addAll(answerBeanHelperList.values());
+            QuestionsUtils.Companion.sortAnsList(answerFilledList);
+            filledFormList.setQuestion(answerFilledList);
+            JSONObject jsonObject = singletonForm.getJsonObject();
+            HashMap<String, Boolean> answerMapper = new HashMap<>();
+            for (QuestionBean questionBean : questionBeenList.values()) {
+                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+                if (questionBeanFilled != null) {
+                    String columnName = questionBean.getColumnName();
+                    String value = getAnswerForm(questionBeanFilled);
+                    if (!answerMapper.containsKey(columnName)) {
+                        try {
+                            jsonObject.put(columnName, value);
+                            answerMapper.put(columnName, questionBeanFilled.isFilled());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (!answerMapper.get(columnName)) {
+                        try {
+                            jsonObject.put(columnName, value);
+                            answerMapper.put(columnName, questionBeanFilled.isFilled());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
-                    finish();
+
+
                 }
             }
-
-            @Override
-            public void onError(Throwable e) {
-                hideLoading();
-                showToast(R.string.dublicate_record);
+            try {
+                jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
+                //      jsonObject.put(Constant.LOCATION,  locationBean);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });*/
 
+            singletonForm.setJsonObject(jsonObject);
+            return true;
+        }
 
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            hideLoading();
+            if (isFinish) {
+                if (status == SUBMITTED) {
+                    showCustomToast(getString(R.string.form_submitted_successfully), 0);
+                } else if (status == DRAFT) {
+                    showCustomToast(getString(R.string.form_saved_draft), 2);
+                }
+                saved = true;
+                setResult(Activity.RESULT_OK);
+                myFinishActivity(false);
+            }
+            super.onPostExecute(aBoolean);
+        }
     }
 
 
@@ -700,8 +754,8 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
     @Override
     public void deniedPermission(boolean isNeverAskAgain) {
-        if (isNeverAskAgain)
-            saveData(true, originalFilledFormList, (formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) ? EDITABLE_DARFT : DRAFT, true);
+        myFinishActivity(true);
+
     }
 
     @Override
@@ -711,105 +765,9 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
     @Override
     public void deniedGPS() {
-        saveData(true, originalFilledFormList, (formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) ? EDITABLE_DARFT : DRAFT, true);
+        myFinishActivity(true);
 
     }
-
-    public class saynList extends AsyncTask<Void, Void, Void> {
-        private boolean runPost = false;
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-         /*   try {
-
-
-                if (dataBean != null) {
-                    formModel = realm1.copyFromRealm(dataBean);
-                    form_id = formModel.getFormId();
-                    runPost = true;
-
-                } else {
-                    saved = true;
-                    BaseActivity.logDatabase(AppConfig.END_POINT, "Invalid Form."
-                            , AppConfig.UNEXPECTED_ERROR, "FormViewActivity");
-                    hideProgess();
-                    finishActivityWithResult(NEW_FORM);
-                }
-            } finally {
-                realm1.close();
-            }
-*/
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-          /*  if (runPost) {
-                isLocationRequired = formModel.isLocation() && formStatus != SUBMITTED;
-                if (isLocationRequired) {
-                    if (permissionHandler.checkGpsPermission()) {
-                        locationHandler.startGpsService();
-                    } else {
-                        saved = true;
-                        permissionHandler.requestGpsPermission();
-                    }
-
-                }
-                RealmList<LanguageBean> lBean = formModel.getLanguages();
-
-                String userLanguage = userLanguage();
-                boolean isFoundLanguage = false;
-                for (LanguageBean languageBean : formModel.getLanguages()) {
-                    if (languageBean.getLng().equals(userLanguage)) {
-                        isFoundLanguage = true;
-                        break;
-                    }
-                }
-                userLanguage = isFoundLanguage ? userLanguage() : "en";
-                for (LanguageBean languageBean : lBean) {
-                    if (languageBean.getLng().equals(userLanguage)) {
-                        getSupportActionBar().setTitle(languageBean.getTitle());
-                        tempQuestionbeanList = languageBean.getQuestion();
-
-                        if (formModel != null && !tempQuestionbeanList.isEmpty()) {
-                            checkValidationOnDynamicView();
-                        } else {
-                            BaseActivity.logDatabase(AppConfig.END_POINT, "Invalid Form."
-                                    , AppConfig.UNEXPECTED_ERROR, "FormViewActivity");
-                        }
-                        break;
-                    }
-
-                }
-                if (formModel != null) {
-                    duplicateCheckQuestions = formModel.getDuplicateCheckQuestions();
-                }
-
-
-            }
-*/
-
-            hideLoader();
-            if (formStatus == SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
-                List<QuestionBeanFilled> tempList = findInvalidAnswersList(answerBeanHelperList, questionObjectList);
-
-                if (!tempList.isEmpty()) {
-                    showUnansweredQuestions(tempList, false);
-                }
-            }
-        }
-    }
-
 
     private void hideLoader() {
         if (!isListLoaded) {
