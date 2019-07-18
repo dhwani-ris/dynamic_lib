@@ -278,14 +278,16 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
                 for (QuestionBean questionBean : questionBeanList) {
                     String columnName = questionBean.getColumnName();
-                    try {
-                        String string = jsonObject.getString(columnName);
-                        QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
-                        answerBeanObject.setAnswer(getAnswerFormText(string, questionBean));
-                        answerBeanObject.setFilled(true);
-                        answerBeanObject.setValidAns(true);
-                        answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
 
+                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
+                    answerBeanObject.setFilled(true);
+                    answerBeanObject.setValidAns(true);
+                    try {
+                        if(jsonObject.get(columnName)!=null) {
+                            String string = jsonObject.getString(columnName);
+                            answerBeanObject.setAnswer(getAnswerFormText(string, questionBean));
+                            answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
