@@ -4,9 +4,9 @@ import android.os.Handler;
 import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ParentBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
@@ -23,6 +23,8 @@ public abstract class BaseType {
     public int formStatus;
     private int viewIndex;
     public int formId;
+
+    public boolean isClickable = true;
 
 
     public int getViewIndex() {

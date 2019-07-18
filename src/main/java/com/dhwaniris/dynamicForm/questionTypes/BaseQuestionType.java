@@ -15,8 +15,6 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
 import java.util.List;
 
-
-
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
@@ -76,6 +74,16 @@ public class BaseQuestionType extends BaseType {
                 dynamicEditTextRow.setVisibility(View.VISIBLE);
             } else {
                 dynamicEditTextRow.setVisibility(View.GONE);
+            }
+        }
+
+        for (ValidationBean validationBean : questionBean.getValidation()) {
+            if (validationBean.get_id().equals(AppConfing.VAL_NOT_ABLE_TO_FILL)) {
+                dynamicEditTextRow.setFocusable(false);
+                dynamicEditTextRow.setClickable(false);
+                dynamicEditTextRow.setEnabled(false);
+                isClickable = false;
+                break;
             }
         }
 

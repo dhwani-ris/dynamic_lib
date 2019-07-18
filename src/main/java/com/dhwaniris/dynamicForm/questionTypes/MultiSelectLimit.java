@@ -5,11 +5,11 @@ import android.view.View;
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
 import com.dhwaniris.dynamicForm.base.BaseActivity;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ParentBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
@@ -19,8 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
-
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
@@ -33,7 +31,7 @@ public class MultiSelectLimit extends BaseSelectType {
 
     public MultiSelectLimit(View view, final QuestionBean questionBean, int formStatus,
                             QuestionHelperCallback.DataListener dataListener,
-                            LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled>  answerBeanHelperList
+                            LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList
             , int formId) {
         super(view, questionBean, formStatus, dataListener,
                 questionBeenList, answerBeanHelperList);
@@ -48,7 +46,7 @@ public class MultiSelectLimit extends BaseSelectType {
         if (formStatus == SUBMITTED || formStatus == EDITABLE_SUBMITTED) {
             iniitList = false;
         }
-        if (iniitList)
+        if (iniitList && isClickable)
             initListener();
 
 

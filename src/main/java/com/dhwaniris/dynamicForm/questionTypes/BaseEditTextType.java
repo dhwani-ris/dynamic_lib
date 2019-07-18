@@ -4,9 +4,9 @@ import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
@@ -14,7 +14,6 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
 
@@ -81,9 +80,7 @@ class BaseEditTextType extends BaseQuestionType {
             }
         }
 // EditText is not editable (i.e. not filled by user)
-        for (ValidationBean validationBean : questionBean.getValidation())
-            if (validationBean.get_id().equals(AppConfing.VAL_NOT_ABLE_TO_FILL))
-                dynamicEditTextRow.setFocusable(false);
+
 
     }
 

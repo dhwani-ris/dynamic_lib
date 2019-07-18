@@ -39,7 +39,7 @@ public class SingleSelect extends BaseSelectType {
         if (formStatus == SUBMITTED || formStatus == EDITABLE_SUBMITTED) {
             iniitList = false;
         }
-        if (iniitList)
+        if (iniitList&&isClickable)
             initListener();
 
 

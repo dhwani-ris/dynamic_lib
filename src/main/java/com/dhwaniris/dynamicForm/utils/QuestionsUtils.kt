@@ -564,9 +564,7 @@ class QuestionsUtils {
 
         fun isEditTextType(inputType: String): Boolean {
             return (inputType == AppConfing.QUS_TEXT
-                    || inputType == AppConfing.QUS_NUMBER
-                    || inputType == AppConfing.QUS_ADDRESS
-                    || inputType == AppConfing.QUS_AADHAAR)
+                    || inputType == AppConfing.QUS_ADDRESS)
         }
 
 

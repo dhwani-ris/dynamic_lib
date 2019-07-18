@@ -43,7 +43,7 @@ public class MultiSelect extends BaseSelectType {
             iniitList = false;
         }
 
-        if (iniitList)
+        if (iniitList && isClickable)
             initListener();
 
 

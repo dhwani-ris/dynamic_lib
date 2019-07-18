@@ -4,15 +4,14 @@ import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
@@ -25,7 +24,7 @@ public class DateSelect extends BaseSelectType {
 
     public DateSelect(View view, final QuestionBean questionBean, int formStatus,
                       QuestionHelperCallback.DataListener dataListener,
-                      LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled>  answerBeanHelperList) {
+                      LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
         super(view, questionBean, formStatus, dataListener,
                 questionBeenList, answerBeanHelperList);
         if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
@@ -36,7 +35,7 @@ public class DateSelect extends BaseSelectType {
             iniitList = false;
         }
 
-        if (iniitList)
+        if (iniitList && isClickable)
             initListener();
 
     }

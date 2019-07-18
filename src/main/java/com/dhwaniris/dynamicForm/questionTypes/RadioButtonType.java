@@ -4,8 +4,8 @@ import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
 import com.dhwaniris.dynamicForm.customViews.RadioRowViewXML;
-import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
+import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
@@ -40,7 +40,7 @@ public class RadioButtonType extends BaseType {
         if (formStatus == SUBMITTED || formStatus == EDITABLE_SUBMITTED) {
             iniitList = false;
         }
-        if (iniitList)
+        if (iniitList && isClickable)
             initListener();
     }
 
@@ -81,7 +81,7 @@ public class RadioButtonType extends BaseType {
 
     @Override
     public void superSetAnswer(String answer) {
-        dynamicRadioViewXML.checkButtonByIdOrName(answer,null);
+        dynamicRadioViewXML.checkButtonByIdOrName(answer, null);
     }
 
     void setBasicFunctionality(QuestionBean questionBean, int formStatus) {
@@ -106,7 +106,7 @@ public class RadioButtonType extends BaseType {
                     dynamicRadioViewXML.isRequired(true);
                 } else if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS)
                         || validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE)
-                      ) {
+                ) {
                     dynamicRadioViewXML.setAdditionalInfoClick(v -> {
                         radioButtonListener.clickOnAdditionalButton(questionBean);
                     });
@@ -142,9 +142,18 @@ public class RadioButtonType extends BaseType {
             }
         }
 
+
+        for (ValidationBean validationBean : questionBean.getValidation()) {
+            if (validationBean.get_id().equals(AppConfing.VAL_NOT_ABLE_TO_FILL)) {
+                dynamicRadioViewXML.setFocusable(false);
+                isClickable = false;
+                break;
+            }
+        }
+
     }
 
-    void setData(QuestionBeanFilled answerBeanFilled){
+    void setData(QuestionBeanFilled answerBeanFilled) {
         if (answerBeanFilled != null) {
             if (answerBeanFilled.getAnswer().size() > 0) {
                 String id = answerBeanFilled.getAnswer().get(0).getValue();
