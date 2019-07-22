@@ -257,7 +257,8 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                new SaveData(SUBMITTED, true).execute();
+                                saveTask = new SaveData(SUBMITTED, true);
+                                saveTask.execute();
                             }
                         })
                         .setNegativeButton(R.string.no, null)
@@ -271,6 +272,9 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
                     AppConfing.UNEXPECTED_ERROR, "FormActivity");
         }
     }
+
+    private SaveData saveTask;
+
 
     //show unanswered question
     private void showUnansweredQuestions(List<QuestionBeanFilled> tempList, boolean showAll) {
@@ -370,10 +374,10 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
             }
             try {
                 jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
-                JSONObject locationJsonObject =new JSONObject();
-                locationJsonObject.put("lat",locationBean.getLat());
-                locationJsonObject.put("lng",locationBean.getLng());
-                locationJsonObject.put("accuracy",locationBean.getAccuracy());
+                JSONObject locationJsonObject = new JSONObject();
+                locationJsonObject.put("lat", locationBean.getLat());
+                locationJsonObject.put("lng", locationBean.getLng());
+                locationJsonObject.put("accuracy", locationBean.getAccuracy());
 
                 jsonObject.put(Constant.LOCATION, locationJsonObject);
             } catch (JSONException e) {
@@ -451,6 +455,10 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         unansweredListener = null;
+        if (execute != null && execute.getStatus() == AsyncTask.Status.RUNNING)
+            execute.cancel(true);
+        if (saveTask != null && saveTask.getStatus() == AsyncTask.Status.RUNNING)
+            saveTask.cancel(true);
         super.onDestroy();
     }
 
@@ -523,10 +531,12 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
         }
     }
 
+    private LoadQuestion execute = null;
 
     public void prepareQuestionView() {
 
-        new LoadQuestion().execute();
+        execute = new LoadQuestion();
+        execute.execute();
 
     }
 

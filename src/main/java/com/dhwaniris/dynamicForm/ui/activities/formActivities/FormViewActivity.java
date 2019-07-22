@@ -72,7 +72,7 @@ import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDIT
 
 public class FormViewActivity extends BaseFormActivity implements View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
-    private volatile boolean isDestroyed =false;
+    private volatile boolean isDestroyed = false;
 
     private LocationManager locMnagaer;
     private String longitutde = "0.0";
@@ -285,7 +285,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                     answerBeanObject.setFilled(true);
                     answerBeanObject.setValidAns(true);
                     try {
-                        if(jsonObject.get(columnName)!=null) {
+                        if (jsonObject.get(columnName) != null) {
                             String string = jsonObject.getString(columnName);
                             answerBeanObject.setAnswer(getAnswerFormText(string, questionBean));
                             answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
@@ -314,7 +314,6 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                 myFinishActivity(true);
             }
 
-
         }
     }
 
@@ -329,8 +328,8 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
         if (questionBeenList.size() > 0) {
             if (isLocationRequired) {
                 if (permissionHandler.checkGpsPermission()) {
-                    if(!isDestroyed)
-                    locationHandler.startGpsService();
+                    if (!isDestroyed)
+                        locationHandler.startGpsService();
                     AddNewObjectView(questionBeenList);
                     saved = false;
                 } else {
@@ -371,9 +370,12 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
     }
 
+    AsyncTask<Void, Void, List<QuestionBean>> execute;
+
     public void prepareQuestionView() {
 
-        new PrepareAnswer().execute();
+        execute = new PrepareAnswer();
+        execute.execute();
 
     }
 
@@ -558,7 +560,8 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                new UpdateDataData(SUBMITTED, true).execute();
+                                uploadtask = new UpdateDataData(SUBMITTED, true);
+                                uploadtask.execute();
 
                             }
                         })
@@ -573,6 +576,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                     , AppConfing.UNEXPECTED_ERROR, "FormViewActivity");
         }
     }
+    private UpdateDataData uploadtask=null;
 
     //show unanswered question
     private void showUnansweredQuestions(List<QuestionBeanFilled> tempList, boolean showAll) {
@@ -679,7 +683,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
             }
             try {
                 jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
-                if(formModel.isLocation()) {
+                if (formModel.isLocation()) {
                     JSONObject locationJsonObject = new JSONObject();
                     locationJsonObject.put("lat", locationBean.getLat());
                     locationJsonObject.put("lng", locationBean.getLng());
@@ -753,6 +757,10 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     protected void onDestroy() {
         isDestroyed = true;
         unansweredListener = null;
+        if (execute != null&&execute.getStatus() == AsyncTask.Status.RUNNING)
+            execute.cancel(true);
+        if (uploadtask != null && uploadtask.getStatus()== AsyncTask.Status.RUNNING)
+            uploadtask.cancel(true);
         super.onDestroy();
 
     }
