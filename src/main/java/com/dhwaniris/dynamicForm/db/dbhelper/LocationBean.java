@@ -1,17 +1,17 @@
 package com.dhwaniris.dynamicForm.db.dbhelper;
 
 
-
+import com.google.gson.annotations.SerializedName;
 
 public class LocationBean  {
 
 
 
-    private String lat;
+    @SerializedName("lat") private String lat;
 
-    private String lng;
+    @SerializedName("lng") private String lng;
 
-    private String accuracy;
+    @SerializedName("accuracy") private String accuracy;
 
     public String getLat() {
         if (lat == null) {

@@ -60,7 +60,7 @@ public class MultiSelectLimit extends BaseSelectType {
             final List<Answers> ans = answerBeanFilled.getAnswer();
             if (ans.isEmpty()) {
                 String text = "";
-                if (questionBean.getAnswer_options().size() > 1) {
+                if (questionBean.getAnswer_options().size() >= 1) {
                     for (int i = 0; i < questionBean.getAnswer_options().size(); i++) {
                         for (int j = 0; j < ans.size(); j++) {
 

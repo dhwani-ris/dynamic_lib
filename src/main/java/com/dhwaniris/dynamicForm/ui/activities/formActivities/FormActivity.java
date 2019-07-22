@@ -370,7 +370,12 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
             }
             try {
                 jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
-                jsonObject.put(Constant.LOCATION, locationBean);
+                JSONObject locationJsonObject =new JSONObject();
+                locationJsonObject.put("lat",locationBean.getLat());
+                locationJsonObject.put("lng",locationBean.getLng());
+                locationJsonObject.put("accuracy",locationBean.getAccuracy());
+
+                jsonObject.put(Constant.LOCATION, locationJsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

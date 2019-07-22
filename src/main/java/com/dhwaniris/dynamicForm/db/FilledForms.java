@@ -3,49 +3,47 @@ package com.dhwaniris.dynamicForm.db;
 import com.dhwaniris.dynamicForm.db.dbhelper.LocationBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
+import com.google.gson.annotations.SerializedName;
 
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class FilledForms  {
+    @SerializedName("transactionId") private String transactionId;
+
+    @SerializedName("formUiniqueId") private String formUiniqueId;
+
+    @SerializedName("formId") private String formId;
+
+    @SerializedName("title") private String title;
+
+    @SerializedName("version") private String version;
+
+    @SerializedName("timeTaken") private String timeTaken;
+
+    @SerializedName("mobileCreatedAt") private String mobileCreatedAt;
+
+    @SerializedName("mobileUpdatedAt") private String mobileUpdatedAt;
+
+    @SerializedName("upload_status") private int upload_status;
+
+    @SerializedName("language") private String language;
+
+    @SerializedName("isMedia") private boolean isMedia;
+
+    @SerializedName("location") private LocationBean location;
+
+    @SerializedName("question") private List<QuestionBeanFilled> question;
+
+    @SerializedName("modifiedAt") private String modifiedAt;
+
+    @SerializedName("responseId") private String responseId;
 
 
+    @SerializedName("uniqueId") private String uniqueId;
 
-    private String transactionId;
-
-    private String formUiniqueId;
-
-    private String formId;
-
-    private String title;
-
-    private String version;
-
-    private String timeTaken;
-
-    private String mobileCreatedAt;
-
-    private String mobileUpdatedAt;
-
-    private int upload_status;
-
-    private String language;
-
-    private boolean isMedia;
-
-    private LocationBean location;
-
-    private List<QuestionBeanFilled> question;
-
-    private String modifiedAt;
-
-    private String responseId;
-
-
-    private String uniqueId;
-
-    private List<String> dependentResponse;
+    @SerializedName("dependentResponse") private List<String> dependentResponse;
 
     public List<String> getDependentResponse() {
         return dependentResponse;
