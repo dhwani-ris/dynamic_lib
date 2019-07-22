@@ -676,7 +676,13 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
             }
             try {
                 jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
-                //      jsonObject.put(Constant.LOCATION,  locationBean);
+                if(formModel.isLocation()) {
+                    JSONObject locationJsonObject = new JSONObject();
+                    locationJsonObject.put("lat", locationBean.getLat());
+                    locationJsonObject.put("lng", locationBean.getLng());
+                    locationJsonObject.put("accuracy", locationBean.getAccuracy());
+                    jsonObject.put(Constant.LOCATION, locationJsonObject);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
