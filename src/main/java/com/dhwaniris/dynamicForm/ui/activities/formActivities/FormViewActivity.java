@@ -72,6 +72,7 @@ import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDIT
 
 public class FormViewActivity extends BaseFormActivity implements View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
+    private volatile boolean isDestroyed =false;
 
     private LocationManager locMnagaer;
     private String longitutde = "0.0";
@@ -111,6 +112,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isDestroyed = false;
         setContentView(R.layout.activity_form);
         bindView();
         superViewBind();
@@ -327,6 +329,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
         if (questionBeenList.size() > 0) {
             if (isLocationRequired) {
                 if (permissionHandler.checkGpsPermission()) {
+                    if(!isDestroyed)
                     locationHandler.startGpsService();
                     AddNewObjectView(questionBeenList);
                     saved = false;
@@ -748,6 +751,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
     @Override
     protected void onDestroy() {
+        isDestroyed = true;
         unansweredListener = null;
         super.onDestroy();
 
