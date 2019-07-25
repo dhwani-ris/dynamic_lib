@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class Form {
+public class Form implements Cloneable{
 
 
     @SerializedName("_id") private String _id;
@@ -288,6 +288,25 @@ public class Form {
             }
         }
         return json;
+    }
+    public JSONObject getJsonColunOrder(){
+        JSONObject json = new JSONObject();
+        if(language!=null) {
+            for (LanguageBean jsonO: language) {
+                for (QuestionBean ques :jsonO.getQuestion()) {
+                    try {
+                        json.put(ques.getColumnName(), ques.getOrder());
+                    }catch (Exception e){
+
+                    }
+                }
+            }
+        }
+        return json;
+    }
+
+    public Form clone()throws CloneNotSupportedException{
+        return (Form)super.clone();
     }
 
 //    public ProjectNameBean getProject() {
