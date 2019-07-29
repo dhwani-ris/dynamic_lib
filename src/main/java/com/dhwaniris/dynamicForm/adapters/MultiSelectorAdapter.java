@@ -108,7 +108,7 @@ public class MultiSelectorAdapter extends RecyclerView.Adapter<MultiSelectorAdap
 
                     }
                 }
-                notifyDataSetChanged();
+                notifyItemChanged(pos);
             }
         });
 
@@ -125,7 +125,7 @@ public class MultiSelectorAdapter extends RecyclerView.Adapter<MultiSelectorAdap
         return null;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         CheckBox checkBox;
         LinearLayout mainView;
 
