@@ -18,10 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ToolbarColoredBackArrow"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"/>
+        <!--android:theme="@style/ToolbarColoredBackArrow"-->
 
     </com.google.android.material.appbar.AppBarLayout>
 
