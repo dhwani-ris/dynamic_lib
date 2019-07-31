@@ -43,6 +43,7 @@ import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.locationservice.LocationUpdatesService;
 import com.dhwaniris.dynamicForm.questionTypes.BaseType;
 import com.dhwaniris.dynamicForm.utils.Constant;
+import com.dhwaniris.dynamicForm.utils.DynamicLibUtils;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationHandlerListener;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
@@ -287,7 +288,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                     try {
                         if (jsonObject.get(columnName) != null) {
                             String string = jsonObject.getString(columnName);
-                            answerBeanObject.setAnswer(getAnswerFormText(string, questionBean));
+                            answerBeanObject.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(string, questionBean));
                             answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
                         }
                     } catch (JSONException e) {

@@ -938,11 +938,54 @@ class QuestionsUtils {
             return viewText.toString()
         }
 
+        fun getViewableStringFormAns(questionBeanFilled: QuestionBeanFilled?, questionBean: QuestionBean): String {
+            var viewText = StringBuilder()
+            if (questionBeanFilled != null && questionBeanFilled.answer.isNotEmpty()) {
+                when (questionBeanFilled.input_type) {
+                    AppConfing.QUS_MULTI_SELECT,
+                    AppConfing.QUS_MULTI_SELECT_HIDE,
+                    AppConfing.QUS_LOOPING_MILTISELECT -> {
+                        var tempFix = ""
+                        for (answers in questionBeanFilled.answer) {
+                            viewText.append(tempFix).append(getAnsLabel(answers, questionBean.answer_option))
+                            tempFix = ","
+                        }
+                    }
+
+                    AppConfing.QUS_DROPDOWN,
+                    AppConfing.QUS_DROPDOWN_HIDE,
+                    AppConfing.QUS_LOOPING,
+                    AppConfing.QUS_RADIO_BUTTONS -> if (questionBeanFilled.answer[0] != null) {
+                        viewText = StringBuilder(getAnsLabel(questionBeanFilled.answer[0]!!, questionBean.answer_option))
+                    }
+
+                    AppConfing.QUS_TEXT,
+                    AppConfing.QUS_ADDRESS ->
+
+                        if (questionBeanFilled.answer[0] != null) {
+                            viewText = StringBuilder(getValueFormTextInputType(questionBeanFilled.answer[0]!!))
+                        }
+
+                    else -> if (questionBeanFilled.answer[0] != null) {
+                        viewText = StringBuilder(questionBeanFilled.answer[0]!!.value)
+                    }
+                }
+            }
+            return viewText.toString()
+        }
+
+        private fun getAnsLabel(answers: Answers, answerOption: List<AnswerOptionsBean>): String {
+            answerOption.find { it._id == answers.value }?.let {
+                return it.name
+            }
+            return answers.label
+        }
         private fun getValueFormTextInputType(answers: Answers): String {
             val textValue = answers.textValue
             val value = answers.value
             return if (textValue.trim { it <= ' ' }.isNotEmpty()) textValue else value
         }
+
     }
 }
 
