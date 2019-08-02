@@ -51,7 +51,7 @@ public class UnansweredQusAdapter extends RecyclerView.Adapter<UnansweredQusAdap
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int pos) {
       /*  if (!ansList.get(pos).isRequired() && (!showAll || ansList.get(pos).isValid()) ||
-                ansList.get(pos).getInput_type().equals(AppConfing.QUS_LABEL)) {
+                ansList.get(pos).getInput_type().equals(LibDynamicAppConfig.QUS_LABEL)) {
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,

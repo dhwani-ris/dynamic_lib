@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.customViews.ImageRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
@@ -16,9 +16,9 @@ import java.util.List;
 
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 
 public class BaseImageType extends BaseType {
@@ -43,7 +43,7 @@ public class BaseImageType extends BaseType {
             dynamicImageViewRow.setClickable(false);
             dynamicImageViewRow.setAnswerStatus(ImageRowView.ANSWERED);
             dynamicImageViewRow.hideButtons();
-        } else if (formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
+        } else if (formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             if (!questionBean.isEditable()) {
                 dynamicImageViewRow.setFocusable(false);
                 dynamicImageViewRow.setClickable(false);
@@ -55,7 +55,7 @@ public class BaseImageType extends BaseType {
         List<ValidationBean> valiList = questionBean.getValidation();
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     dynamicImageViewRow.isRequired(true);
                     break;
                 }

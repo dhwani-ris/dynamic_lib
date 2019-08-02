@@ -17,8 +17,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing.*
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.*
 import com.dhwaniris.dynamicForm.R
 import com.dhwaniris.dynamicForm.SingletonForm
 import com.dhwaniris.dynamicForm.adapters.UnansweredQusAdapter
@@ -539,7 +539,7 @@ class FormViewActivityRx : BaseFormActivity(), View.OnClickListener, PermissionH
             }
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT, "Invalid Form. Line No. 406", AppConfing.UNEXPECTED_ERROR, "FormViewActivity")
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "Invalid Form. Line No. 406", LibDynamicAppConfig.UNEXPECTED_ERROR, "FormViewActivity")
         }
     }
 

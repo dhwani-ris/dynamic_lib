@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
 import static com.dhwaniris.dynamicForm.base.BaseActivity.checkNetwork;
 
 
@@ -48,7 +48,7 @@ public class BaseLabelType extends BaseType {
         label.setText(questionBean.getTitle());
         for (ValidationBean validationBean : questionBean.getValidation()) {
             switch (validationBean.get_id()) {
-                case AppConfing.VAL_LABEL_AS_INSTRUCTION:
+                case LibDynamicAppConfig.VAL_LABEL_AS_INSTRUCTION:
                     label.setGravity(Gravity.START);
                     label.setTextColor(view.getResources().getColor(R.color.black));
                     label.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -56,7 +56,7 @@ public class BaseLabelType extends BaseType {
                     label.setTypeface(null, Typeface.NORMAL);
 
                     break;
-                case AppConfing.VAL_LABEL_AS_HTML_TEXT:
+                case LibDynamicAppConfig.VAL_LABEL_AS_HTML_TEXT:
                     label.setGravity(Gravity.START);
                     label.setTextColor(view.getResources().getColor(R.color.black));
                     label.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -70,7 +70,7 @@ public class BaseLabelType extends BaseType {
                         label.setText(Html.fromHtml(htmltext));
                     }
                     break;
-                case AppConfing.VAL_LABEL_AS_TV_IMAGE:
+                case LibDynamicAppConfig.VAL_LABEL_AS_TV_IMAGE:
                     labelImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

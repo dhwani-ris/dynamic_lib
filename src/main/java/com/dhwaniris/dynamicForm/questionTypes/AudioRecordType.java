@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.customViews.RecordAudioRowViewXML;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
@@ -22,12 +22,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 
 public class AudioRecordType extends BaseType {
@@ -88,7 +88,7 @@ public class AudioRecordType extends BaseType {
         List<ValidationBean> valiList = questionBean.getValidation();
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     dynamicRecordAudioView.isRequired(true);
                     break;
                 }

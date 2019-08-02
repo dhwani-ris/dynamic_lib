@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig
 import com.dhwaniris.dynamicForm.R
 import com.dhwaniris.dynamicForm.db.FilledForms
 import com.dhwaniris.dynamicForm.interfaces.FormAdapterClickListener
@@ -61,14 +61,14 @@ class FilledFormsViewHolder(v: View, private val viewSequenceOrders: List<String
 
         }
         when (filledFormCard.upload_status) {
-            AppConfing.DRAFT,
-            AppConfing.REJECTED_DUPLICATE
+            LibDynamicAppConfig.DRAFT,
+            LibDynamicAppConfig.REJECTED_DUPLICATE
             -> {
                 btnDraft.visibility = View.VISIBLE
                 retry.visibility = View.GONE
             }
 
-            AppConfing.REJECTED_DY_NOT_FOUND -> {
+            LibDynamicAppConfig.REJECTED_DY_NOT_FOUND -> {
                 btnDraft.visibility = View.VISIBLE
                 retry.visibility = View.VISIBLE
             }
@@ -114,29 +114,29 @@ class FilledFormsViewHolder(v: View, private val viewSequenceOrders: List<String
     private fun setFormStatusVisibility(tv1: TextView, formStatus: Int) {
         tv1.visibility = View.VISIBLE
         when (formStatus) {
-            AppConfing.DRAFT -> {
+            LibDynamicAppConfig.DRAFT -> {
                 setTextAnsColor(tv1, R.string.draft, R.color.draft)
             }
-            AppConfing.SUBMITTED -> {
+            LibDynamicAppConfig.SUBMITTED -> {
                 setTextAnsColor(tv1, R.string.saved, R.color.saved)
             }
-            AppConfing.SYNCED -> {
+            LibDynamicAppConfig.SYNCED -> {
                 setTextAnsColor(tv1, R.string.synced, R.color.synced)
             }
-            AppConfing.SYNCED_BUT_EDITABLE -> {
+            LibDynamicAppConfig.SYNCED_BUT_EDITABLE -> {
                 setTextAnsColor(tv1, R.string.flagged, R.color.flagged)
             }
-            AppConfing.EDITABLE_DARFT -> {
+            LibDynamicAppConfig.EDITABLE_DARFT -> {
                 setTextAnsColor(tv1, R.string.flagged_draft, R.color.flagged_draft)
             }
-            AppConfing.EDITABLE_SUBMITTED -> {
+            LibDynamicAppConfig.EDITABLE_SUBMITTED -> {
                 setTextAnsColor(tv1, R.string.flagged_saved, R.color.flagged_draft)
 
             }
-            AppConfing.REJECTED_DUPLICATE -> {
+            LibDynamicAppConfig.REJECTED_DUPLICATE -> {
                 setTextAnsColor(tv1, R.string.rejected_duplicate, R.color.red)
             }
-            AppConfing.REJECTED_DY_NOT_FOUND -> {
+            LibDynamicAppConfig.REJECTED_DY_NOT_FOUND -> {
                 setTextAnsColor(tv1, R.string.rejected_dy_not_found, R.color.red)
             }
             else -> {

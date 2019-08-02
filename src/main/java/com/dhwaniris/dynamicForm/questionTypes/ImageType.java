@@ -9,9 +9,9 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
 import java.util.LinkedHashMap;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 
 public class ImageType extends BaseImageType {

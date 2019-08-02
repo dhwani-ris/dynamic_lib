@@ -48,7 +48,7 @@ import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.adapters.LocalSingleAdapter;
 import com.dhwaniris.dynamicForm.adapters.MultiSelectorAdapter;
@@ -64,7 +64,6 @@ import com.dhwaniris.dynamicForm.locationservice.LocationUpdatesService;
 import com.dhwaniris.dynamicForm.pojo.DropDownHelper;
 import com.dhwaniris.dynamicForm.ui.activities.formActivities.FormActivity;
 import com.dhwaniris.dynamicForm.utils.FileUtil;
-import com.dhwaniris.dynamicForm.utils.PreferenceHelper;
 import com.dhwaniris.dynamicForm.utils.Utility;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -97,9 +96,9 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 import static androidx.core.content.FileProvider.getUriForFile;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DIVISSION_BY_ZERO;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.FILE_NOT_FOUND_EXCEPTION_ERROR;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.OUT_OF_MEMORY_EXCEPTION_ERROR;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DIVISSION_BY_ZERO;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.FILE_NOT_FOUND_EXCEPTION_ERROR;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.OUT_OF_MEMORY_EXCEPTION_ERROR;
 
 
 public class BaseActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -142,7 +141,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     public String realPath;
     public ProgressDialog mProgressDialog;
     public AlertDialog mProgressDialog2;
-    public static PreferenceHelper preferenceHelper;
     public GoogleApiClient mGoogleApiClient;
     // private String filePath;
     private Uri picUri;
@@ -158,14 +156,9 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     // Monitors the state of the connection to the service.
 
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        preferenceHelper = new PreferenceHelper(this, AppConfing.DELTA_PREF_NAME);
-        preferenceHelper.SaveStringPref(AppConfing.APP_VERSION, getAppVersion());
     }
 
 
@@ -328,8 +321,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                 booleenList[pos] = true;
             }
         } else if (isValidSelectedList) {
-            BaseActivity.logDatabase(AppConfing.END_POINT, "No value in multi-select, Question ID: "
-                    + questionBean.get_id(), AppConfing.UNEXPECTED_ERROR, "BaseActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "No value in multi-select, Question ID: "
+                    + questionBean.get_id(), LibDynamicAppConfig.UNEXPECTED_ERROR, "BaseActivity");
         }
 
         final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
@@ -470,7 +463,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
                  /*   List<Integer> selectedListInt = sortCheckList(selectedList);
                     List<Integer> selectedMyCheckList = sortCheckList(mycheckList);
-                 */   Collections.sort(selectedList);
+                 */
+                    Collections.sort(selectedList);
                     Collections.sort(mycheckList);
                     if (selectedList.equals(mycheckList)) {
                         isAnswerSame = true;
@@ -597,7 +591,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-
     //loading helper
     public static ProgressDialog showLoadingDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
@@ -654,29 +647,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
     /******** User preference Started ********/
 
-    //get user token
-    public String userToken() {
-        preferenceHelper = new PreferenceHelper(this, AppConfing.DELTA_PREF_NAME);
-        return preferenceHelper.LoadStringPref(AppConfing.USER_TOKEN, "");
-    }
-
-    //get user name
-    public String userName() {
-        preferenceHelper = new PreferenceHelper(this, AppConfing.DELTA_PREF_NAME);
-        return preferenceHelper.LoadStringPref(AppConfing.USER_NAME, "");
-    }
-
-    //get user's current local language
-    public String userLanguage() {
-        preferenceHelper = new PreferenceHelper(this, AppConfing.DELTA_PREF_NAME);
-        return preferenceHelper.LoadStringPref(AppConfing.LANGUAGE, "en");
-    }
-
-    //get login status
-    public boolean loginStatus() {
-        preferenceHelper = new PreferenceHelper(this, AppConfing.DELTA_PREF_NAME);
-        return preferenceHelper.LoadBooleanPref(AppConfing.LOGEDIN_STATUS, false);
-    }
 
     /******** User preference Ended ********/
 
@@ -858,8 +828,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                 startActivityForResult(i, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
             } catch (android.content.ActivityNotFoundException ex) {
                 Toast.makeText(BaseActivity.this, R.string.sorry_failed_to_capture_photo, Toast.LENGTH_LONG).show();
-                BaseActivity.logDatabase(AppConfing.END_POINT, "There are no email applications installed."
-                        , AppConfing.UNEXPECTED_ERROR, "BaseActivity");
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "There are no email applications installed."
+                        , LibDynamicAppConfig.UNEXPECTED_ERROR, "BaseActivity");
 
             }
 
@@ -934,10 +904,10 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                     }
 
                 } catch (IOException e) {
-                     Log.e("error",e.getMessage());
-                    Log.e("error",e.getMessage());
+                    Log.e("error", e.getMessage());
+                    Log.e("error", e.getMessage());
 
-                    BaseActivity.logDatabase(AppConfing.END_POINT,
+                    BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT,
                             e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "BaseActivity");
                     logText("Mobile Image " + e.getMessage());
                     selectedImage.imageSelectionFailure();
@@ -968,9 +938,10 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                     }
 
                 } catch (IOException e) {
-                     Log.e("error",e.getMessage());;
+                    Log.e("error", e.getMessage());
+                    ;
 
-                    BaseActivity.logDatabase(AppConfing.END_POINT, e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "BaseActivity");
+                    BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "BaseActivity");
 
                 }
 
@@ -1043,7 +1014,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 //          load the bitmap from its preview_image_path
                 bmp = BitmapFactory.decodeFile(filePath, options);
             } catch (OutOfMemoryError exception) {
-                BaseActivity.logDatabase(AppConfing.END_POINT, exception.getMessage(), OUT_OF_MEMORY_EXCEPTION_ERROR, "BaseActivity");
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, exception.getMessage(), OUT_OF_MEMORY_EXCEPTION_ERROR, "BaseActivity");
 
             }
 
@@ -1051,7 +1022,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
             try {
                 scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888);
             } catch (OutOfMemoryError exception) {
-                BaseActivity.logDatabase(AppConfing.END_POINT, exception.getMessage(), OUT_OF_MEMORY_EXCEPTION_ERROR, "BaseActivity");
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, exception.getMessage(), OUT_OF_MEMORY_EXCEPTION_ERROR, "BaseActivity");
 
             }
 
@@ -1097,7 +1068,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                             true);
                 }
             } catch (IOException e) {
-                 Log.e("error",e.getMessage());;
+                Log.e("error", e.getMessage());
+                ;
             }
 
             FileOutputStream out = null;
@@ -1114,8 +1086,9 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
             } catch (FileNotFoundException e) {
-                 Log.e("error",e.getMessage());;
-                BaseActivity.logDatabase(AppConfing.END_POINT, e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "BaseActivity");
+                Log.e("error", e.getMessage());
+                ;
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "BaseActivity");
             } finally {
                 if (out != null) {
                     out.close();
@@ -1123,7 +1096,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         } catch (Exception e) {
             e.getMessage();
-            BaseActivity.logDatabase(AppConfing.END_POINT, e.getMessage(), DIVISSION_BY_ZERO, "BaseActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, e.getMessage(), DIVISSION_BY_ZERO, "BaseActivity");
 
             Toast.makeText(context, R.string.image_not_captured, Toast.LENGTH_LONG).show();
         }
@@ -1189,7 +1162,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
             JSONObject jsonObject = new JSONObject(msg);
             errorMessgae = jsonObject.get("message").toString();
         } catch (JSONException e) {
-             Log.e("error",e.getMessage());;
+            Log.e("error", e.getMessage());
+            ;
         }
         return errorMessgae;
     }
@@ -1219,9 +1193,9 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public static void logDatabase(String endpoint, String errorMessgae, String errorCode, String transactionId) {
 
-//        preferenceHelper = new PreferenceHelper(MyApplication.getInstance(), AppConfing.DELTA_PREF_NAME);
-//        user_name = preferenceHelper.LoadStringPref(AppConfing.USER_MOBILE, "");
-//        appVersion = preferenceHelper.LoadStringPref(AppConfing.APP_VERSION, "");
+//        preferenceHelper = new PreferenceHelper(MyApplication.getInstance(), LibDynamicAppConfig.DELTA_PREF_NAME);
+//        user_name = preferenceHelper.LoadStringPref(LibDynamicAppConfig.USER_MOBILE, "");
+//        appVersion = preferenceHelper.LoadStringPref(LibDynamicAppConfig.APP_VERSION, "");
 
         String aa = Build.MODEL;
         String manufacturer = android.os.Build.MANUFACTURER;
@@ -1234,9 +1208,9 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public static void logText(String text) {
 
-//        preferenceHelper = new PreferenceHelper(MyApplication.getInstance(), AppConfing.DELTA_PREF_NAME);
-//        user_name = preferenceHelper.LoadStringPref(AppConfing.USER_MOBILE, "");
-//        appVersion = preferenceHelper.LoadStringPref(AppConfing.APP_VERSION, "");
+//        preferenceHelper = new PreferenceHelper(MyApplication.getInstance(), LibDynamicAppConfig.DELTA_PREF_NAME);
+//        user_name = preferenceHelper.LoadStringPref(LibDynamicAppConfig.USER_MOBILE, "");
+//        appVersion = preferenceHelper.LoadStringPref(LibDynamicAppConfig.APP_VERSION, "");
 
 
         String aa = Build.MODEL;
@@ -1256,7 +1230,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                 Log.e("error",e.getMessage());;
+                Log.e("error", e.getMessage());
+                ;
             }
         }
         BufferedWriter buf = null;
@@ -1266,13 +1241,15 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
             buf.append(aa + "-" + oSversion + "-" + appVersion + "-" + LocalTime() + "-" + text);
             buf.newLine();
         } catch (IOException e) {
-             Log.e("error",e.getMessage());;
+            Log.e("error", e.getMessage());
+            ;
         } finally {
             if (buf != null) {
                 try {
                     buf.close();
                 } catch (IOException e) {
-                     Log.e("error",e.getMessage());;
+                    Log.e("error", e.getMessage());
+                    ;
                 }
             }
         }
@@ -1294,7 +1271,8 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         try {
             myDate = inputSDF.parse(dateTime);
         } catch (ParseException e) {
-             Log.e("error",e.getMessage());;
+            Log.e("error", e.getMessage());
+            ;
         }
 //
         SimpleDateFormat outputSDF = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
@@ -1347,32 +1325,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         altDialog.show();
     }
 
-    public static boolean isAppUpdateRequired(Context mContext) {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(mContext, AppConfing.DELTA_PREF_NAME);
-        String webV = preferenceHelper.LoadStringPref(AppConfing.LATEST_VERSION, "");
-        if (!webV.equals("")) {
-            PackageInfo pInfo = null;
-            try {
-                pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-                String version = pInfo.versionName;
-                version = version.replace(".", "");
-                webV = webV.replace(".", "");
-
-                if (Integer.parseInt(version) < Integer.parseInt(webV)) {
-                    return true;
-                }
-            } catch (PackageManager.NameNotFoundException e) {
-                 Log.e("error",e.getMessage());;
-                return false;
-            }
-        } else {
-            return false;
-        }
-        return false;
-
-    }
-
-
     public void showCustomToast(String s, int status) {
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.dy_custom_toast,
@@ -1410,4 +1362,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
+   public String userLanguage() {
+        return "en";
+    }
 }

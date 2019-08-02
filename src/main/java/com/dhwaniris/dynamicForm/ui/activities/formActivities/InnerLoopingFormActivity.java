@@ -22,7 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.adapters.UnansweredQusAdapter;
 import com.dhwaniris.dynamicForm.base.BaseActivity;
@@ -56,11 +56,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 
 public class InnerLoopingFormActivity extends BaseFormActivity
@@ -129,7 +129,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
             formId = i.getIntExtra("formId", 0);
             isLocationRequired = i.getBooleanExtra("locationRequired", false);
             formLang = userLanguage();
-            if (formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
+            if (formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
                 isErrorViewRequired = true;
             }
             getSupportActionBar().setTitle(formName);
@@ -149,8 +149,8 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
         } else {
             saved = true;
-            BaseActivity.logDatabase(AppConfing.END_POINT, "CHILD FORM  is null",
-                    AppConfing.UNEXPECTED_ERROR, "CHILDFormActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "CHILD FORM  is null",
+                    LibDynamicAppConfig.UNEXPECTED_ERROR, "CHILDFormActivity");
             finish();
         }
     }
@@ -353,8 +353,8 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT, "Validation error question size 0",
-                    AppConfing.UNEXPECTED_ERROR, "FormActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "Validation error question size 0",
+                    LibDynamicAppConfig.UNEXPECTED_ERROR, "FormActivity");
         }
     }
 
@@ -618,7 +618,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
                 boolean isDynamicOrderCreation = false;
                 for (ValidationBean validationBean : questionBean1.getValidation()) {
-                    if (validationBean.get_id().equals(AppConfing.VAL_DYNAMIC_ORDER_CREATION_FOR_NESTED)) {
+                    if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_DYNAMIC_ORDER_CREATION_FOR_NESTED)) {
                         isDynamicOrderCreation = true;
                         break;
                     }
@@ -626,8 +626,8 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
 
                 for (RestrictionsBean restrictionsBean : questionBean1.getRestrictions()) {
-                    if (isDynamicOrderCreation && (restrictionsBean.getType().equals(AppConfing.REST_GET_ANS_OPTION) ||
-                            restrictionsBean.getType().equals(AppConfing.REST_GET_ANS_OPTION_FILTER))) {
+                    if (isDynamicOrderCreation && (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_GET_ANS_OPTION) ||
+                            restrictionsBean.getType().equals(LibDynamicAppConfig.REST_GET_ANS_OPTION_FILTER))) {
                         OrdersBean originalOrderBean = restrictionsBean.getOrders().get(0);
                         restrictionsBean.getOrders().clear();
                         if (originalOrderBean != null) {
@@ -691,7 +691,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     private void modifyAnswerBeanObject(QuestionBeanFilled answerBeanHelper, QuestionBean questionBean, final boolean isVisibleInHideList) {
 
 
-        boolean isVisible = (isVisibleInHideList && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL));
+        boolean isVisible = (isVisibleInHideList && !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LABEL));
 
         answerBeanHelper.setTitle(questionBean.getTitle());
         answerBeanHelper.setOrder(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
@@ -699,7 +699,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         List<ValidationBean> valiList = questionBean.getValidation();
         if (!valiList.isEmpty()) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     answerBeanHelper.setRequired(isVisible);
                     answerBeanHelper.setOptional(false);
                     break;

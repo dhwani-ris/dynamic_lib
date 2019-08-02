@@ -163,7 +163,7 @@ public class Utility {
             if (questionBean.getPattern() != null && !questionBean.getPattern().equals("")) {
                 boolean isRegexValidation = false;
                 for (ValidationBean validationBean : questionBean.getValidation()) {
-                    if (validationBean.get_id().equals(AppConfing.VAL_REGEX))
+                    if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REGEX))
                         isRegexValidation = true;
                 }
                 if (!isRegexValidation)
@@ -172,7 +172,7 @@ public class Utility {
                 errorsList.add(String.format("order = %d ,has regex " +
                         "but validation is empty", order));
             }
-            if (questionBean.getInput_type().equals(AppConfing.QUS_NUMBER)) {
+            if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_NUMBER)) {
                 if (questionBean.getMax() == null) {
                     Log.e("FormValidation Testing", String.format(" order = %d, Input Type Number" +
                             " but has no Max value", order));
@@ -200,11 +200,11 @@ public class Utility {
 
             }
 
-            if (questionBean.getInput_type().equals(AppConfing.QUS_DROPDOWN) ||
-                    questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT) ||
-                    questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT_LIMITED) ||
-                    questionBean.getInput_type().equals(AppConfing.QUS_DROPDOWN_HIDE) ||
-                    questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT_HIDE)
+            if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DROPDOWN) ||
+                    questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_MULTI_SELECT) ||
+                    questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED) ||
+                    questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DROPDOWN_HIDE) ||
+                    questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE)
                     ) {
 
                 if (questionBean.getAnswer_options().size() == 0) {
@@ -218,11 +218,11 @@ public class Utility {
 
             if (questionBean.getAnswer_options().size() > 0) {
 
-                if (!questionBean.getInput_type().equals(AppConfing.QUS_DROPDOWN) &&
-                        !questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT) &&
-                        !questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT_LIMITED) &&
-                        !questionBean.getInput_type().equals(AppConfing.QUS_DROPDOWN_HIDE) &&
-                        !questionBean.getInput_type().equals(AppConfing.QUS_MULTI_SELECT_HIDE)
+                if (!questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DROPDOWN) &&
+                        !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_MULTI_SELECT) &&
+                        !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED) &&
+                        !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DROPDOWN_HIDE) &&
+                        !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE)
                         ) {
 
                     Log.e("FormValidation Testing", String.format("order = %d, has Answer Option " +

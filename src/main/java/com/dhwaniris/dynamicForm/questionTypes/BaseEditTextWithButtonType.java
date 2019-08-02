@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.customViews.EditTextWIthButtonView;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
@@ -18,9 +18,9 @@ import java.util.List;
 
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 
 public class BaseEditTextWithButtonType extends BaseType {
@@ -85,7 +85,7 @@ public class BaseEditTextWithButtonType extends BaseType {
             dynamicLoopingView.setFocusable(false);
             dynamicLoopingView.setClickable(false);
             dynamicLoopingView.setAnswerStatus(EditTextWIthButtonView.ANSWERED);
-        } else if (formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
+        } else if (formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             if (!questionBean.isEditable()) {
                 dynamicLoopingView.setFocusable(false);
                 dynamicLoopingView.setClickable(false);
@@ -98,10 +98,10 @@ public class BaseEditTextWithButtonType extends BaseType {
         List<ValidationBean> valiList = questionBean.getValidation();
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     dynamicLoopingView.isRequired(true);
-                } else if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS)
-                        || validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE)) {
+                } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_GPS)
+                        || validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_IMAGE)) {
                     dynamicLoopingView.setAdditionalInfoClick(v -> {
                         dataListener.clickOnAdditionalButton(questionBean);
                     });

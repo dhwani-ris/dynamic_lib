@@ -5,7 +5,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -17,9 +17,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 
 public class EditTextAadhar extends BaseEditTextType {
@@ -30,7 +30,7 @@ public class EditTextAadhar extends BaseEditTextType {
 
     private void initAdharType() {
 
-        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
+        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             final List<Answers> ans = answerBeanFilled.getAnswer();
             if (!ans.isEmpty()) {
                 Answers answers = ans.get(0);

@@ -2,20 +2,19 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
 
 
 class BaseEditTextType extends BaseQuestionType {
@@ -59,7 +58,7 @@ class BaseEditTextType extends BaseQuestionType {
                         }
 
 
-                        if (questionBean.getInput_type().equals(AppConfing.QUS_TEXT) || questionBean.getInput_type().equals(AppConfing.QUS_ADDRESS)) {
+                        if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT) || questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS)) {
                             dynamicEditTextRow.setText(answers.getTextValue());
 
                         } else {
@@ -67,7 +66,7 @@ class BaseEditTextType extends BaseQuestionType {
                         }
                         if (questionBean.getRestrictions().size() > 0) {
                             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                                if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                                if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                                     changeTitleRequest(restrictionsBean, answers.getValue());
                                 }
                             }

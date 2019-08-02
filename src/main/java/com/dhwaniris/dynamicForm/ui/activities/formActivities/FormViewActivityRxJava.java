@@ -22,7 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.SingletonForm;
 import com.dhwaniris.dynamicForm.adapters.UnansweredQusAdapter;
@@ -63,13 +63,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REJECTED_DUPLICATE;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REJECTED_DUPLICATE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 public class FormViewActivityRxJava extends BaseFormActivity implements View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
@@ -541,8 +541,8 @@ public class FormViewActivityRxJava extends BaseFormActivity implements View.OnC
             }
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT, "Invalid Form. Line No. 406"
-                    , AppConfing.UNEXPECTED_ERROR, "FormViewActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "Invalid Form. Line No. 406"
+                    , LibDynamicAppConfig.UNEXPECTED_ERROR, "FormViewActivity");
         }
     }
     private UpdateDataData uploadtask=null;

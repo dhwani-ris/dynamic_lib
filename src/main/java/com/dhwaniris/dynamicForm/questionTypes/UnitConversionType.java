@@ -5,7 +5,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.customViews.BaseXMLView;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
@@ -23,11 +23,11 @@ import java.util.List;
 
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 /**
  * Created by ${Sahjad} on 5/14/2019.
@@ -65,8 +65,8 @@ public class UnitConversionType extends BaseType {
 
         if (formStatus == DRAFT ||
                 formStatus == SUBMITTED ||
-                formStatus == AppConfing.SYNCED_BUT_EDITABLE ||
-                formStatus == AppConfing.EDITABLE_SUBMITTED ||
+                formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE ||
+                formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED ||
                 formStatus == EDITABLE_DARFT) {
             setBasic();
         }
@@ -74,10 +74,10 @@ public class UnitConversionType extends BaseType {
     }
 
     private void setBasic() {
-        if (formStatus == SUBMITTED || formStatus == AppConfing.EDITABLE_SUBMITTED) {
+        if (formStatus == SUBMITTED || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED) {
             unitView.setEditable(false);
             unitView.setAnswerStatus(EditTextRowView.ANSWERED);
-        } else if (formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
+        } else if (formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE || formStatus == EDITABLE_DARFT) {
             unitView.setEditable(questionBean.isEditable());
             if (!questionBean.isEditable()) {
                 unitView.setFocusableForEditText(1);
@@ -131,34 +131,34 @@ public class UnitConversionType extends BaseType {
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
                 switch (validationBean.get_id()) {
-                    case AppConfing.VAL_REQUIRED:
+                    case LibDynamicAppConfig.VAL_REQUIRED:
                         unitView.isRequired(true);
                         break;
-                    case AppConfing.VAL_ADD_INFO_GPS:
-                    case AppConfing.VAL_ADD_INFO_IMAGE:
+                    case LibDynamicAppConfig.VAL_ADD_INFO_GPS:
+                    case LibDynamicAppConfig.VAL_ADD_INFO_IMAGE:
                         unitView.setAdditionalInfoClick(v -> {
                             dataListener.clickOnAdditionalButton(questionBean);
                         });
                         break;
-                    case AppConfing.VAL_UNIT_LENGTH:
+                    case LibDynamicAppConfig.VAL_UNIT_LENGTH:
                         unitView.setSpinnerValues(R.array.unit_length);
                         break;
-                    case AppConfing.VAL_UNIT_AREA:
+                    case LibDynamicAppConfig.VAL_UNIT_AREA:
                         unitView.setSpinnerValues(R.array.unit_area);
                         break;
-                    case AppConfing.VAL_UNIT_TEMPERATURE:
+                    case LibDynamicAppConfig.VAL_UNIT_TEMPERATURE:
                         unitView.setSpinnerValues(R.array.unit_temperature);
                         break;
-                    case AppConfing.VAL_UNIT_TIME:
+                    case LibDynamicAppConfig.VAL_UNIT_TIME:
                         unitView.setSpinnerValues(R.array.unit_time);
                         break;
-                    case AppConfing.VAL_UNIT_MASS:
+                    case LibDynamicAppConfig.VAL_UNIT_MASS:
                         unitView.setSpinnerValues(R.array.unit_mass);
                         break;
-                    case AppConfing.VAL_UNIT_VOLUME:
+                    case LibDynamicAppConfig.VAL_UNIT_VOLUME:
                         unitView.setSpinnerValues(R.array.unit_volume);
                         break;
-                    case AppConfing.VAL_UNIT_SPEED:
+                    case LibDynamicAppConfig.VAL_UNIT_SPEED:
                         unitView.setSpinnerValues(R.array.unit_speed);
 
                         break;
@@ -209,31 +209,31 @@ public class UnitConversionType extends BaseType {
         boolean isFound = false;
         for (ValidationBean validationBean : questionBean.getValidation()) {
             switch (validationBean.get_id()) {
-                case AppConfing.VAL_UNIT_LENGTH:
+                case LibDynamicAppConfig.VAL_UNIT_LENGTH:
                     convertedValue = unitConversionHelper.convertLengthIntoMetre(unitView.getValue(), Integer.parseInt(unit));
                     isFound = true;
                     break;
-                case AppConfing.VAL_UNIT_AREA:
+                case LibDynamicAppConfig.VAL_UNIT_AREA:
                     convertedValue = unitConversionHelper.convertAreaIntoSqMetre(unitView.getValue(), Integer.parseInt(unit));
                     isFound = true;
                     break;
-                case AppConfing.VAL_UNIT_TEMPERATURE:
+                case LibDynamicAppConfig.VAL_UNIT_TEMPERATURE:
                     convertedValue = unitConversionHelper.convertTemperatureIntoCentigrade(unitView.getValue(), Integer.parseInt(unit));
                     isFound = true;
                     break;
-                case AppConfing.VAL_UNIT_TIME:
+                case LibDynamicAppConfig.VAL_UNIT_TIME:
                     convertedValue = unitConversionHelper.convertTimeIntoSecond(unitView.getValue(), Integer.parseInt(unit));
                     isFound = true;
                     break;
-                case AppConfing.VAL_UNIT_MASS:
+                case LibDynamicAppConfig.VAL_UNIT_MASS:
                     convertedValue = unitConversionHelper.convertMassIntoKoloGram(unitView.getValue(), Integer.parseInt(unit));
                     isFound = true;
                     break;
-                case AppConfing.VAL_UNIT_VOLUME:
+                case LibDynamicAppConfig.VAL_UNIT_VOLUME:
                     convertedValue = unitConversionHelper.convertMassIntoKoloGram(unitView.getValue(), Integer.parseInt(unit));
                     isFound = true;
                     break;
-                case AppConfing.VAL_UNIT_SPEED:
+                case LibDynamicAppConfig.VAL_UNIT_SPEED:
                     convertedValue = unitConversionHelper.convertSpeedIntokmhr(unitView.getValue(), Integer.parseInt(unit));
 
                     isFound = true;

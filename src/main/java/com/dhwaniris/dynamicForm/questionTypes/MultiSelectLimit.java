@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.base.BaseActivity;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 public class MultiSelectLimit extends BaseSelectType {
 
@@ -38,7 +38,7 @@ public class MultiSelectLimit extends BaseSelectType {
 
         this.formId = formId;
 
-        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
+        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             setData();
         }
 
@@ -93,7 +93,7 @@ public class MultiSelectLimit extends BaseSelectType {
 
                 if (questionBean.getRestrictions().size() > 0) {
                     for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                        if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                        if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                             changeTitleRequest(restrictionsBean, text);
                         }
                     }
@@ -138,7 +138,7 @@ public class MultiSelectLimit extends BaseSelectType {
 
                     String ans = "";
                     if (p_ans.size() > 0) {
-                        if (perent.get(0).getType().equals(AppConfing.QUS_DROPDOWN)) {
+                        if (perent.get(0).getType().equals(LibDynamicAppConfig.QUS_DROPDOWN)) {
                             ans = p_ans.get(0).getLabel();
                         } else {
                             ans = p_ans.get(0).getValue();
@@ -147,9 +147,9 @@ public class MultiSelectLimit extends BaseSelectType {
                         if (Pattern.matches("^[0-9]*$", ans.equals("") ? "xsd" : ans)) {
                             checklimit = Integer.parseInt(ans);
                         } else {
-                            BaseActivity.logDatabase(AppConfing.END_POINT, String.format(Locale.ENGLISH,
+                            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
                                     "Wrong perent options. child Question ID :%s . Line no. 497",
-                                    questionBean.get_id()), AppConfing.UNEXPECTED_ERROR,
+                                    questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                                     "BaseFormActivity");
                         }
                     }

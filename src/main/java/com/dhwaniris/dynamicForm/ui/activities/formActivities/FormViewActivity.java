@@ -24,7 +24,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.SingletonForm;
 import com.dhwaniris.dynamicForm.adapters.UnansweredQusAdapter;
@@ -63,13 +63,13 @@ import java.util.List;
 
 import static android.location.GpsStatus.GPS_EVENT_STARTED;
 import static android.location.GpsStatus.GPS_EVENT_STOPPED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REJECTED_DUPLICATE;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REJECTED_DUPLICATE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 public class FormViewActivity extends BaseFormActivity implements View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
@@ -573,8 +573,8 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
             }
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT, "Invalid Form. Line No. 406"
-                    , AppConfing.UNEXPECTED_ERROR, "FormViewActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "Invalid Form. Line No. 406"
+                    , LibDynamicAppConfig.UNEXPECTED_ERROR, "FormViewActivity");
         }
     }
     private UpdateDataData uploadtask=null;
@@ -879,7 +879,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
     private void finishActivityWithResult(int status) {
         Intent intent = getIntent();
-        intent.putExtra(AppConfing.DRAFT_SAVED, status);
+        intent.putExtra(LibDynamicAppConfig.DRAFT_SAVED, status);
         setResult(Constant.REQUEST_FOR_FORM_SAVED, intent);
         finish();
     }

@@ -1,46 +1,8 @@
 package com.dhwaniris.dynamicForm.NetworkModule;
 
 
-public class AppConfing {
+public class LibDynamicAppConfig {
 
-    public static final int SCHEMA_VERSION = 1;
-
-    //amresh local
-    //public static final String TEST_URL_AMRESH = "http://192.168.0.102:3000/api/v1/";
-
-    /* // production server
-     public static final String BASE_URL_DEV = "https://deltaapi.dhwaniris.com/api/v1/";
-     //stg
-     public static final String BASE_URL_STG_NEW = "https://stgdeltamobileapi.dhwaniris.com/api/v1/";
-     //demo
-     public static final String BASE_URL_DEMO = "https://demodeltamobileapi.dhwaniris.in/api/v1/";
- */
-    public static final String FORM = "form/";
-
-
-    public static final String DELTA_PREF_NAME = "delta_app_pref";
-    public static final String DELTA_LANGUAGE_NAME = "delta_app_language_pref";
-
-
-
-    public static final String USER_TOKEN = "user_token";
-    public static final String FORM_STRUCTURE_TIMESTAMP = "FORM_STRUCTURE_TIMESTAMP";
-    public static final String BASIC_DETAILS_FORM_TIMESTAMP = "BASIC_DETAILS_FORM_TIMESTAMP";
-    public static final String GET_FILLED_FORM_TIMESTAMP = "GET_FILLED_FORM_TIMESTAMP";
-    public static final String GET_UPDATE_TASK_TIMESTAMP = "GET_UPDATE_TASK_TIMESTAMP";
-    public static final String GET_UPDATE_TASK_DATA_TIMESTAMP = "GET_UPDATE_TASK_DATA_TIMESTAMP";
-    public static final String GET_ERROR_DATA_TIMESTAMP = "GET_ERROR_DATA_TIMESTAMP";
-    public static final String USER_NAME = "USER_NAME";
-    public static final String USER_MOBILE = "USER_MOBILE";
-    public static final String IS_PASS_CHANGED = "IS_PASS_CHANGED";
-    public static final String IS_PROFILE_COMPLETED = "IS_PROFILE_COMPLETED";
-    public static final String LOGEDIN_STATUS = "LOGEDIN_STATUS";
-    public static final String LANGUAGE_SELECTION = "LANGUAGE_SELECTION";
-    public static final String LANGUAGE = "LANGUAGE";
-    public static final String USER_MOBILE_LANGUAGE = "User_mobile_language";
-    public static final String FCM_TOKEN = "fcm_token";
-    public static final String DYNAMIC_ANSWER_TIMESTAMP = "dynamicanswertimestamp";
-    public static final String DEFAULT_LANGUAGE = "en";
 
 
     public static final String QUS_TEXT = "1";

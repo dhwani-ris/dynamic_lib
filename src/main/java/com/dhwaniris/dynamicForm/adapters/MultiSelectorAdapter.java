@@ -9,7 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -46,7 +46,7 @@ public class MultiSelectorAdapter extends RecyclerView.Adapter<MultiSelectorAdap
 
         if (questionBean.getValidation().size() > 0) {
             for (ValidationBean validationBean : questionBean.getValidation()) {
-                if (validationBean != null && validationBean.get_id().equals(AppConfing.VAL_DESELECT_ALL)) {
+                if (validationBean != null && validationBean.get_id().equals(LibDynamicAppConfig.VAL_DESELECT_ALL)) {
                     itemsCheckAlone.add(validationBean.getError_msg());
                 }
             }

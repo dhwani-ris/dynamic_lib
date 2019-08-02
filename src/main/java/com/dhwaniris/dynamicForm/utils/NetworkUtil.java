@@ -59,7 +59,7 @@ public class NetworkUtil {
         if (conn == NetworkUtil.TYPE_WIFI) {
             //status = "Wifi enabled";
             status = true;
-//            status = AppConfing.CONNECT_TO_WIFI;
+//            status = LibDynamicAppConfig.CONNECT_TO_WIFI;
         } else if (conn == NetworkUtil.TYPE_MOBILE) {
             //status = "Mobile data enabled";
             status = getNetworkClass(context);

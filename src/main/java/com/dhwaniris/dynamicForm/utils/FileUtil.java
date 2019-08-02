@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.base.BaseActivity;
 
 import java.io.File;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.FILE_NOT_FOUND_EXCEPTION_ERROR;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.FILE_NOT_FOUND_EXCEPTION_ERROR;
 
 /**
  *
@@ -60,7 +60,7 @@ public class FileUtil {
             out = new FileOutputStream(tempFile);
         } catch (FileNotFoundException e) {
              Log.e("error",e.getMessage());;
-            BaseActivity.logDatabase(AppConfing.END_POINT, e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, e.getMessage(), FILE_NOT_FOUND_EXCEPTION_ERROR, "");
 
 
         }
@@ -97,7 +97,7 @@ public class FileUtil {
                 }
             } catch (Exception e) {
                  Log.e("error",e.getMessage());;
-                BaseActivity.logDatabase(AppConfing.END_POINT, e.getMessage(), "Exception", "");
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, e.getMessage(), "Exception", "");
 
             } finally {
                 if (cursor != null) {

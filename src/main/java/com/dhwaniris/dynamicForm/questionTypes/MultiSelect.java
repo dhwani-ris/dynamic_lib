@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Locale;
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 public class MultiSelect extends BaseSelectType {
 
@@ -36,7 +36,7 @@ public class MultiSelect extends BaseSelectType {
                 questionBeenList, answerBeanHelperList);
 
         this.formId = formId;
-        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
+        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             setData();
         }
         if (formStatus == SUBMITTED || formStatus == EDITABLE_SUBMITTED) {
@@ -90,7 +90,7 @@ public class MultiSelect extends BaseSelectType {
 
                 if (questionBean.getRestrictions().size() > 0) {
                     for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                        if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                        if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                             changeTitleRequest(restrictionsBean, text);
                         }
                     }
@@ -131,7 +131,7 @@ public class MultiSelect extends BaseSelectType {
 
 //limit the check with validations
                 for (ValidationBean validationBean : questionBean.getValidation()) {
-                    if (validationBean.get_id().equals(AppConfing.VAL_CHECKLIMIT)) {
+                    if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_CHECKLIMIT)) {
                         String stringLimit = validationBean.getError_msg();
                         if (stringLimit != null && !stringLimit.equals(""))
                             checkLimit = Integer.parseInt(stringLimit);

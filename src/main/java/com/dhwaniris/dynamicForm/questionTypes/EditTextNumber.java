@@ -5,7 +5,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
@@ -61,7 +61,7 @@ public class EditTextNumber extends BaseEditTextType {
                 } else {
                     if (questionBean.getRestrictions().size() > 0) {
                         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                            if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                            if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                                 changeTitleRequest(restrictionsBean, value);
                             }
                         }

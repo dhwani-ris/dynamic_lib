@@ -9,7 +9,7 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
 import java.util.LinkedHashMap;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
 
 
 class BaseSelectType extends BaseQuestionType {

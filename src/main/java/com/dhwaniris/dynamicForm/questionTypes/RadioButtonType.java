@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.RadioRowViewXML;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -13,12 +13,12 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 
 
 public class RadioButtonType extends BaseType {
@@ -102,10 +102,10 @@ public class RadioButtonType extends BaseType {
         List<ValidationBean> valiList = questionBean.getValidation();
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     dynamicRadioViewXML.isRequired(true);
-                } else if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS)
-                        || validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE)
+                } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_GPS)
+                        || validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_IMAGE)
                 ) {
                     dynamicRadioViewXML.setAdditionalInfoClick(v -> {
                         radioButtonListener.clickOnAdditionalButton(questionBean);
@@ -130,7 +130,7 @@ public class RadioButtonType extends BaseType {
             setData(answerBeanFilled);
 
 
-            if (formStatus == SUBMITTED || formStatus == AppConfing.EDITABLE_SUBMITTED) {
+            if (formStatus == SUBMITTED || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED) {
                 dynamicRadioViewXML.setFocusable(false);
                 dynamicRadioViewXML.setAnswerStatus(RadioRowViewXML.ANSWERED);
 
@@ -144,7 +144,7 @@ public class RadioButtonType extends BaseType {
 
 
         for (ValidationBean validationBean : questionBean.getValidation()) {
-            if (validationBean.get_id().equals(AppConfing.VAL_NOT_ABLE_TO_FILL)) {
+            if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_NOT_ABLE_TO_FILL)) {
                 dynamicRadioViewXML.setFocusable(false);
                 isClickable = false;
                 break;

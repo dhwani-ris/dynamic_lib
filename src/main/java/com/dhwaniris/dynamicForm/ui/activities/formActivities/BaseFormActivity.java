@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.base.BaseActivity;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
@@ -85,16 +85,16 @@ import java.util.Map;
 import java.util.UUID;
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REST_CLEAR_DID_CHILD;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REST_SHOULD_BE_GRATER_THAN;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REST_SHOULD_BE_LESS_THAN;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.REST_SHOULD_BE_LESS_THAN_EQUAL;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REST_CLEAR_DID_CHILD;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN_EQUAL;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
 import static java.util.regex.Pattern.matches;
 
 
@@ -247,7 +247,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         @Override
         public String getUserLanguage() {
-            return preferenceHelper.LoadStringPref(AppConfing.LANGUAGE, "en");
+            return "en";
         }
 
 
@@ -333,7 +333,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             LinkedHashMap<String, Nested> nestedLinkedHashMap = new LinkedHashMap<>();
             boolean isValidAns = false;
             final QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
-            if (questionBean.getInput_type().equals(AppConfing.QUS_LOOPING)) {
+            if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING)) {
                 String currentCountOfRepetition = questionBeanFilled.getAnswer().get(0).getValue();
                 if (currentCountOfRepetition != null && !currentCountOfRepetition.equals("")) {
                     isValidAns = true;
@@ -345,7 +345,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         childListValues.add(String.valueOf(i));
                     }
                 }
-            } else if (questionBean.getInput_type().equals(AppConfing.QUS_LOOPING_MILTISELECT)) {
+            } else if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)) {
                 List<Answers> questionAns = questionBeanFilled.getAnswer();
                 if (!questionAns.isEmpty() && !questionAns.get(0).getValue().equals("")) {
                     isValidAns = true;
@@ -365,7 +365,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 String childQuestionGroup = childQuestionOrder.substring(0, childQuestionOrder.indexOf("."));
                 if (childQuestionGroup.equals(questionUid)) {
                     childQuestionsList.add(questionBean1);
-                    isChildLocationRequired = questionBean1.getInput_type().equals(AppConfing.QUS_GET_LOCTION);
+                    isChildLocationRequired = questionBean1.getInput_type().equals(LibDynamicAppConfig.QUS_GET_LOCTION);
 
                 }
             }
@@ -378,7 +378,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             if (isValidAns) {
                 List<Nested> oldNestedList = questionBeanFilled.getNestedAnswer();
-                if (!(formStatus == AppConfing.SUBMITTED || formStatus == EDITABLE_SUBMITTED)) {
+                if (!(formStatus == LibDynamicAppConfig.SUBMITTED || formStatus == EDITABLE_SUBMITTED)) {
                     if (oldNestedList == null || oldNestedList.size() == 0) {
 
                         //new create new answer for nested
@@ -612,19 +612,19 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     String alertMsg = null;
                     boolean isBetweenAlert = false;
                     for (ValidationBean validationBean : questionBean.getValidation()) {
-                        if (validationBean.get_id().equals(AppConfing.VAL_REGEX)) {
+                        if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REGEX)) {
                             isRegex = true;
-                        } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_REGEX)) {
+                        } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_REGEX)) {
                             isAlertRegex = true;
                             alertRegexList.add(validationBean.getError_msg());
                             alertMsg = "" + getString(R.string.are_you_sure);
-                        } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_MSG)) {
+                        } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_MSG)) {
                             if (validationBean.getError_msg() != null && !validationBean.getError_msg().equals("")) {
                                 alertMsg = validationBean.getError_msg();
                             } else {
                                 alertMsg = "" + getString(R.string.are_you_sure);
                             }
-                        } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_IF_BETWEEN)) {
+                        } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_IF_BETWEEN)) {
                             isBetweenAlert = true;
 
                         }
@@ -645,7 +645,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         isValidRegex = standardValue.matches(questionBean.getPattern());
                     }
 
-                    if (questionBean.getInput_type().equals(AppConfing.QUA_UNIT_CONVERSION) &&
+                    if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUA_UNIT_CONVERSION) &&
                             questionBean.getRestrictions().size() > 0) {
                         isValidInNumbericRestriction = checkRestrictionOnNumberValues(questionBean, standardValue);
                         callForExpressionsRestriction(questionBean, standardValue);
@@ -667,9 +667,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 updateCount();
 
             } else {
-                BaseActivity.logDatabase(AppConfing.END_POINT, String.format(Locale.ENGLISH,
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
                         "Question filled with null. Question ID : %s Line no. 552",
-                        questionBean.get_id()), AppConfing.UNEXPECTED_ERROR,
+                        questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                         "BaseFormActivity");
             }
 
@@ -708,8 +708,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         for (Answers answers : questionBeanFilled.getAnswer()) {
             answerBuilder.append(prefix);
             prefix = ",";
-            if (questionBeanFilled.getInput_type().equals(AppConfing.QUS_TEXT)
-                    || questionBeanFilled.getInput_type().equals(AppConfing.QUS_ADDRESS)) {
+            if (questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT)
+                    || questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS)) {
                 answerBuilder.append(answers.getTextValue());
             } else {
                 answerBuilder.append(answers.getValue());
@@ -723,37 +723,37 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         View view = null;
         String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
         switch (questionBean.getInput_type()) {
-            case AppConfing.QUS_TEXT:
-            case AppConfing.QUS_ADDRESS:
+            case LibDynamicAppConfig.QUS_TEXT:
+            case LibDynamicAppConfig.QUS_ADDRESS:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 EditTextSimpleText editTextSimpleText = new EditTextSimpleText(dataListener, view, questionBean, formStatus, questionBeenList, answerBeanHelperList);
                 questionObjectList.put(questionUniqueId, editTextSimpleText);
                 break;
-            case AppConfing.QUS_NUMBER:
+            case LibDynamicAppConfig.QUS_NUMBER:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 EditTextNumber editTextNumber = new EditTextNumber(dataListener, view, questionBean, formStatus, questionBeenList, answerBeanHelperList, editTextFocusChangeListener);
                 questionObjectList.put(questionUniqueId, editTextNumber);
                 break;
-            case AppConfing.QUS_AADHAAR:
+            case LibDynamicAppConfig.QUS_AADHAAR:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 EditTextAadhar editTextAadhar = new EditTextAadhar(dataListener, view, questionBean, formStatus, questionBeenList, answerBeanHelperList);
                 questionObjectList.put(questionUniqueId, editTextAadhar);
                 break;
 
-            case AppConfing.QUS_DATE:
+            case LibDynamicAppConfig.QUS_DATE:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 DateSelect dateSelect = new DateSelect(view, questionBean, formStatus, dataListener, questionBeenList, answerBeanHelperList);
                 questionObjectList.put(questionUniqueId, dateSelect);
                 break;
 
-            case AppConfing.QUS_IMAGE:
+            case LibDynamicAppConfig.QUS_IMAGE:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_img_dynam, linearLayout, false);
                 ImageType imageType = new ImageType(view, questionBean, formStatus, imageViewListener,
                         questionBeenList, answerBeanHelperList);
 
                 questionObjectList.put(questionUniqueId, imageType);
                 break;
-            case AppConfing.QUS_LABEL:
+            case LibDynamicAppConfig.QUS_LABEL:
                 view = getLayoutInflater().inflate(R.layout.dy_row_label, linearLayout, false);
                 BaseLabelType labelType = new BaseLabelType(view);
                 labelType.setAnswerAnsQuestionData(answerBeanHelperList);
@@ -764,8 +764,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 questionObjectList.put(questionUniqueId, labelType);
                 break;
 
-            case AppConfing.QUS_DROPDOWN:
-            case AppConfing.QUS_DROPDOWN_HIDE: {
+            case LibDynamicAppConfig.QUS_DROPDOWN:
+            case LibDynamicAppConfig.QUS_DROPDOWN_HIDE: {
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 SingleSelect singleSelect = new SingleSelect(view, questionBean,
                         formStatus, dataListener, questionBeenList, answerBeanHelperList, form_id);
@@ -773,22 +773,22 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             }
             break;
 
-            case AppConfing.QUS_MULTI_SELECT:
-            case AppConfing.QUS_MULTI_SELECT_HIDE: {
+            case LibDynamicAppConfig.QUS_MULTI_SELECT:
+            case LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE: {
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 MultiSelect multiSelect = new MultiSelect(view, questionBean,
                         formStatus, dataListener, questionBeenList, answerBeanHelperList, form_id);
                 questionObjectList.put(questionUniqueId, multiSelect);
             }
             break;
-            case AppConfing.QUS_MULTI_SELECT_LIMITED: {
+            case LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED: {
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dynam, linearLayout, false);
                 MultiSelectLimit multiSelectLimit = new MultiSelectLimit(view, questionBean,
                         formStatus, dataListener, questionBeenList, answerBeanHelperList, form_id);
                 questionObjectList.put(questionUniqueId, multiSelectLimit);
             }
             break;
-            case AppConfing.QUS_LOOPING: {
+            case LibDynamicAppConfig.QUS_LOOPING: {
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dy_looping, linearLayout, false);
                 LoopingSingleSelect loopingSingleSelect = new LoopingSingleSelect(view, questionBean,
                         formStatus, dataListener, questionBeenList, answerBeanHelperList, onLoopingButtonClickListener
@@ -798,7 +798,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             }
             break;
-            case AppConfing.QUS_LOOPING_MILTISELECT: {
+            case LibDynamicAppConfig.QUS_LOOPING_MILTISELECT: {
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dy_looping, linearLayout, false);
                 LoopingMultiSelect loopingMultiSelect = new LoopingMultiSelect(view, questionBean,
                         formStatus, dataListener, questionBeenList, answerBeanHelperList, onLoopingButtonClickListener
@@ -808,7 +808,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             }
             break;
-            case AppConfing.QUS_VIEW_IMAGE_QUESTION: {
+            case LibDynamicAppConfig.QUS_VIEW_IMAGE_QUESTION: {
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_dy_looping, linearLayout, false);
                 ViewImageWithSingleSelect viewImageWithSingleSelect = new ViewImageWithSingleSelect(view, questionBean,
                         formStatus, dataListener, questionBeenList, answerBeanHelperList, onViewImageButtonClickListener, form_id);
@@ -816,39 +816,39 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             }
             break;
 
-            case AppConfing.QUS_RECORD_AUDIO:
+            case LibDynamicAppConfig.QUS_RECORD_AUDIO:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_audio, linearLayout, false);
                 AudioRecordType audioRecordType = new AudioRecordType(view, formStatus, questionBean, questionBeenList, answerBeanHelperList, recordAudioResponseListener);
                 audioRecordType.isPermission = checkMicPermission();
                 questionObjectList.put(questionUniqueId, audioRecordType);
                 break;
 
-            case AppConfing.QUS_RADIO_BUTTONS:
+            case LibDynamicAppConfig.QUS_RADIO_BUTTONS:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_radio_view, linearLayout, false);
                 RadioButtonType radioButtonType = new RadioButtonType(view, formStatus, questionBean, questionBeenList, answerBeanHelperList, radioButtonListener);
                 questionObjectList.put(questionUniqueId, radioButtonType);
                 break;
 
-            case AppConfing.QUS_GET_LOCTION:
+            case LibDynamicAppConfig.QUS_GET_LOCTION:
                 view = getLayoutInflater().inflate(R.layout.dy_quest_custom_row_location_xml, linearLayout, false);
                 LocationGetType locationGetType = new LocationGetType(view, formStatus, questionBean, questionBeenList, answerBeanHelperList, onGetLocationClickListener, dataListener);
                 questionObjectList.put(questionUniqueId, locationGetType);
                 break;
 
-//            case AppConfing.QUS_CONSENT:
+//            case LibDynamicAppConfig.QUS_CONSENT:
 //                view = getLayoutInflater().inflate(R.layout.quest_custom_cosent, linearLayout, false);
 //                ConsentType consentType = new ConsentType(view, formStatus, questionBean, questionBeenList, answerBeanHelperList, consentListener, dataListener);
 //                questionObjectList.put(questionUniqueId, consentType);
 //                break;
 //
-//            case AppConfing.QUS_GEO_TRACE:
-//            case AppConfing.QUS_GEO_SHAPE:
+//            case LibDynamicAppConfig.QUS_GEO_TRACE:
+//            case LibDynamicAppConfig.QUS_GEO_SHAPE:
 //                view = getLayoutInflater().inflate(R.layout.qus_row_custom_geo_trace, linearLayout, false);
 //                GeoTraceType geoTraceType = new GeoTraceType(view, formStatus, questionBean, questionBeenList, answerBeanHelperList, geoTraceListener, dataListener);
 //                questionObjectList.put(questionUniqueId, geoTraceType);
 //                break;
 
-            case AppConfing.QUA_UNIT_CONVERSION:
+            case LibDynamicAppConfig.QUA_UNIT_CONVERSION:
                 view = getLayoutInflater().inflate(R.layout.dy_qus_row_custom_unit, linearLayout, false);
                 UnitConversionType unitConversionType = new UnitConversionType(view, formStatus, questionBean, questionBeenList, answerBeanHelperList, unitConversionListener, dataListener);
                 questionObjectList.put(questionUniqueId, unitConversionType);
@@ -863,7 +863,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             questionObjectList.get(questionUniqueId).setViewIndex(position);
 
             if (newTitles.get(questionUniqueId) != null) {
-                replaceTitleOfQuestion(questionUniqueId, AppConfing.BLANK_TITLE, newTitles.get(questionUniqueId));
+                replaceTitleOfQuestion(questionUniqueId, LibDynamicAppConfig.BLANK_TITLE, newTitles.get(questionUniqueId));
                 answerBeanHelperList.get(questionUniqueId)
                         .setTitle(newTitles.get(questionUniqueId));
             }
@@ -876,11 +876,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private void createNotifyOnChangeList(QuestionBean questionBean) {
         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-            if (restrictionsBean.getType().equals(AppConfing.REST_DID_RELATION)
-                    || restrictionsBean.getType().equals(AppConfing.REST_SHOULD_BE_LESS_THAN)
-                    || restrictionsBean.getType().equals(AppConfing.REST_SHOULD_BE_LESS_THAN_EQUAL)
-                    || restrictionsBean.getType().equals(AppConfing.REST_SHOULD_BE_GRATER_THAN)
-                    || restrictionsBean.getType().equals(AppConfing.REST_SHOULD_BE_GRATER_THAN_EQUAL)
+            if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_DID_RELATION)
+                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN)
+                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN_EQUAL)
+                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN)
+                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL)
             ) {
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                     HashSet<String> ordersToNotify = notifyOnchangeMap.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
@@ -919,12 +919,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         answerBeanHelper.setTitle(questionBean.getTitle());
         answerBeanHelper.setViewSequence(questionBean.getViewSequence());
         boolean isActive = (isVisibleInHideList || (questionBean.getParent().size() == 0)
-                && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL));
+                && !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LABEL));
 
         List<ValidationBean> valiList = questionBean.getValidation();
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     answerBeanHelper.setOptional(false);
                     answerBeanHelper.setRequired(isActive);
                     break;
@@ -956,19 +956,19 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
             for (ValidationBean validationBean : questionBean.getValidation()) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REGEX)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REGEX)) {
                     isRegex = true;
-                } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_REGEX)) {
+                } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_REGEX)) {
                     isAlertRegex = true;
                     alertRegexList.add(validationBean.getError_msg());
                     alertMsg = "" + this.getString(R.string.are_you_sure);
-                } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_MSG)) {
+                } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_MSG)) {
                     if (validationBean.getError_msg() != null && !validationBean.getError_msg().equals("")) {
                         alertMsg = validationBean.getError_msg();
                     } else {
                         alertMsg = "" + this.getString(R.string.are_you_sure);
                     }
-                } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_IF_BETWEEN)) {
+                } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_IF_BETWEEN)) {
                     isBetweenAlert = true;
 
                 }
@@ -994,7 +994,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     isValidRegex = text.matches(questionBean.getPattern());
                 }
 
-                if (questionBean.getInput_type().equals(AppConfing.QUS_NUMBER) &&
+                if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_NUMBER) &&
                         questionBean.getRestrictions().size() > 0) {
                     isValidInNumbericRestriction = checkRestrictionOnNumberValues(questionBean, text);
                     callForExpressionsRestriction(questionBean, text);
@@ -1010,7 +1010,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 }
             }
 
-            if (questionBean.getInput_type().equals(AppConfing.QUS_ADDRESS) || questionBean.getInput_type().equals(AppConfing.QUS_TEXT)) {
+            if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS) || questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT)) {
                 saveDataToAnsList(questionBeanFilled, "", "", text, "");
             } else {
                 saveDataToAnsList(questionBeanFilled, text, "", "", "");
@@ -1025,9 +1025,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT, String.format(Locale.ENGLISH,
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
                     "Question filled with null. Question ID : %s Line no. 552",
-                    questionBean.get_id()), AppConfing.UNEXPECTED_ERROR,
+                    questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                     "BaseFormActivity");
         }
 
@@ -1036,8 +1036,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private void validateAnsForAdditionalInfo(String text, QuestionBean questionBean, BaseType baseType) {
         for (ValidationBean validationBean : questionBean.getValidation()) {
-            if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS)
-                    || validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE)
+            if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_GPS)
+                    || validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_IMAGE)
             ) {
 
                 String requiredPattern = validationBean.getValue();
@@ -1071,8 +1071,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private void validateAnsForAdditionalInfoMultiseltct(List<String> value, QuestionBean questionBean, BaseType baseType) {
         for (ValidationBean validationBean : questionBean.getValidation()) {
-            if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS)
-                    || validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE)
+            if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_GPS)
+                    || validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_IMAGE)
             ) {
 
                 String requiredPattern = validationBean.getValue();
@@ -1121,17 +1121,17 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 boolean isAlertCorrect = true;
 
                 for (ValidationBean validationBean : questionBean.getValidation()) {
-                    if (validationBean.get_id().equals(AppConfing.VAL_ALERT_REGEX)) {
+                    if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_REGEX)) {
                         isAlertRegex = true;
                         alertRegexList.add(validationBean.getError_msg());
                         alertMsg = "" + this.getString(R.string.are_you_sure);
-                    } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_MSG)) {
+                    } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_MSG)) {
                         if (validationBean.getError_msg() != null && !validationBean.getError_msg().equals("")) {
                             alertMsg = validationBean.getError_msg();
                         } else {
                             alertMsg = "" + this.getString(R.string.are_you_sure);
                         }
-                    } else if (validationBean.get_id().equals(AppConfing.VAL_ALERT_IF_BETWEEN)) {
+                    } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ALERT_IF_BETWEEN)) {
                         isBetweemLimit = true;
 
                     }
@@ -1233,7 +1233,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     childAnswerBean.setNestedAnswer(new ArrayList<>());
 
                 }
-            } else if (childQuestion.getInput_type().equals(AppConfing.QUS_NUMBER)) {
+            } else if (childQuestion.getInput_type().equals(LibDynamicAppConfig.QUS_NUMBER)) {
                 if (childAnswers.size() > 0) {
                     isValid = checkRestrictionOnNumberValues(childQuestion, childAnswers.get(0).getValue());
                 }
@@ -1337,7 +1337,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     else if (questionBean.getAnswer_options().size() > 0 && value.size() == 1) {
                         if (value.get(0).equals(questionBean.getAnswer_option().get(0).get_id())) {
                             for (ValidationBean validationBean : questionBean.getValidation()) {
-                                if (validationBean.get_id().equals(AppConfing.VAL_ADD_DEFAULT_OPTION_WHEN_DY_AO_0)) {
+                                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_DEFAULT_OPTION_WHEN_DY_AO_0)) {
                                     setFilledAns(questionBeanFilled, true, true);
                                     dynamicLoopingView.changebuttonStatus(false, 0);
                                     break;
@@ -1350,15 +1350,15 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 }
 
             } else {
-                BaseActivity.logDatabase(AppConfing.END_POINT, String.format(Locale.ENGLISH,
+                BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
                         "Wrong Child in linearLayout. Question ID :%s . Line no. 820",
-                        questionBean.get_id()), AppConfing.UNEXPECTED_ERROR,
+                        questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                         "BaseFormActivity");
             }
 
             if (questionBean.getRestrictions().size() > 0) {
                 for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                    if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                    if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                         applyTitleChangeRestriction(restrictionsBean, text);
                     } else if (restrictionsBean.getType().equals(REST_CLEAR_DID_CHILD)) {
                         for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
@@ -1371,7 +1371,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 }
             }
             for (ValidationBean validationBean : questionBean.getValidation()) {
-                if (validationBean.get_id().equals(AppConfing.VAL_DYNAMIC_ANSWER_OPTION)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_DYNAMIC_ANSWER_OPTION)) {
                     for (String transactionIds : value)
                         handleDynamicData(questionBean, transactionIds);
                 }
@@ -1402,9 +1402,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT,
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT,
                     "Question is Invalid. Line no. 804",
-                    AppConfing.UNEXPECTED_ERROR, "BaseFormActivity");
+                    LibDynamicAppConfig.UNEXPECTED_ERROR, "BaseFormActivity");
         }
     }
 
@@ -1445,10 +1445,10 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         EditTextWIthButtonView dynamicLoopingView = (EditTextWIthButtonView) linear;
                         dynamicLoopingView.setAnswerStatus(EditTextRowView.ANSWERED);
                         dynamicLoopingView.setText(value);
-                        if (questionBean.getInput_type().equals(AppConfing.QUS_LOOPING)) {
+                        if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING)) {
                             setFilledAns(questionBeanFilled, false, false);
                             dynamicLoopingView.changebuttonStatus(false, 2);
-                        } else if (questionBean.getInput_type().equals(AppConfing.QUS_VIEW_IMAGE_QUESTION)) {
+                        } else if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_VIEW_IMAGE_QUESTION)) {
                             Integer validation = twoStepValidation.get(questionUniqueId);
                             if (validation != null && validation == 1) {
                                 dynamicLoopingView.setAnswerStatus(EditTextWIthButtonView.ANSWERED);
@@ -1466,18 +1466,18 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
                 if (questionBean.getRestrictions().size() > 0) {
                     for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                        if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                        if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                             applyTitleChangeRestriction(restrictionsBean, value);
                         }
                     }
                 }
                 String optionId = id;
                 for (ValidationBean validationBean : questionBean.getValidation()) {
-                    if (validationBean.get_id().equals(AppConfing.VAL_VILLAGE_WISE_LIMIT)) {
+                    if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_VILLAGE_WISE_LIMIT)) {
                         boolean isExceedLimit = checkVillageWiseLimit(questionBean, id);
                         if (isExceedLimit)
                             optionId = "-8898";
-                    } else if (validationBean.get_id().equals(AppConfing.VAL_DYNAMIC_ANSWER_OPTION)) {
+                    } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_DYNAMIC_ANSWER_OPTION)) {
                         handleDynamicData(questionBean, id);
                     }
 
@@ -1491,9 +1491,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 updateCount();
             }
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT,
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT,
                     "Question is Invalid. Line no. 873",
-                    AppConfing.UNEXPECTED_ERROR, "BaseFormActivity");
+                    LibDynamicAppConfig.UNEXPECTED_ERROR, "BaseFormActivity");
         }
 
     }
@@ -1528,7 +1528,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 if (villageWiseBean.get_id().equals(villageId)) {
                     long submmitedCount = realm.where(FilledForms.class)
                             .equalTo("formId", String.valueOf(form_id))
-                            .equalTo("upload_status", AppConfing.SUBMITTED)
+                            .equalTo("upload_status", LibDynamicAppConfig.SUBMITTED)
                             .equalTo("question.order", questionUId)
                             .equalTo("question.answer.value", villageId).count();
                     int syncCount = villageWiseBean.getCount();
@@ -1592,7 +1592,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             if (questionBean.getRestrictions().size() > 0) {
                 for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                    if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                    if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                         applyTitleChangeRestriction(restrictionsBean, date);
                     }
                 }
@@ -1603,9 +1603,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             updateCount();
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT,
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT,
                     "Question is Invalid. Line no. 952",
-                    AppConfing.UNEXPECTED_ERROR, "BaseFormActivity");
+                    LibDynamicAppConfig.UNEXPECTED_ERROR, "BaseFormActivity");
         }
     }
 
@@ -1697,7 +1697,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         saveDataToAnsList(questionBeanFilled, id, label, "", "");
         if (questionBean.getRestrictions().size() > 0) {
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                     applyTitleChangeRestriction(restrictionsBean, label);
                 }
             }
@@ -1821,10 +1821,10 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             }
         }
-        if (isActive && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL)) {
+        if (isActive && !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LABEL)) {
             if (valList.size() > 0) {
                 for (ValidationBean validationBean : valList) {
-                    if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                    if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                         addingInHelperArray(childUid, true, false, false);
                         break;
                     }
@@ -1934,7 +1934,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
             if (restrictionsBean.getType().equals(REST_SHOULD_BE_GRATER_THAN)
-                    || restrictionsBean.getType().equals(AppConfing.REST_SHOULD_BE_GRATER_THAN_EQUAL)
+                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL)
                     || restrictionsBean.getType().equals(REST_SHOULD_BE_LESS_THAN)
                     || restrictionsBean.getType().equals(REST_SHOULD_BE_LESS_THAN_EQUAL)) {
 
@@ -1959,28 +1959,28 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
                 }
                 switch (restrictionsBean.getType()) {
-                    case AppConfing.REST_SHOULD_BE_GRATER_THAN:
+                    case LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN:
                         for (float parentValue : parentValuesList) {
                             if (currentValue <= parentValue) {
                                 return false;
                             }
                         }
                         break;
-                    case AppConfing.REST_SHOULD_BE_GRATER_THAN_EQUAL:
+                    case LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL:
                         for (float parentValue : parentValuesList) {
                             if (currentValue < parentValue) {
                                 return false;
                             }
                         }
                         break;
-                    case AppConfing.REST_SHOULD_BE_LESS_THAN:
+                    case LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN:
                         for (float parentValue : parentValuesList) {
                             if (currentValue >= parentValue) {
                                 return false;
                             }
                         }
                         break;
-                    case AppConfing.REST_SHOULD_BE_LESS_THAN_EQUAL:
+                    case LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN_EQUAL:
                         for (float parentValue : parentValuesList) {
                             if (currentValue > parentValue) {
                                 return false;
@@ -1999,7 +1999,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         if (!QuestionsUtils.Companion.isValidFloat(text))
             return;
         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-            if (restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_EXPRESSION)) {
+            if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_EXPRESSION)) {
                 List<String> listOfNotifyOrders = new ArrayList<>();
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                     String restrictionOrderUniqueId = QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean);
@@ -2027,10 +2027,10 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
         for (QuestionBean questionBean : listOfQuestionBeanForCalculation) {
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                if (restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_ADD) ||
-                        restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_SUB) ||
-                        restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_MUL) ||
-                        restrictionsBean.getType().equals(AppConfing.REST_CALL_FOR_DIVD)) {
+                if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_ADD) ||
+                        restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_SUB) ||
+                        restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_MUL) ||
+                        restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_DIVD)) {
                     solveExpressionAddSubMulDiv(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), restrictionsBean, currentValue, currentQusUid);
                     break;
                 }
@@ -2073,24 +2073,24 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         float finalValue = 0;
         switch (restrictionsBean.getType()) {
-            case AppConfing.REST_CALL_FOR_ADD:
+            case LibDynamicAppConfig.REST_CALL_FOR_ADD:
                 for (float pValue : valuesForEquation) {
                     finalValue += pValue;
                 }
                 break;
-            case AppConfing.REST_CALL_FOR_SUB:
+            case LibDynamicAppConfig.REST_CALL_FOR_SUB:
                 finalValue = valuesForEquation.get(0);
                 for (int i = 1; i < valuesForEquation.size(); i++) {
                     finalValue -= valuesForEquation.get(i);
                 }
                 break;
-            case AppConfing.REST_CALL_FOR_MUL:
+            case LibDynamicAppConfig.REST_CALL_FOR_MUL:
                 finalValue = 1;
                 for (float pValue : valuesForEquation) {
                     finalValue += pValue;
                 }
                 break;
-            case AppConfing.REST_CALL_FOR_DIVD:
+            case LibDynamicAppConfig.REST_CALL_FOR_DIVD:
                 break;
         }
 
@@ -2122,23 +2122,23 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             for (ValidationBean validationBean1 : validationBeanList) {
                 switch (validationBean1.get_id()) {
-                    case AppConfing.VAL_FUTURE_DATE:
+                    case LibDynamicAppConfig.VAL_FUTURE_DATE:
                         if (!selDateC.after(todayC)) {
                             return false;
                         }
                         break;
-                    case AppConfing.VAL_FUTURE_AND_TODAY:
+                    case LibDynamicAppConfig.VAL_FUTURE_AND_TODAY:
                         if (selDateC.before(todayC)) {
                             return false;
                         }
                         break;
-                    case AppConfing.VAL_PAST_DATE:
+                    case LibDynamicAppConfig.VAL_PAST_DATE:
                         if (!selDateC.before(todayC)) {
                             return false;
                         }
 
                         break;
-                    case AppConfing.VAL_PAST_AND_TODAY:
+                    case LibDynamicAppConfig.VAL_PAST_AND_TODAY:
                         if (selDateC.after(todayC))
                             return false;
                         break;
@@ -2171,7 +2171,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, isMatch, answerBeanHelperList);
                 }
                 for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
-                    if (restrictionsBean.getType().equals(AppConfing.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
+                    if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
                         showProgress(this, getString(R.string.loading));
                         isMatch = QuestionsUtils.Companion.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
                         hideProgess();
@@ -2207,9 +2207,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private void applyTitleChangeRestriction(RestrictionsBean restrictionsBean, String text) {
         switch (restrictionsBean.getType()) {
-            case AppConfing.REST_VALUE_AS_TITLE_OF_CHILD:
+            case LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD:
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                    replaceTitleOfQuestion(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), AppConfing.BLANK_TITLE, text);
+                    replaceTitleOfQuestion(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean), LibDynamicAppConfig.BLANK_TITLE, text);
                 }
 
                 break;
@@ -2319,12 +2319,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         answerBeanHelper.setTitle(questionBean.getTitle());
         answerBeanHelper.setViewSequence(questionBean.getViewSequence());
         boolean isActive = (isVisibleInHideList || (questionBean.getParent().size() == 0)
-                && !questionBean.getInput_type().equals(AppConfing.QUS_LABEL));
+                && !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LABEL));
 
         List<ValidationBean> valiList = questionBean.getValidation();
         if (!valiList.isEmpty()) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     answerBeanHelper.setOptional(false);
                     answerBeanHelper.setRequired(isActive);
                     break;
@@ -2518,7 +2518,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             if (childQuestionBean != null) {
                 for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
-                    if (restrictionsBean.getType().equals(AppConfing.REST_GET_ANS_OPTION_LOOPING)) {
+                    if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING)) {
                         List<AnswerOptionsBean> currentAvailableAnswerOption = childQuestionBean.getAnswer_options();
                         currentAvailableAnswerOption = QuestionsUtils.Companion.getAnswerListFormRestriction(currentAvailableAnswerOption, restrictionsBean, childQuestionBean, answerBeanHelperList);
                         List<Answers> childAnswerList = QuestionsUtils.Companion.getAnswerListbyOder(childUniqueID, null, answerBeanHelperList);
@@ -2540,7 +2540,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                             }
                         }
                         break;
-                    } else if (restrictionsBean.getType().equals(AppConfing.REST_GET_ANS_SUM_LOOPING)) {
+                    } else if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_GET_ANS_SUM_LOOPING)) {
                         List<Answers> answers = new ArrayList<>();
                         float sum = 0;
                         for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
@@ -2623,9 +2623,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         List<Answers> childAnswerList = QuestionsUtils.getAnswerListbyOder(QuestionsUtils.getQuestionUniqueId(questionBean), null, answerBeanHelperList);
 
         for (ValidationBean validationBean : questionBean.getValidation()) {
-            if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS) && (childAnswerList.get(0).getValue().matches(validationBean.getValue()) || validationBean.getValue().equals(""))) {
+            if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_GPS) && (childAnswerList.get(0).getValue().matches(validationBean.getValue()) || validationBean.getValue().equals(""))) {
                 intent.putExtra(Constant.IS_LOCATION_REQUIRED, true);
-            } else if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE) && (childAnswerList.get(0).getValue().matches(validationBean.getValue()) || validationBean.getValue().equals(""))) {
+            } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_IMAGE) && (childAnswerList.get(0).getValue().matches(validationBean.getValue()) || validationBean.getValue().equals(""))) {
                 intent.putExtra(Constant.IS_IMAGE_REQUIRED, true);
             }
         }

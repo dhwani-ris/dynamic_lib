@@ -3,7 +3,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 import android.os.Handler;
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ParentBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -68,7 +68,7 @@ public abstract class BaseType {
                 isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList);
             }
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                if (restrictionsBean.getType().equals(AppConfing.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
+                if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
                     isMatch = QuestionsUtils.Companion.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
                     break;
                 }

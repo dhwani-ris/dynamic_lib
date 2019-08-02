@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.DynamicLocationViewXML;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
@@ -16,11 +16,11 @@ import java.util.List;
 
 
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_DARFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.EDITABLE_SUBMITTED;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 public class LocationGetType extends BaseType {
     private QuestionHelperCallback.QuestionButtonClickListener locationGetBtn;
@@ -50,7 +50,7 @@ public class LocationGetType extends BaseType {
         }
         answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
 
-        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == AppConfing.SYNCED_BUT_EDITABLE || formStatus == AppConfing.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
+        if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == LibDynamicAppConfig.SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             setData(answerBeanFilled);
         }
 
@@ -104,10 +104,10 @@ public class LocationGetType extends BaseType {
         List<ValidationBean> valiList = questionBean.getValidation();
         if (valiList.size() > 0) {
             for (ValidationBean validationBean : valiList) {
-                if (validationBean.get_id().equals(AppConfing.VAL_REQUIRED)) {
+                if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
                     dynamicLocationViewXML.isRequired(true);
-                } else if (validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_GPS)
-                        || validationBean.get_id().equals(AppConfing.VAL_ADD_INFO_IMAGE)
+                } else if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_GPS)
+                        || validationBean.get_id().equals(LibDynamicAppConfig.VAL_ADD_INFO_IMAGE)
                         ) {
                     dynamicLocationViewXML.setAdditionalInfoClick(v -> {
                         dataListener.clickOnAdditionalButton(questionBean);

@@ -22,7 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.SingletonForm;
 import com.dhwaniris.dynamicForm.adapters.UnansweredQusAdapter;
@@ -57,9 +57,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.DRAFT;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.NEW_FORM;
-import static com.dhwaniris.dynamicForm.NetworkModule.AppConfing.SUBMITTED;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 
 
 public class FormActivity extends BaseFormActivity implements View.OnClickListener,
@@ -156,7 +156,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
     private void AddNewObjectView(LinkedHashMap<String, QuestionBean> questionBeanList) {
 /*////
         QuestionBean questionBean1 = questionBeanList.get("2");
-        questionBean1.setInput_type(AppConfing.QUA_UNIT_CONVERSION);
+        questionBean1.setInput_type(LibDynamicAppConfig.QUA_UNIT_CONVERSION);
         ValidationBean validationBean = new ValidationBean();
         validationBean.set_id(VAL_UNIT_TEMPERATURE);
         questionBean1.getValidation().add(validationBean);
@@ -268,8 +268,8 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
 
 
         } else {
-            BaseActivity.logDatabase(AppConfing.END_POINT, "Validation error question size 0",
-                    AppConfing.UNEXPECTED_ERROR, "FormActivity");
+            BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "Validation error question size 0",
+                    LibDynamicAppConfig.UNEXPECTED_ERROR, "FormActivity");
         }
     }
 

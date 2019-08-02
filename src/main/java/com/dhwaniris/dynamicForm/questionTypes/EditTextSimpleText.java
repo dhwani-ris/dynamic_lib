@@ -5,7 +5,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing;
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
@@ -25,7 +25,7 @@ public class EditTextSimpleText extends BaseEditTextType {
 
         dynamicEditTextRow.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
-        if (questionBean.getInput_type().equals(AppConfing.QUS_ADDRESS)) {
+        if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS)) {
             dynamicEditTextRow.setMaxLines(7);
             dynamicEditTextRow.singleLine(false);
 
@@ -55,7 +55,7 @@ public class EditTextSimpleText extends BaseEditTextType {
 
                     if (questionBean.getRestrictions().size() > 0) {
                         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                            if (restrictionsBean.getType().equals(AppConfing.REST_VALUE_AS_TITLE_OF_CHILD)) {
+                            if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                                 changeTitleRequest(restrictionsBean, value);
                             }
                         }

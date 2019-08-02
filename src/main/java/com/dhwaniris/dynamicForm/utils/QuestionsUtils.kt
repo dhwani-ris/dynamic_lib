@@ -1,6 +1,6 @@
 package com.dhwaniris.dynamicForm.utils
 
-import com.dhwaniris.dynamicForm.NetworkModule.AppConfing
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled
 import com.dhwaniris.dynamicForm.db.dbhelper.form.*
 import java.util.ArrayList
@@ -76,10 +76,10 @@ class QuestionsUtils {
             var isOrCase = false
             var isVisibleOnParentsDiffrentValue = false
             for (validationBean in questionBean.validation) {
-                if (validationBean._id == AppConfing.VAL_OR_CASE_WITH_MULTIPLE_PARENT) {
+                if (validationBean._id == LibDynamicAppConfig.VAL_OR_CASE_WITH_MULTIPLE_PARENT) {
                     isOrCase = true
                     break
-                } else if (validationBean._id == AppConfing.VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES) {
+                } else if (validationBean._id == LibDynamicAppConfig.VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES) {
                     isVisibleOnParentsDiffrentValue = true
                     break
                 }
@@ -126,10 +126,10 @@ class QuestionsUtils {
                 return allOptions
             }
             when (restrictionsBean.type) {
-                AppConfing.REST_GET_ANS_OPTION, AppConfing.REST_GET_ANS_OPTION_LOOPING -> {
+                LibDynamicAppConfig.REST_GET_ANS_OPTION, LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING -> {
                     //     avlList.addAll(allOptions);
                     //requiredValue null if not want to match with any value
-                    if (restrictionsBean.type == AppConfing.REST_GET_ANS_OPTION) {
+                    if (restrictionsBean.type == LibDynamicAppConfig.REST_GET_ANS_OPTION) {
                         val answers = ArrayList<Answers>()
                         for (ordersBean in restrictionsBean.orders) {
                             answers.addAll(getAnswerListbyOder(getRestrictionOrderUniqueId(ordersBean), ordersBean.value, questionBeanFilledList))
@@ -148,7 +148,7 @@ class QuestionsUtils {
                     } else {
                         //// get Answer_option_ data from looping (Nested Answer)
                         if (questionBean.parent.isNotEmpty()) {
-                            val loopingParent = questionBean.parent.find { arrayOf(AppConfing.QUS_LOOPING, AppConfing.QUS_LOOPING_MILTISELECT).contains(it.type) }
+                            val loopingParent = questionBean.parent.find { arrayOf(LibDynamicAppConfig.QUS_LOOPING, LibDynamicAppConfig.QUS_LOOPING_MILTISELECT).contains(it.type) }
                             if (loopingParent != null) {
                                 for (ordersBean in restrictionsBean.orders) {
                                     val nestedAns = getNestedAnswerListFromNestedTypeNew(getParentUniqueId(loopingParent),
@@ -164,7 +164,7 @@ class QuestionsUtils {
                     //handling or case for filter (default AND case)
                     var isOrCase = false
                     for (validationBean in questionBean.validation) {
-                        if (validationBean._id == AppConfing.VAL_OR_CASE_WITH_GET_FILTER_OPTION) {
+                        if (validationBean._id == LibDynamicAppConfig.VAL_OR_CASE_WITH_GET_FILTER_OPTION) {
                             isOrCase = true
                             break
                         }
@@ -173,8 +173,8 @@ class QuestionsUtils {
                     ///apply filters on collected option
                     var isfilter = false
                     for (filterRestriction in questionBean.restrictions) {
-                        if (filterRestriction.type == AppConfing.REST_GET_ANS_OPTION_FILTER ||
-                                filterRestriction.type == AppConfing.REST_GET_ANS_OPTION_LOOPING_FILTER) {
+                        if (filterRestriction.type == LibDynamicAppConfig.REST_GET_ANS_OPTION_FILTER ||
+                                filterRestriction.type == LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING_FILTER) {
                             isfilter = true
                             if (tempList.isEmpty()) {
                                 tempList = filterOnAnsOptFormRestriction(avlList, filterRestriction, questionBean, questionBeanFilledList)
@@ -200,10 +200,10 @@ class QuestionsUtils {
 
 
                     for (validationBean in questionBean.validation) {
-                        if (validationBean._id == AppConfing.VAL_ADD_DEFAULT_OPTION_DY_AO) {
+                        if (validationBean._id == LibDynamicAppConfig.VAL_ADD_DEFAULT_OPTION_DY_AO) {
                             avlList.addAll(questionBean.answer_options)
                             break
-                        } else if (avlList.size == 0 && validationBean._id == AppConfing.VAL_ADD_DEFAULT_OPTION_WHEN_DY_AO_0) {
+                        } else if (avlList.size == 0 && validationBean._id == LibDynamicAppConfig.VAL_ADD_DEFAULT_OPTION_WHEN_DY_AO_0) {
                             avlList.addAll(questionBean.answer_options)
                             break
                         }
@@ -212,7 +212,7 @@ class QuestionsUtils {
                 }
 
 
-                AppConfing.REST_DID_RELATION -> {
+                LibDynamicAppConfig.REST_DID_RELATION -> {
                     avlList.clear()
                     avlList.addAll(allOptions)
                     for (orderBean in restrictionsBean.orders) {
@@ -263,7 +263,7 @@ class QuestionsUtils {
             }
 
             when (restrictionsBean.type) {
-                AppConfing.REST_GET_ANS_OPTION_FILTER -> {
+                LibDynamicAppConfig.REST_GET_ANS_OPTION_FILTER -> {
                     val answers = ArrayList<Answers>()
                     if (restrictionsBean.orders.size == 0) {
                         return allOptions
@@ -291,7 +291,7 @@ class QuestionsUtils {
 
                 }
 
-                AppConfing.REST_GET_ANS_OPTION_LOOPING_FILTER -> {
+                LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING_FILTER -> {
                     ArrayList<Answers>()
                     if ((restrictionsBean.orders.size == 0) or (questionBean.parent.size == 0)) {
                         return allOptions
@@ -300,7 +300,7 @@ class QuestionsUtils {
 
                     for (ordersBean in resOrder) {
                         if (questionBean.parent.isNotEmpty()) {
-                            val loopingParent = questionBean.parent.find { arrayOf(AppConfing.QUS_LOOPING, AppConfing.QUS_LOOPING_MILTISELECT).contains(it.type) }
+                            val loopingParent = questionBean.parent.find { arrayOf(LibDynamicAppConfig.QUS_LOOPING, LibDynamicAppConfig.QUS_LOOPING_MILTISELECT).contains(it.type) }
                             if (loopingParent != null) {
                                 val nestedAns = getNestedAnswerListFromNestedTypeNew(getParentUniqueId(loopingParent),
                                         getRestrictionOrderUniqueId(ordersBean), ordersBean.value, questionBeanFilledList)
@@ -553,18 +553,18 @@ class QuestionsUtils {
         }
 
         fun isSelectType(inputType: String): Boolean {
-            return (inputType == AppConfing.QUS_DROPDOWN
-                    || inputType == AppConfing.QUS_DROPDOWN_HIDE
-                    || inputType == AppConfing.QUS_MULTI_SELECT
-                    || inputType == AppConfing.QUS_MULTI_SELECT_HIDE
-                    || inputType == AppConfing.QUS_MULTI_SELECT_LIMITED
-                    || inputType == AppConfing.QUS_LOOPING
-                    || inputType == AppConfing.QUS_LOOPING_MILTISELECT)
+            return (inputType == LibDynamicAppConfig.QUS_DROPDOWN
+                    || inputType == LibDynamicAppConfig.QUS_DROPDOWN_HIDE
+                    || inputType == LibDynamicAppConfig.QUS_MULTI_SELECT
+                    || inputType == LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE
+                    || inputType == LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED
+                    || inputType == LibDynamicAppConfig.QUS_LOOPING
+                    || inputType == LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)
         }
 
         fun isEditTextType(inputType: String): Boolean {
-            return (inputType == AppConfing.QUS_TEXT
-                    || inputType == AppConfing.QUS_ADDRESS)
+            return (inputType == LibDynamicAppConfig.QUS_TEXT
+                    || inputType == LibDynamicAppConfig.QUS_ADDRESS)
         }
 
 
@@ -580,10 +580,10 @@ class QuestionsUtils {
                         var allOptions = parentQuestion.answer_options
                         for (parentRestrictionBean in parentQuestion.restrictions) {
                             val restrictionType = parentRestrictionBean.type
-                            if (restrictionType == AppConfing.REST_DID_RELATION ||
-                                    restrictionType == AppConfing.REST_GET_ANS_OPTION ||
-                                    restrictionType == AppConfing.REST_GET_ANS_OPTION_LOOPING ||
-                                    restrictionType == AppConfing.REST_GET_ANS_SUM_LOOPING) {
+                            if (restrictionType == LibDynamicAppConfig.REST_DID_RELATION ||
+                                    restrictionType == LibDynamicAppConfig.REST_GET_ANS_OPTION ||
+                                    restrictionType == LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING ||
+                                    restrictionType == LibDynamicAppConfig.REST_GET_ANS_SUM_LOOPING) {
 
                                 allOptions = getAnswerListFormRestriction(allOptions, parentRestrictionBean, parentQuestion, answerBeanHelperList)
                                 break
@@ -650,12 +650,12 @@ class QuestionsUtils {
 
             for (validationBean in questionBean.validation) {
                 when (validationBean._id) {
-                    AppConfing.VAL_MASTER_DISTRICT -> masterDistrict = true
-                    AppConfing.VAL_MASTER_BLOCK -> masterBlock = true
-                    AppConfing.VAL_MASTER_VILLAGE -> masterVillage = true
-                    AppConfing.VAL_DYNAMIC_ANSWER_OPTION -> isDynamicOption = true
-                    AppConfing.VAL_ADD_DEFAULT_OPTION_DY_AO -> isDefaultOptionWhen = true
-                    AppConfing.VAL_ADD_DEFAULT_OPTION_WHEN_DY_AO_0 -> isDefaultOptionWhen0 = true
+                    LibDynamicAppConfig.VAL_MASTER_DISTRICT -> masterDistrict = true
+                    LibDynamicAppConfig.VAL_MASTER_BLOCK -> masterBlock = true
+                    LibDynamicAppConfig.VAL_MASTER_VILLAGE -> masterVillage = true
+                    LibDynamicAppConfig.VAL_DYNAMIC_ANSWER_OPTION -> isDynamicOption = true
+                    LibDynamicAppConfig.VAL_ADD_DEFAULT_OPTION_DY_AO -> isDefaultOptionWhen = true
+                    LibDynamicAppConfig.VAL_ADD_DEFAULT_OPTION_WHEN_DY_AO_0 -> isDefaultOptionWhen0 = true
                 }
 
             }
@@ -702,21 +702,21 @@ class QuestionsUtils {
 
             ///restriction with did logic with any question;
             if (isContainsDynamicRestriction(questionBean.restrictions)) {
-                val restriction = questionBean.restrictions.find { arrayOf(AppConfing.REST_GET_ANS_OPTION, AppConfing.REST_GET_ANS_OPTION_LOOPING, AppConfing.REST_DID_RELATION).contains(it.type) }
+                val restriction = questionBean.restrictions.find { arrayOf(LibDynamicAppConfig.REST_GET_ANS_OPTION, LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING, LibDynamicAppConfig.REST_DID_RELATION).contains(it.type) }
                 allOptions = getAnswerListFormRestriction(allOptions, restriction, questionBean, answerBeanHelperList)
             }
             /////////////////////////////////to show option which are  in parent
 
-            if (arrayOf(AppConfing.QUS_DROPDOWN,
-                            AppConfing.QUS_MULTI_SELECT,
-                            AppConfing.QUS_MULTI_SELECT_LIMITED,
-                            AppConfing.QUS_LOOPING,
-                            AppConfing.QUS_LOOPING_MILTISELECT).contains(questionBean.input_type)) {
+            if (arrayOf(LibDynamicAppConfig.QUS_DROPDOWN,
+                            LibDynamicAppConfig.QUS_MULTI_SELECT,
+                            LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED,
+                            LibDynamicAppConfig.QUS_LOOPING,
+                            LibDynamicAppConfig.QUS_LOOPING_MILTISELECT).contains(questionBean.input_type)) {
                 filteredList.addAll(allOptions)
 
             } else
-                if (questionBean.input_type == AppConfing.QUS_DROPDOWN_HIDE
-                        || questionBean.input_type == AppConfing.QUS_MULTI_SELECT_HIDE) {
+                if (questionBean.input_type == LibDynamicAppConfig.QUS_DROPDOWN_HIDE
+                        || questionBean.input_type == LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE) {
                     ///////////////////////////////////to hide option in parent
                     ////nested parent
                     val grandParentAns = ArrayList<Answers>()
@@ -724,11 +724,11 @@ class QuestionsUtils {
                     for (parentBean in questionBean.parent) {
                         parentQuestion = questionBeenList[getParentUniqueId(parentBean)]
                         if (parentQuestion != null) {
-                            if (arrayOf(AppConfing.QUS_DROPDOWN,
-                                            AppConfing.QUS_MULTI_SELECT,
-                                            AppConfing.QUS_MULTI_SELECT_LIMITED,
-                                            AppConfing.QUS_DROPDOWN_HIDE,
-                                            AppConfing.QUS_MULTI_SELECT_HIDE).contains(parentQuestion.input_type)) {
+                            if (arrayOf(LibDynamicAppConfig.QUS_DROPDOWN,
+                                            LibDynamicAppConfig.QUS_MULTI_SELECT,
+                                            LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED,
+                                            LibDynamicAppConfig.QUS_DROPDOWN_HIDE,
+                                            LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE).contains(parentQuestion.input_type)) {
                                 grandParentAns.addAll(getGrandParentAns(parentQuestion, questionBeenList, answerBeanHelperList))
                             }
                         }
@@ -750,10 +750,10 @@ class QuestionsUtils {
         private fun isContainsDynamicRestriction(restrictions: List<RestrictionsBean>): Boolean {
             for (restrictionsBean in restrictions) {
                 val restrictionType = restrictionsBean.type
-                if (restrictionType == AppConfing.REST_DID_RELATION ||
-                        restrictionType == AppConfing.REST_GET_ANS_OPTION ||
-                        restrictionType == AppConfing.REST_GET_ANS_OPTION_LOOPING ||
-                        restrictionType == AppConfing.REST_GET_ANS_SUM_LOOPING) {
+                if (restrictionType == LibDynamicAppConfig.REST_DID_RELATION ||
+                        restrictionType == LibDynamicAppConfig.REST_GET_ANS_OPTION ||
+                        restrictionType == LibDynamicAppConfig.REST_GET_ANS_OPTION_LOOPING ||
+                        restrictionType == LibDynamicAppConfig.REST_GET_ANS_SUM_LOOPING) {
                     return true
                 }
 
@@ -772,17 +772,17 @@ class QuestionsUtils {
                 val parentAns = questionBeanFilled.answer
                 finalAns.addAll(parentAns)
                 var nextQuestion: QuestionBean? = null
-                if (questionBean.input_type == AppConfing.QUS_DROPDOWN_HIDE || questionBean.input_type == AppConfing.QUS_MULTI_SELECT_HIDE) {
+                if (questionBean.input_type == LibDynamicAppConfig.QUS_DROPDOWN_HIDE || questionBean.input_type == LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE) {
 
                     for (parentBean in questionBean.parent) {
                         val tempQuestionBean = questionBeenList[getParentUniqueId(parentBean)]
                         if (tempQuestionBean != null) {
                             val questionType = tempQuestionBean.input_type
-                            if (questionType == AppConfing.QUS_DROPDOWN ||
-                                    questionType == AppConfing.QUS_MULTI_SELECT ||
-                                    questionType == AppConfing.QUS_MULTI_SELECT_LIMITED ||
-                                    questionType == AppConfing.QUS_DROPDOWN_HIDE ||
-                                    questionType == AppConfing.QUS_MULTI_SELECT_HIDE) {
+                            if (questionType == LibDynamicAppConfig.QUS_DROPDOWN ||
+                                    questionType == LibDynamicAppConfig.QUS_MULTI_SELECT ||
+                                    questionType == LibDynamicAppConfig.QUS_MULTI_SELECT_LIMITED ||
+                                    questionType == LibDynamicAppConfig.QUS_DROPDOWN_HIDE ||
+                                    questionType == LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE) {
                                 nextQuestion = tempQuestionBean
                                 break
                             }
@@ -879,15 +879,15 @@ class QuestionsUtils {
         }
 
         fun isLoopingType(questionBeanFilled: QuestionBeanFilled): Boolean {
-            return questionBeanFilled.input_type == AppConfing.QUS_LOOPING_MILTISELECT || questionBeanFilled.input_type == AppConfing.QUS_LOOPING
+            return questionBeanFilled.input_type == LibDynamicAppConfig.QUS_LOOPING_MILTISELECT || questionBeanFilled.input_type == LibDynamicAppConfig.QUS_LOOPING
         }
 
         fun isLoopingType(questionBean: QuestionBean): Boolean {
-            return questionBean.input_type == AppConfing.QUS_LOOPING_MILTISELECT || questionBean.input_type == AppConfing.QUS_LOOPING
+            return questionBean.input_type == LibDynamicAppConfig.QUS_LOOPING_MILTISELECT || questionBean.input_type == LibDynamicAppConfig.QUS_LOOPING
         }
 
         fun isMediaUploadTypeQuestion(type: String): Boolean {
-            return type == AppConfing.QUS_IMAGE || type == AppConfing.QUS_RECORD_AUDIO
+            return type == LibDynamicAppConfig.QUS_IMAGE || type == LibDynamicAppConfig.QUS_RECORD_AUDIO
         }
 
 
@@ -897,7 +897,7 @@ class QuestionsUtils {
 
         fun getAnswer(answers: Answers, inputType: String?): String {
             return if (inputType != null && inputType != "") {
-                if (inputType == AppConfing.QUS_TEXT || inputType == AppConfing.QUS_ADDRESS) {
+                if (inputType == LibDynamicAppConfig.QUS_TEXT || inputType == LibDynamicAppConfig.QUS_ADDRESS) {
                     getValueFormTextInputType(answers)
                 } else {
                     answers.value
@@ -912,7 +912,7 @@ class QuestionsUtils {
             var viewText = StringBuilder()
             if (questionBeanFilled != null && questionBeanFilled.answer.isNotEmpty()) {
                 when (questionBeanFilled.input_type) {
-                    AppConfing.QUS_MULTI_SELECT, AppConfing.QUS_MULTI_SELECT_HIDE, AppConfing.QUS_LOOPING_MILTISELECT -> {
+                    LibDynamicAppConfig.QUS_MULTI_SELECT, LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE, LibDynamicAppConfig.QUS_LOOPING_MILTISELECT -> {
                         var tempFix = ""
                         for (answers in questionBeanFilled.answer) {
                             viewText.append(tempFix).append(answers.label)
@@ -920,11 +920,11 @@ class QuestionsUtils {
                         }
                     }
 
-                    AppConfing.QUS_DROPDOWN, AppConfing.QUS_DROPDOWN_HIDE, AppConfing.QUS_LOOPING, AppConfing.QUS_RADIO_BUTTONS -> if (questionBeanFilled.answer[0] != null) {
+                    LibDynamicAppConfig.QUS_DROPDOWN, LibDynamicAppConfig.QUS_DROPDOWN_HIDE, LibDynamicAppConfig.QUS_LOOPING, LibDynamicAppConfig.QUS_RADIO_BUTTONS -> if (questionBeanFilled.answer[0] != null) {
                         viewText = StringBuilder(questionBeanFilled.answer[0]!!.label)
                     }
 
-                    AppConfing.QUS_TEXT, AppConfing.QUS_ADDRESS ->
+                    LibDynamicAppConfig.QUS_TEXT, LibDynamicAppConfig.QUS_ADDRESS ->
 
                         if (questionBeanFilled.answer[0] != null) {
                             viewText = StringBuilder(getValueFormTextInputType(questionBeanFilled.answer[0]!!))
@@ -942,9 +942,9 @@ class QuestionsUtils {
             var viewText = StringBuilder()
             if (questionBeanFilled != null && questionBeanFilled.answer.isNotEmpty()) {
                 when (questionBeanFilled.input_type) {
-                    AppConfing.QUS_MULTI_SELECT,
-                    AppConfing.QUS_MULTI_SELECT_HIDE,
-                    AppConfing.QUS_LOOPING_MILTISELECT -> {
+                    LibDynamicAppConfig.QUS_MULTI_SELECT,
+                    LibDynamicAppConfig.QUS_MULTI_SELECT_HIDE,
+                    LibDynamicAppConfig.QUS_LOOPING_MILTISELECT -> {
                         var tempFix = ""
                         for (answers in questionBeanFilled.answer) {
                             viewText.append(tempFix).append(getAnsLabel(answers, questionBean.answer_option))
@@ -952,15 +952,15 @@ class QuestionsUtils {
                         }
                     }
 
-                    AppConfing.QUS_DROPDOWN,
-                    AppConfing.QUS_DROPDOWN_HIDE,
-                    AppConfing.QUS_LOOPING,
-                    AppConfing.QUS_RADIO_BUTTONS -> if (questionBeanFilled.answer[0] != null) {
+                    LibDynamicAppConfig.QUS_DROPDOWN,
+                    LibDynamicAppConfig.QUS_DROPDOWN_HIDE,
+                    LibDynamicAppConfig.QUS_LOOPING,
+                    LibDynamicAppConfig.QUS_RADIO_BUTTONS -> if (questionBeanFilled.answer[0] != null) {
                         viewText = StringBuilder(getAnsLabel(questionBeanFilled.answer[0]!!, questionBean.answer_option))
                     }
 
-                    AppConfing.QUS_TEXT,
-                    AppConfing.QUS_ADDRESS ->
+                    LibDynamicAppConfig.QUS_TEXT,
+                    LibDynamicAppConfig.QUS_ADDRESS ->
 
                         if (questionBeanFilled.answer[0] != null) {
                             viewText = StringBuilder(getValueFormTextInputType(questionBeanFilled.answer[0]!!))
