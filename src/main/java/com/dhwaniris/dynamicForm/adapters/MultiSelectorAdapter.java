@@ -93,12 +93,13 @@ public class MultiSelectorAdapter extends RecyclerView.Adapter<MultiSelectorAdap
                                 checkedList.add(list.get(pos).get_id());
                                 formListener.SingleSelector(null, null, list.get(pos).get_id(),false);
                             }
-
+                            notifyDataSetChanged();
                         } else {
                             checkedList.add(list.get(pos).get_id());
                             formListener.SingleSelector(null, null, list.get(pos).get_id(),false);
-
+                            notifyItemChanged(pos);
                         }
+
                     }
 
                 } else {
@@ -107,8 +108,8 @@ public class MultiSelectorAdapter extends RecyclerView.Adapter<MultiSelectorAdap
                         formListener.SingleSelector(null, list.get(pos).get_id(), null,false);
 
                     }
+                    notifyItemChanged(pos);
                 }
-                notifyItemChanged(pos);
             }
         });
 
