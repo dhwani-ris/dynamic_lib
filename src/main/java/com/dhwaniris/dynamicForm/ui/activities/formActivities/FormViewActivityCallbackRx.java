@@ -719,10 +719,10 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
 
                             @Override
                             public void onSuccess(Boolean isWorkComplete) {
+                                hideLoader();
                                 if (isWorkComplete && isFinish) {
                                     workCompletion(true, status);
                                 } else {
-                                    hideLoader();
                                     showCustomToast("Failed to send form", 2);
                                 }
                             }
@@ -832,6 +832,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
     }
 
     private void hideLoader() {
+        hideLoading();
         if (!isListLoaded) {
             new Handler().postDelayed(new Runnable() {
                 @Override
