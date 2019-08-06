@@ -288,8 +288,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                     String columnName = questionBean.getColumnName();
 
 
-                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
-                    createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList));
+                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList));
                     answerBeanObject.setFilled(true);
                     answerBeanObject.setValidAns(true);
                     try {
