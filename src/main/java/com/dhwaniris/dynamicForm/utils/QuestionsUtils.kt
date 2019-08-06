@@ -985,7 +985,15 @@ class QuestionsUtils {
             val value = answers.value
             return if (textValue.trim { it <= ' ' }.isNotEmpty()) textValue else value
         }
+        fun isItHasAns(answersList: List<Answers>): Boolean {
+            if (answersList.isNotEmpty()) return answersList.first().value.isNotEmpty()
+            return false
 
+
+        }
     }
+
+
+
 }
 

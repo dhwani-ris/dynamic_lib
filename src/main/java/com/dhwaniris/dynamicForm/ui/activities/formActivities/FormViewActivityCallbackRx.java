@@ -390,14 +390,23 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
     private void AddNewObjectView(LinkedHashMap<String, QuestionBean> questionBeanRealmList) {
 
         for (QuestionBean questionBean : questionBeanRealmList.values()) {
+            QuestionBeanFilled answer = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
 
-            if (formStatus == EDITABLE_DARFT) {
-                QuestionBeanFilled answer = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+            if (formStatus == EDITABLE_DARFT && answer != null) {
                 if (!answer.isFilled() && answer.isRequired()
                         && !QuestionsUtils.Companion.isLoopingType(answer)) {
                     questionBean.setEditable(true);
                 }
             }
+
+            if (answer != null) {
+                if (!QuestionsUtils.Companion.isItHasAns(answer.getAnswer())) {
+                    answer.setFilled(false);
+                    answer.setValidAns(false);
+                }
+            }
+
+
             createViewObject(questionBean, formStatus);
         }
         changeAnswerBeanHelperTitle(questionBeenList, answerBeanHelperList, formStatus);
