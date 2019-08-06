@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.util.Pair;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -722,26 +723,26 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                 singletonForm.getWorkOnSubmit()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new SingleObserver<Boolean>() {
+                        .subscribe(new SingleObserver<Pair<Boolean,String>>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
                             }
 
                             @Override
-                            public void onSuccess(Boolean isWorkComplete) {
+                            public void onSuccess(Pair<Boolean,String> isWorkComplete) {
                                 hideLoader();
-                                if (isWorkComplete && isFinish) {
+                                if (isWorkComplete.first && isFinish) {
                                     workCompletion(true, status);
                                 } else {
-                                    showCustomToast("Failed to send form", 2);
+                                    showCustomToast(isWorkComplete.second, 2);
                                 }
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 hideLoader();
-                                showCustomToast("Failed to send form", 2);
+                                showCustomToast(e.getMessage(), 2);
                             }
                         });
 
