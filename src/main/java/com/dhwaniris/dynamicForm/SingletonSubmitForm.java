@@ -1,5 +1,7 @@
 package com.dhwaniris.dynamicForm;
 
+import androidx.core.util.Pair;
+
 import com.dhwaniris.dynamicForm.db.dbhelper.DynamicAnswerOption;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Form;
 
@@ -41,13 +43,13 @@ public class SingletonSubmitForm {
     private static Form form;
     private static List<DynamicAnswerOption> dynamicAnswerOptions;
     private static JSONObject jsonObject;
-    private static Single<Boolean> workOnSubmit;
+    private static Single<Pair<Boolean,String>> workOnSubmit;
 
-    public Single<Boolean> getWorkOnSubmit() {
+    public Single<Pair<Boolean,String>> getWorkOnSubmit() {
         return workOnSubmit;
     }
 
-    public void setWorkOnSubmit(Single<Boolean> workOnSubmit) {
+    public void setWorkOnSubmit(Single<Pair<Boolean,String>> workOnSubmit) {
         SingletonSubmitForm.workOnSubmit = workOnSubmit;
     }
 
