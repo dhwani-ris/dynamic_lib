@@ -986,7 +986,7 @@ class QuestionsUtils {
             return if (textValue.trim { it <= ' ' }.isNotEmpty()) textValue else value
         }
         fun isItHasAns(answersList: List<Answers>): Boolean {
-            if (answersList.isNotEmpty()) return answersList.first().value.isNotEmpty()
+            if (answersList.isNotEmpty()) return (answersList.first().value.isNotEmpty() || answersList.first().textValue.isNotEmpty())
             return false
 
 

@@ -148,10 +148,12 @@
 
             <Button
                 android:id="@+id/submit"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/button_hieght"
                 android:layout_marginLeft="@dimen/margin_submit_btns"
-                android:layout_weight="1"
+                android:layout_marginStart="@dimen/margin_submit_btns"
+                android:layout_marginRight="@dimen/margin_submit_btns"
+                android:layout_marginEnd="@dimen/margin_submit_btns"
                 android:background="@drawable/btn_bg"
                 android:text="@string/submit"
                 android:focusable="true"
