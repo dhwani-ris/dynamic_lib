@@ -282,7 +282,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                 for (QuestionBean questionBean : questionBeanList) {
                     String columnName = questionBean.getColumnName();
 
-                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
+                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList));
                     answerBeanObject.setFilled(true);
                     answerBeanObject.setValidAns(true);
                     try {
@@ -385,14 +385,22 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
     private void AddNewObjectView(LinkedHashMap<String, QuestionBean> questionBeanRealmList) {
 
         for (QuestionBean questionBean : questionBeanRealmList.values()) {
+            QuestionBeanFilled answer = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
 
             if (formStatus == EDITABLE_DARFT) {
-                QuestionBeanFilled answer = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 if (!answer.isFilled() && answer.isRequired()
                         && !QuestionsUtils.Companion.isLoopingType(answer)) {
                     questionBean.setEditable(true);
                 }
             }
+
+            if (answer != null) {
+                if (!QuestionsUtils.Companion.isItHasAns(answer.getAnswer())) {
+                    answer.setFilled(false);
+                    answer.setValidAns(false);
+                }
+            }
+
             createViewObject(questionBean, formStatus);
         }
         changeAnswerBeanHelperTitle(questionBeenList, answerBeanHelperList, formStatus);
