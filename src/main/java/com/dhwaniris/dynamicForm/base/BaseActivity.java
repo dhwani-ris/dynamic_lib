@@ -48,6 +48,7 @@ import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dhwaniris.comera.CameraActivity;
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.adapters.LocalSingleAdapter;
@@ -843,6 +844,32 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         //filePath = file.getAbsolutePath();
 //        <!--nougat-->
+
+    }
+
+    // Image capture module
+    protected void CaptureImageInternal(ImageSelectListener selectedImage, QuestionBean questionBean) {
+
+
+        this.selectedImage = selectedImage;
+        this.questionBean = questionBean;
+
+        Intent cameraIntent = new Intent(this, CameraActivity.class);
+
+        cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        File file = getOutputImageFile();
+        if (file != null) {
+            picUri = getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
+            startActivityForResult(cameraIntent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+
+        } else {
+            // failed to capture take_photo
+            Toast.makeText(BaseActivity.this, R.string.sorry_failed_to_capture_photo, Toast.LENGTH_LONG).show();
+            this.selectedImage = null;
+            this.questionBean = null;
+
+        }
 
     }
 

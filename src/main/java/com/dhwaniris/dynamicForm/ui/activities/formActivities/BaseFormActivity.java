@@ -262,7 +262,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 permissionListener = new PermissionListener() {
                     @Override
                     public void acceptedPermission() {
-                        CaptureImage(BaseFormActivity.this, questionBean);
+                        CaptureImageInternal(BaseFormActivity.this, questionBean);
                     }
 
                     @Override
@@ -276,7 +276,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             } else {
                 if (checkImagePermission()) {
-                    CaptureImage(BaseFormActivity.this, questionBean);
+                    CaptureImageInternal(BaseFormActivity.this, questionBean);
                 }
             }
         }
