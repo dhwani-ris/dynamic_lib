@@ -1,14 +1,16 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Created by ${Sahjad} on 6/12/2019.
  */
 
 open class CreateDynamicOption(
-        var formId: String = "",
-        var order: String = "",
-        var parentOrder: String = "",
-        var optionIdentifier: List<String> = ArrayList()
+        @SerializedName("formId")var formId: String = "",
+        @SerializedName("order")var order: String = "",
+        @SerializedName("parentOrder")var parentOrder: String = "",
+        @SerializedName("optionIdentifier")var optionIdentifier: List<String> = ArrayList()
 
 ) {
 

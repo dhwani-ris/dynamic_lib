@@ -1,18 +1,18 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
-
+import com.google.gson.annotations.SerializedName;
 
 public class ValidationBean  {
 
 
 
-    private String _id;
+    @SerializedName("_id") private String _id;
 
-    private String error_msg;
+    @SerializedName("error_msg") private String error_msg;
 
 
-    private String value;
+    @SerializedName("value") private String value;
 
     public String getValue() {
         return value;

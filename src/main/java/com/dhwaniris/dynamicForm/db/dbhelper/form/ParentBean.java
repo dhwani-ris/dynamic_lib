@@ -1,15 +1,16 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
+import com.google.gson.annotations.SerializedName;
 
 public class ParentBean  {
 
 
-    private String order;
+    @SerializedName("order") private String order;
 
-    private String value;
+    @SerializedName("value") private String value;
 
-    private String type;
+    @SerializedName("type") private String type;
 
     public String getOrder() {
         return order;

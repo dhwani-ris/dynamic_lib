@@ -1,15 +1,17 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class RestrictionsBean  {
 
 
 
-    private String type;
+    @SerializedName("type") private String type;
 
-    private List<OrdersBean> orders;
+    @SerializedName("orders") private List<OrdersBean> orders;
 
     public String getType() {
         return type;

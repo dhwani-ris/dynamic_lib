@@ -6,9 +6,6 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -24,6 +21,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 
 import com.dhwaniris.dynamicForm.R;
 
@@ -48,36 +49,40 @@ public class EditTextWIthButtonView extends LinearLayout {
 
     public EditTextWIthButtonView(Context context) {
         super(context);
-        init(context);
+        init(context,null ,0,0);
     }
 
     public EditTextWIthButtonView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context,attrs ,0,0);
         setAttribute(context, attrs);
     }
 
     public EditTextWIthButtonView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context,attrs ,defStyleAttr,0);
         setAttribute(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public EditTextWIthButtonView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
+        init(context,attrs ,defStyleAttr,defStyleRes);
         setAttribute(context, attrs);
     }
 
     //initializing
-    private void init(Context context) {
+    private void init(Context context,AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         setOrientation(LinearLayout.VERTICAL);
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setGravity(Gravity.CENTER_VERTICAL);
 
-        orderTextView = new TextView(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            orderTextView = new TextView(context,attrs ,defStyleAttr,defStyleRes);
+        }else{
+            orderTextView = new TextView(context,attrs ,defStyleAttr);
+        }
 
         //mase size depending on screen size
         final float scale = getResources().getDisplayMetrics().density;
@@ -104,23 +109,40 @@ public class EditTextWIthButtonView extends LinearLayout {
         orderTextView.setText("1");
 
 
-        hintTextView = new TextView(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            hintTextView = new TextView(context,attrs ,defStyleAttr,defStyleRes);
+        }else{
+            hintTextView = new TextView(context,attrs ,defStyleAttr);
+        }
 
         int pad8 = (int) (8 * scale + 0.5f);
         hintTextView.setPadding(pad8, 0, 0, 0);
         lp.setMargins(4, 1, 4, 4);
         hintTextView.setGravity(Gravity.CENTER_VERTICAL);
-        information = new ImageView(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            information = new ImageView(context,attrs ,defStyleAttr,defStyleRes);
+        }else{
+            information = new ImageView(context,attrs ,defStyleAttr);
+        }
         information.setVisibility(GONE);
         information.setImageResource(R.drawable.ic_information);
         information.setPadding(0, 0, 4, 0);
 
-        error_msg = new ImageView(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            error_msg = new ImageView(context,attrs ,defStyleAttr,defStyleRes);
+        }else{
+            error_msg = new ImageView(context,attrs ,defStyleAttr);
+        }
         error_msg.setVisibility(GONE);
         error_msg.setImageResource(R.drawable.ic_error_msg);
         error_msg.setPadding(0, 0, 4, 0);
 
-        star = new TextView(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            star = new TextView(context,attrs ,defStyleAttr,defStyleRes);
+        }else{
+            star = new TextView(context,attrs ,defStyleAttr);
+        }
+        
         star.setTextColor(Color.RED);
         star.setGravity(Gravity.END);
 
@@ -149,7 +171,12 @@ public class EditTextWIthButtonView extends LinearLayout {
 
         addView(linearLayout);
 
-        answerEditText = new EditText(context);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            answerEditText = new EditText(context,attrs ,defStyleAttr,defStyleRes);
+        }else{
+            answerEditText = new EditText(context,attrs ,defStyleAttr);
+        }
         addView(answerEditText, lp);
 
         /*answerTextView = new TextView(context);
@@ -163,7 +190,7 @@ public class EditTextWIthButtonView extends LinearLayout {
             information.setTextColor(getResources().getColor(R.color.colorAccent));
         }*/
         // addView(information, lp);
-        makeLoopingType(context);
+        makeLoopingType(context,attrs ,defStyleAttr,defStyleRes);
         linearLayout.invalidate();
     }
 
@@ -430,7 +457,7 @@ public class EditTextWIthButtonView extends LinearLayout {
         }
     }
 
-    public void makeLoopingType(Context context) {
+    public void makeLoopingType(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         removeView(answerEditText);
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(HORIZONTAL);

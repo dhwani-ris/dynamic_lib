@@ -1,6 +1,8 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -9,11 +11,11 @@ public class LanguageBean  {
 
 
 
-    private String lng;
+    @SerializedName("lng") private String lng;
 
-    private String title;
+    @SerializedName("title") private String title;
 
-    private List<QuestionBean> question;
+    @SerializedName("question") private List<QuestionBean> question;
 
     public String getLng() {
         return lng;

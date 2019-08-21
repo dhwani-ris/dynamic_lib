@@ -1,6 +1,8 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class AnswerOptionsBean  {
@@ -9,11 +11,11 @@ public class AnswerOptionsBean  {
      * name : Yes
      */
     
-    private String _id;
+    @SerializedName("_id") private String _id;
     
-    private String name;
+    @SerializedName("name") private String name;
     
-    private List<Did> did;
+    @SerializedName("did") private List<Did> did;
 
     public String get_id() {
         return _id;

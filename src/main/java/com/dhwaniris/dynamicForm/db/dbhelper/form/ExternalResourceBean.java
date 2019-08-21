@@ -1,16 +1,16 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
-
+import com.google.gson.annotations.SerializedName;
 
 public class ExternalResourceBean  {
 
 
 
 
-    private String _id;
+    @SerializedName("_id") private String _id;
 
-    private String url;
+    @SerializedName("url") private String url;
 
     public String get_id() {
         return _id;

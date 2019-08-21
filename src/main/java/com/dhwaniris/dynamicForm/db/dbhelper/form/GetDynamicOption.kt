@@ -1,14 +1,16 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Created by ${Sahjad} on 6/12/2019.
  */
 open class GetDynamicOption(
-        var formId: String = "",
-        var filterBy: List<String> = ArrayList(),
-        var orderToDisplayIn: String = "",
-        var dataOrdersMapping: List<DataOrderMapping> = ArrayList(),
-        var isReusable: Boolean = false
+        @SerializedName("formId")var formId: String = "",
+        @SerializedName("filterBy")var filterBy: List<String> = ArrayList(),
+        @SerializedName("orderToDisplayIn")var orderToDisplayIn: String = "",
+        @SerializedName("dataOrdersMapping")var dataOrdersMapping: List<DataOrderMapping> = ArrayList(),
+        @SerializedName("isReusable")var isReusable: Boolean = false
 ) {
 
     companion object {

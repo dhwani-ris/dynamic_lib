@@ -3,7 +3,7 @@ package com.dhwaniris.dynamicForm.db.dbhelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
+import com.google.gson.annotations.SerializedName;
 
 
 public class ResourceUrlsBean  implements Parcelable {
@@ -13,9 +13,9 @@ public class ResourceUrlsBean  implements Parcelable {
      */
 
 
-    private String label;
+    @SerializedName("label") private String label;
 
-    private String url;
+    @SerializedName("url") private String url;
 
     protected ResourceUrlsBean(Parcel in) {
         label = in.readString();

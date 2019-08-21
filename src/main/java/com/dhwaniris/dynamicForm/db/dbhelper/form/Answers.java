@@ -1,10 +1,13 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
+
+import com.google.gson.annotations.SerializedName;
+
 public class Answers  {
 
-    private String value;
-    private String label;
-    private String textValue;
-    private String reference;
+    @SerializedName("value") private String value;
+    @SerializedName("label") private String label;
+    @SerializedName("textValue") private String textValue;
+    @SerializedName("reference") private String reference;
 
     public String getTextValue() {
         if (textValue == null) {
