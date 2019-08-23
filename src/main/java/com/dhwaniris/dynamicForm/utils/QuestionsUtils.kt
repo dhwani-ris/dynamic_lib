@@ -8,12 +8,7 @@ import java.util.Collections
 import java.util.HashMap
 import java.util.LinkedHashMap
 import java.util.regex.Pattern.matches
-import kotlin.Boolean
 import kotlin.Comparator
-import kotlin.Exception
-import kotlin.Int
-import kotlin.String
-import kotlin.arrayOf
 
 
 class QuestionsUtils {
@@ -916,7 +911,7 @@ class QuestionsUtils {
                         var tempFix = ""
                         for (answers in questionBeanFilled.answer) {
                             viewText.append(tempFix).append(answers.label)
-                            tempFix = ","
+                            tempFix = ",\n"
                         }
                     }
 
@@ -948,7 +943,7 @@ class QuestionsUtils {
                         var tempFix = ""
                         for (answers in questionBeanFilled.answer) {
                             viewText.append(tempFix).append(getAnsLabel(answers, questionBean.answer_option))
-                            tempFix = ","
+                            tempFix = ",\n"
                         }
                     }
 
