@@ -62,6 +62,7 @@ import com.dhwaniris.dynamicForm.questionTypes.UnitConversionType;
 import com.dhwaniris.dynamicForm.questionTypes.ViewImageWithSingleSelect;
 import com.dhwaniris.dynamicForm.ui.activities.FullScreenImageActivity;
 import com.dhwaniris.dynamicForm.utils.Constant;
+import com.dhwaniris.dynamicForm.utils.DateUtility;
 import com.dhwaniris.dynamicForm.utils.HideQuestionsState;
 import com.dhwaniris.dynamicForm.utils.InnerFormData;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
@@ -881,6 +882,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN_EQUAL)
                     || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN)
                     || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL)
+                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALCULATE_AGE)
             ) {
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                     HashSet<String> ordersToNotify = notifyOnchangeMap.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
@@ -896,7 +898,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     //creating new Answer Object
-     QuestionBeanFilled createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
+    QuestionBeanFilled createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
         String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
 
         QuestionBeanFilled answerBeanHelper = answerBeanHelperList.get(questionUid);
@@ -1165,6 +1167,26 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             }
         }
 
+    }
+
+    private void performDateRestrictions(HashSet<String> ordersToNotify, String dd,String mm,String yy) {
+        for (String questionUid : ordersToNotify) {
+            QuestionBean childQuestion = questionBeenList.get(questionUid);
+            BaseType baseType = questionObjectList.get(questionUid);
+            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
+            if (childQuestion != null && baseType != null && questionBeanFilled != null) {
+                for (RestrictionsBean restrictionsBean : childQuestion.getRestrictions()) {
+                    if (LibDynamicAppConfig.REST_CALCULATE_AGE.equals(restrictionsBean.getType())) {
+                        String ageFromDob = DateUtility.getAgeFromDob(Integer.parseInt(yy),Integer.parseInt(mm),Integer.parseInt(dd));
+                        baseType.superSetAnswer(ageFromDob);
+                        baseType.superSetEditable(false,childQuestion.getInput_type());
+                        break;
+                    }
+                }
+            }
+
+
+        }
     }
 
 
@@ -1599,6 +1621,10 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             }
 
             validateChildVisibility(questionBean, date, baseType);
+
+            if (notifyOnchangeMap.containsKey(questionUniqueId) && notifyOnchangeMap.get(questionUniqueId) != null) {
+                performDateRestrictions(notifyOnchangeMap.get(questionUniqueId),dd,mm,yy);
+            }
 
             updateCount();
 

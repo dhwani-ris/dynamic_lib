@@ -2,7 +2,9 @@ package com.dhwaniris.dynamicForm.utils;
 
 
 import android.content.Context;
+
 import androidx.core.content.ContextCompat;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +13,8 @@ import com.dhwaniris.dynamicForm.R;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -87,7 +91,7 @@ public class DateUtility {
     }
 
     public static String getDateCurrentTimeZone(long timestamp) {
-        try{
+        try {
             Calendar calendar = Calendar.getInstance();
             TimeZone tz = TimeZone.getDefault();
             calendar.setTimeInMillis(timestamp);
@@ -95,16 +99,19 @@ public class DateUtility {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
             Date currenTimeZone = calendar.getTime();
             return sdf.format(currenTimeZone);
-        }catch (Exception e) {
-             Log.e("error",e.getMessage());;
+        } catch (Exception e) {
+            Log.e("error", e.getMessage());
+            ;
         }
         return "";
     }
+
     public static String getISO8601StringForDate(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat.format(date);
     }
+
     public static long iso8601StringToUnixTime(String timeStamp) {
         long unixTime = -1;
         TimeZone tzGMT = TimeZone.getTimeZone("GMT");
@@ -118,5 +125,25 @@ public class DateUtility {
             // Return initialized value of -1;
         }
         return unixTime;
+    }
+
+    public static String getAgeFromDob(int year, int month, int day) {
+        String ages = "0";
+
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month - 1, day);
+
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+
+        Integer ageInt = new Integer(age);
+        ages = ageInt.toString();
+
+        return ages;
     }
 }
