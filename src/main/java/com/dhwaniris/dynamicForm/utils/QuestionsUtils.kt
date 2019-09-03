@@ -975,7 +975,7 @@ class QuestionsUtils {
             }
             return answers.label
         }
-        private fun getValueFormTextInputType(answers: Answers): String {
+         fun getValueFormTextInputType(answers: Answers): String {
             val textValue = answers.textValue
             val value = answers.value
             return if (textValue.trim { it <= ' ' }.isNotEmpty()) textValue else value

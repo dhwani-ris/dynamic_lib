@@ -53,11 +53,9 @@ class BaseEditTextType extends BaseQuestionType {
                 if (!ans.isEmpty()) {
                     Answers answers = ans.get(0);
                     if (answers != null) {
-                        if (!answers.getValue().equals("")) {
+                        if (!QuestionsUtils.Companion.getValueFormTextInputType(answers).isEmpty()) {
                             dynamicEditTextRow.setAnswerStatus(EditTextRowView.ANSWERED);
                         }
-
-
                         if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT) || questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS)) {
                             dynamicEditTextRow.setText(answers.getTextValue());
 

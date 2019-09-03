@@ -93,6 +93,13 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
         ctx = InnerLoopingFormActivity.this;
+//        save = findViewById(R.id.save);
+//        submit = findViewById(R.id.submit);
+        toolbar = findViewById(R.id.toolbar);
+        save = findViewById(R.id.save);
+        submit = findViewById(R.id.submit);
+        loadmore = findViewById(R.id.loadmore);
+//        saveLayout = findViewById(R.id.saveLayout)
         save.setVisibility(View.GONE);
         submit.setText(getString(R.string.ok));
         setSupportActionBar(toolbar);

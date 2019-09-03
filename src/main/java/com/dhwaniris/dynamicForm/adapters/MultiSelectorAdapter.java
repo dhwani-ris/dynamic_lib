@@ -1,6 +1,5 @@
 package com.dhwaniris.dynamicForm.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,8 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
@@ -37,6 +38,7 @@ public class MultiSelectorAdapter extends RecyclerView.Adapter<MultiSelectorAdap
     //    public SingleSelectAdapter(Context context, DropDownListener formListener, List<AnswerOptionsBean> list,
     public MultiSelectorAdapter(SelectListener formListener, List<AnswerOptionsBean> list,
                                 int checkLimit, List<String> checkedList, QuestionBean questionBean) {
+
         this.list = list;
         this.formListener = formListener;
         this.checkLimit = checkLimit;

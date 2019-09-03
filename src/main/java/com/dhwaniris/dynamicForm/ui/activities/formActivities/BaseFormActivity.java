@@ -1,18 +1,11 @@
 package com.dhwaniris.dynamicForm.ui.activities.formActivities;
 
 import android.animation.ObjectAnimator;
-
-import androidx.lifecycle.MutableLiveData;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -21,6 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.MutableLiveData;
 
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.R;
@@ -84,7 +81,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
@@ -1851,12 +1847,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             if (valList.size() > 0) {
                 for (ValidationBean validationBean : valList) {
                     if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_REQUIRED)) {
-                        addingInHelperArray(childUid, true, false, false);
+                        addingInHelperArray(childUid, true, questionBeanFilled.isValidAns(), false);
                         break;
                     }
                 }
             } else {
-                addingInHelperArray(childUid, false, false, true);
+                addingInHelperArray(childUid, false, questionBeanFilled.isValidAns(), true);
             }
         } else {
 

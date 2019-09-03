@@ -4,10 +4,10 @@ import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.customViews.EditTextRowView;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
@@ -34,7 +33,7 @@ public class MultiSelect extends BaseSelectType {
                        LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, int formId) {
         super(view, questionBean, formStatus, dataListener,
                 questionBeenList, answerBeanHelperList);
-
+        dynamicEditTextRow.setMaxLines(10);
         this.formId = formId;
         if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             setData();
