@@ -665,31 +665,11 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
             filledFormList.setQuestion(answerFilledList);
             JSONObject jsonObject = singletonForm.getJsonObject();
             HashMap<String, Boolean> answerMapper = new HashMap<>();
-            for (QuestionBean questionBean : questionBeenList.values()) {
-                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
-                if (questionBeanFilled != null) {
-                    String columnName = questionBean.getColumnName();
-                    String value = getAnswerForm(questionBeanFilled);
-                    if (!answerMapper.containsKey(columnName)) {
-                        try {
-                            jsonObject.put(columnName, value);
-                            answerMapper.put(columnName, questionBeanFilled.isFilled());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (!answerMapper.get(columnName)) {
-                        try {
-                            jsonObject.put(columnName, value);
-                            answerMapper.put(columnName, questionBeanFilled.isFilled());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
 
 
-                }
-            }
+            modifyAnswerJson(jsonObject, answerMapper);
+
+
             try {
                 jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
                 if (formModel.isLocation()) {
@@ -723,6 +703,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
             super.onPostExecute(aBoolean);
         }
     }
+
 
 
     UnansweredListener unansweredListener = new UnansweredListener() {

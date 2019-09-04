@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -92,14 +93,9 @@ public class InnerLoopingFormActivity extends BaseFormActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+        bindView();
+        superViewBind();
         ctx = InnerLoopingFormActivity.this;
-//        save = findViewById(R.id.save);
-//        submit = findViewById(R.id.submit);
-        toolbar = findViewById(R.id.toolbar);
-        save = findViewById(R.id.save);
-        submit = findViewById(R.id.submit);
-        loadmore = findViewById(R.id.loadmore);
-//        saveLayout = findViewById(R.id.saveLayout)
         save.setVisibility(View.GONE);
         submit.setText(getString(R.string.ok));
         setSupportActionBar(toolbar);
@@ -169,7 +165,6 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         submit = findViewById(R.id.submit);
         loadmore = findViewById(R.id.loadmore);
         saveLayout = findViewById(R.id.save_Layout);
-
     }
 
 
@@ -247,7 +242,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
                 checkAlert(text, questionBeenList.get(orderlist.get(0)));
 
             }
-        } else if (!originalAnswer.equals(new Gson().toJson(answerBeanHelperList))) {
+        } else if (originalAnswer != null && !originalAnswer.equals(new Gson().toJson(answerBeanHelperList))) {
             new AlertDialog.Builder(ctx)
                     .setTitle(R.string.save_data)
                     .setMessage(R.string.do_you_want_to_save_as_draft)
@@ -539,13 +534,13 @@ public class InnerLoopingFormActivity extends BaseFormActivity
         public LoadView(List<String> childListString, List<String> childListValu) {
             this.childListString = childListString;
             this.childListValu = childListValu;
+
         }
 
         List<String> childListValu;
 
         @Override
         protected List<QuestionBean> doInBackground(Void... voids) {
-
             ArrayList<QuestionBean> questionBeanRealmList = new ArrayList<>();
 
             Gson gson = new Gson();
@@ -574,6 +569,19 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
             if (innerFormData.getQuestionBeanRealmList() != null && innerFormData.getQuestionBeanRealmList().isEmpty()) {
                 submit.setVisibility(View.GONE);
+            } else {
+                QuestionsUtils.Companion.sortQusList(questionBeans);
+                for (QuestionBean questionBean : questionBeans) {
+                    questionBeenList.put(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), questionBean);
+                }
+
+                if (questionBeenList != null && !questionBeenList.isEmpty()) {
+                    AddDynamicView(questionBeenList);
+                } else {
+                    submit.setVisibility(View.GONE);
+                }
+                originalAnswer = new Gson().toJson(answerBeanHelperList);
+
             }
             super.onPostExecute(questionBeans);
             hideProcessing();
@@ -588,8 +596,10 @@ public class InnerLoopingFormActivity extends BaseFormActivity
 
 
     void prepareQuestionInBackground(final ArrayList<String> childListString, final ArrayList<String> childListValue) {
-        new LoadView(childListString, childListValue);
+        //  loadView(childListString, childListValue);
+        new LoadView(childListString, childListValue).execute();
     }
+
 
     public List<QuestionBean> createQuestionNumberofTime(List<QuestionBean> groupQuestion,
                                                          List<String> childListString, List<String> childListValue) {

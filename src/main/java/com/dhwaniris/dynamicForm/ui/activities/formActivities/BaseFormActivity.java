@@ -67,6 +67,9 @@ import com.dhwaniris.dynamicForm.utils.LocationReceiver;
 import com.dhwaniris.dynamicForm.utils.PermissionHandler;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -184,6 +187,35 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
 
 
+    }
+
+
+    protected void modifyAnswerJson(JSONObject jsonObject, HashMap<String, Boolean> answerMapper) {
+        for (QuestionBean questionBean : questionBeenList.values()) {
+            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+            if (questionBeanFilled != null) {
+                String columnName = questionBean.getColumnName();
+                String value = getAnswerForm(questionBeanFilled);
+                if (!answerMapper.containsKey(columnName)) {
+                    try {
+                        jsonObject.put(columnName, value);
+                        answerMapper.put(columnName, questionBeanFilled.isFilled());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else if (answerMapper.get(columnName) != null&& !answerMapper.get(columnName)){
+                    try {
+                        jsonObject.put(columnName, value);
+                        answerMapper.put(columnName, questionBeanFilled.isFilled());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+        }
     }
 
     QuestionHelperCallback.DataListener dataListener = new QuestionHelperCallback.DataListener() {
@@ -1165,7 +1197,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     }
 
-    private void performDateRestrictions(HashSet<String> ordersToNotify, String dd,String mm,String yy) {
+    private void performDateRestrictions(HashSet<String> ordersToNotify, String dd, String mm, String yy) {
         for (String questionUid : ordersToNotify) {
             QuestionBean childQuestion = questionBeenList.get(questionUid);
             BaseType baseType = questionObjectList.get(questionUid);
@@ -1173,9 +1205,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             if (childQuestion != null && baseType != null && questionBeanFilled != null) {
                 for (RestrictionsBean restrictionsBean : childQuestion.getRestrictions()) {
                     if (LibDynamicAppConfig.REST_CALCULATE_AGE.equals(restrictionsBean.getType())) {
-                        String ageFromDob = DateUtility.getAgeFromDob(Integer.parseInt(yy),Integer.parseInt(mm),Integer.parseInt(dd));
+                        String ageFromDob = DateUtility.getAgeFromDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
                         baseType.superSetAnswer(ageFromDob);
-                        baseType.superSetEditable(false,childQuestion.getInput_type());
+                        baseType.superSetEditable(false, childQuestion.getInput_type());
                         break;
                     }
                 }
@@ -1619,7 +1651,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             validateChildVisibility(questionBean, date, baseType);
 
             if (notifyOnchangeMap.containsKey(questionUniqueId) && notifyOnchangeMap.get(questionUniqueId) != null) {
-                performDateRestrictions(notifyOnchangeMap.get(questionUniqueId),dd,mm,yy);
+                performDateRestrictions(notifyOnchangeMap.get(questionUniqueId), dd, mm, yy);
             }
 
             updateCount();
@@ -2397,7 +2429,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-     /*   if (requestCode == NESTEDCHILD_CODE && data != null) {
+        if (requestCode == NESTEDCHILD_CODE && data != null) {
             int childStatus = data.getIntExtra("childState", 0);
             String questionUid = data.getStringExtra("questionOrder");
             BaseType baseType = questionObjectList.get(questionUid);
@@ -2417,7 +2449,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
                     }
 
-                    if (!findNested.isEmpty()) {
+                   /* if (!findNested.isEmpty()) {
                         String andUid = findNested.get(questionUid);
                         Realm defaultInstance = Realm.getDefaultInstance();
                         if (andUid != null && !andUid.isEmpty()) {
@@ -2429,12 +2461,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                             }
                         }
                         defaultInstance.close();
-                    }
+                    }*/
                 }
 
             }
             refreshLoopingFiltersQuestions();
-        }*/
+        }
     }
 
     @Override

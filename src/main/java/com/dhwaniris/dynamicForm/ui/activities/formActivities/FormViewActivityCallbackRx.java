@@ -674,31 +674,10 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
             filledFormList.setQuestion(answerFilledList);
             JSONObject jsonObject = singletonForm.getJsonObject();
             HashMap<String, Boolean> answerMapper = new HashMap<>();
-            for (QuestionBean questionBean : questionBeenList.values()) {
-                QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
-                if (questionBeanFilled != null) {
-                    String columnName = questionBean.getColumnName();
-                    String value = getAnswerForm(questionBeanFilled);
-                    if (!answerMapper.containsKey(columnName)) {
-                        try {
-                            jsonObject.put(columnName, value);
-                            answerMapper.put(columnName, questionBeanFilled.isFilled());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (!answerMapper.get(columnName)) {
-                        try {
-                            jsonObject.put(columnName, value);
-                            answerMapper.put(columnName, questionBeanFilled.isFilled());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
-                    }
+            modifyAnswerJson(jsonObject, answerMapper);
 
 
-                }
-            }
             try {
                 jsonObject.put(Constant.TIME_TAKKEN, String.valueOf(time));
                 if (formModel.isLocation()) {
@@ -722,14 +701,14 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                 singletonForm.getWorkOnSubmit()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new SingleObserver<Pair<Boolean,String>>() {
+                        .subscribe(new SingleObserver<Pair<Boolean, String>>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
                             }
 
                             @Override
-                            public void onSuccess(Pair<Boolean,String> isWorkComplete) {
+                            public void onSuccess(Pair<Boolean, String> isWorkComplete) {
                                 hideLoader();
                                 if (isWorkComplete.first && isFinish) {
                                     workCompletion(true, status);
