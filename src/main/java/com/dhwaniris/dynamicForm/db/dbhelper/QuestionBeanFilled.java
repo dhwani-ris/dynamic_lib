@@ -7,7 +7,7 @@ import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested;
 import java.util.List;
 
 
-public class QuestionBeanFilled  implements Comparable<QuestionBeanFilled> {
+public class QuestionBeanFilled implements Comparable<QuestionBeanFilled> {
 
 
     private String order;
@@ -27,11 +27,19 @@ public class QuestionBeanFilled  implements Comparable<QuestionBeanFilled> {
 
     private String uid;
 
-
     private LocationBean location;
 
-
     private String image;
+
+    private String columnName;
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
 
     public LocationBean getLocation() {
         return location;

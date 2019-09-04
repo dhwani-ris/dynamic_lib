@@ -285,23 +285,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                     }
                 }
 
-                for (QuestionBean questionBean : questionBeanList) {
-                    String columnName = questionBean.getColumnName();
-//yahagit
-
-                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList));
-                    answerBeanObject.setFilled(true);
-                    answerBeanObject.setValidAns(true);
-                    try {
-                        if (jsonObject.get(columnName) != null) {
-                            String string = jsonObject.getString(columnName);
-                            answerBeanObject.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(string, questionBean));
-                            answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+                convertJsonDataToAnswer(questionBeanList, jsonObject);
 
 
             }

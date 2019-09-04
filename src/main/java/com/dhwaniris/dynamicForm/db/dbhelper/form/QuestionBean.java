@@ -49,6 +49,15 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
     @SerializedName("resource_urls") private List<ResourceUrlsBean> resource_urls;
 
     @SerializedName("columnName") private String columnName;
+    @SerializedName("nestedColumnName") private String nestedColumnName;
+
+    public String getNestedColumnName() {
+        return nestedColumnName;
+    }
+
+    public void setNestedColumnName(String nestedColumnName) {
+        this.nestedColumnName = nestedColumnName;
+    }
 
     public String getColumnName() {
         return columnName;

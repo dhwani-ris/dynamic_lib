@@ -60,13 +60,16 @@ import com.dhwaniris.dynamicForm.questionTypes.ViewImageWithSingleSelect;
 import com.dhwaniris.dynamicForm.ui.activities.FullScreenImageActivity;
 import com.dhwaniris.dynamicForm.utils.Constant;
 import com.dhwaniris.dynamicForm.utils.DateUtility;
+import com.dhwaniris.dynamicForm.utils.DynamicLibUtils;
 import com.dhwaniris.dynamicForm.utils.HideQuestionsState;
 import com.dhwaniris.dynamicForm.utils.InnerFormData;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
 import com.dhwaniris.dynamicForm.utils.PermissionHandler;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -203,7 +206,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } else if (answerMapper.get(columnName) != null&& !answerMapper.get(columnName)){
+                } else if (answerMapper.get(columnName) != null && !answerMapper.get(columnName)) {
                     try {
                         jsonObject.put(columnName, value);
                         answerMapper.put(columnName, questionBeanFilled.isFilled());
@@ -212,9 +215,29 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     }
 
                 }
-
-
+                if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING) ||
+                        questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)) {
+                    String nestedColumnName = questionBean.getNestedColumnName();
+                    JSONArray nestedJsonAns = new JSONArray();
+                    for (Nested nested : questionBeanFilled.getNestedAnswer()) {
+                        JSONObject childJsonObject = new JSONObject();
+                        for (QuestionBeanFilled nestedQuestionBeanFilled : nested.getAnswerNestedData()) {
+                            try {
+                                childJsonObject.put(nestedQuestionBeanFilled.getColumnName(), getAnswerForm(nestedQuestionBeanFilled));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        nestedJsonAns.put(childJsonObject);
+                    }
+                    try {
+                        jsonObject.put(nestedColumnName, nestedJsonAns);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+
         }
     }
 
@@ -354,7 +377,6 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         @Override
         public void onclickOnQuestionButton(QuestionBean questionBean) {
             showProgress(BaseFormActivity.this, getString(R.string.loading));
-            final ArrayList<QuestionBean> childQuestionsList = new ArrayList<>();
             final String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
             int childCount = 0;
             final ArrayList<String> childListString = new ArrayList<>();
@@ -389,13 +411,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             }
             int childStatus;
             boolean isChildLocationRequired = false;
-            for (QuestionBean questionBean1 : childQuestionBeenList.values()) {
-                String childQuestionOrder = QuestionsUtils.Companion.getQuestionUniqueId(questionBean1);
-                String childQuestionGroup = childQuestionOrder.substring(0, childQuestionOrder.indexOf("."));
-                if (childQuestionGroup.equals(questionUid)) {
-                    childQuestionsList.add(questionBean1);
-                    isChildLocationRequired = questionBean1.getInput_type().equals(LibDynamicAppConfig.QUS_GET_LOCTION);
 
+            final ArrayList<QuestionBean> childQuestionsList = new ArrayList<>(getNestedQuestion(questionUid));
+            for (QuestionBean questionBean1 : childQuestionsList) {
+                if (questionBean1.getInput_type().equals(LibDynamicAppConfig.QUS_GET_LOCTION)) {
+                    isChildLocationRequired = true;
+                    break;
                 }
             }
 
@@ -497,6 +518,58 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         }
     };
+
+    List<QuestionBean> getNestedQuestion(String questionUid) {
+        List<QuestionBean> childQuestionsList = new ArrayList<>();
+        for (QuestionBean questionBean1 : childQuestionBeenList.values()) {
+            String childQuestionOrder = QuestionsUtils.Companion.getQuestionUniqueId(questionBean1);
+            String childQuestionGroup = childQuestionOrder.substring(0, childQuestionOrder.indexOf("."));
+            if (childQuestionGroup.equals(questionUid)) {
+                childQuestionsList.add(questionBean1);
+            }
+        }
+        return childQuestionsList;
+
+    }
+
+
+    void convertJsonDataToAnswer(List<QuestionBean> questionBeanList, JSONObject jsonObject) {
+        for (QuestionBean questionBean : questionBeanList) {
+            String columnName = questionBean.getColumnName();
+
+            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList));
+            answerBeanObject.setFilled(true);
+            answerBeanObject.setValidAns(true);
+            try {
+                if (jsonObject.get(columnName) != null) {
+                    String string = jsonObject.getString(columnName);
+                    answerBeanObject.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(string, questionBean));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+           /* if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING) ||
+                    questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)) {
+                List<QuestionBean> nestedQuestion = getNestedQuestion(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+                String nestedColumnName = questionBean.getNestedColumnName();
+                try {
+                    JSONArray nestedJsonArray = (JSONArray) jsonObject.get(nestedColumnName);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }*/
+
+
+            answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
+
+        }
+    }
+
 
     QuestionHelperCallback.QuestionButtonClickListener onGetLocationClickListener = new QuestionHelperCallback.QuestionButtonClickListener() {
         @Override
@@ -945,6 +1018,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
         answerBeanHelper.setInput_type(questionBean.getInput_type());
         answerBeanHelper.setOrder(questionUid);
+        answerBeanHelper.setColumnName(questionBean.getColumnName());
         answerBeanHelper.setLabel(questionBean.getLabel());
         answerBeanHelper.setTitle(questionBean.getTitle());
         answerBeanHelper.setViewSequence(questionBean.getViewSequence());
@@ -2315,7 +2389,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         nested.setForParentValue(forParentValue);
         List<QuestionBeanFilled> nestedAnswer = new ArrayList<>();
         for (QuestionBean questionBean : childQuestionBeenList) {
-            QuestionBeanFilled questionBeanFilled = getQuestionBeanFilledNewData(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+            QuestionBeanFilled questionBeanFilled = getQuestionBeanFilledNewData(QuestionsUtils.Companion.getQuestionUniqueId(questionBean), questionBean.getColumnName());
             nestedAnswer.add(questionBeanFilled);
 
         }
@@ -2369,6 +2443,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         answerBeanHelper.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
         answerBeanHelper.setInput_type(questionBean.getInput_type());
         answerBeanHelper.setOrder(questionUid);
+        answerBeanHelper.setColumnName(questionBean.getColumnName());
         answerBeanHelper.setLabel(questionBean.getLabel());
         answerBeanHelper.setTitle(questionBean.getTitle());
         answerBeanHelper.setViewSequence(questionBean.getViewSequence());
@@ -2394,7 +2469,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     }
 
 
-    private QuestionBeanFilled getQuestionBeanFilledNewData(String childQuestionKeyOrder) {
+    private QuestionBeanFilled getQuestionBeanFilledNewData(String childQuestionKeyOrder, String columnName) {
         QuestionBeanFilled questionBeanFilled = new QuestionBeanFilled();
         questionBeanFilled.setUid(UUID.randomUUID().toString());
         questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
@@ -2402,6 +2477,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         questionBeanFilled.setLabel("");
         questionBeanFilled.setOptional(false);
         questionBeanFilled.setOrder(childQuestionKeyOrder);
+        questionBeanFilled.setColumnName(columnName);
         questionBeanFilled.setTitle("");
         questionBeanFilled.setRequired(false);
         questionBeanFilled.setFilled(false);
