@@ -67,7 +67,6 @@ import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
 import com.dhwaniris.dynamicForm.utils.PermissionHandler;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -219,16 +218,18 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)) {
                     String nestedColumnName = questionBean.getNestedColumnName();
                     JSONArray nestedJsonAns = new JSONArray();
-                    for (Nested nested : questionBeanFilled.getNestedAnswer()) {
-                        JSONObject childJsonObject = new JSONObject();
-                        for (QuestionBeanFilled nestedQuestionBeanFilled : nested.getAnswerNestedData()) {
-                            try {
-                                childJsonObject.put(nestedQuestionBeanFilled.getColumnName(), getAnswerForm(nestedQuestionBeanFilled));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                    if(questionBeanFilled!=null && questionBeanFilled.getNestedAnswer()!=null) {
+                        for (Nested nested : questionBeanFilled.getNestedAnswer()) {
+                            JSONObject childJsonObject = new JSONObject();
+                            for (QuestionBeanFilled nestedQuestionBeanFilled : nested.getAnswerNestedData()) {
+                                try {
+                                    childJsonObject.put(nestedQuestionBeanFilled.getColumnName(), getAnswerForm(nestedQuestionBeanFilled));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                            nestedJsonAns.put(childJsonObject);
                         }
-                        nestedJsonAns.put(childJsonObject);
                     }
                     try {
                         jsonObject.put(nestedColumnName, nestedJsonAns);
@@ -541,7 +542,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             answerBeanObject.setFilled(true);
             answerBeanObject.setValidAns(true);
             try {
-                if (jsonObject.get(columnName) != null) {
+                if (jsonObject.has(columnName)) {
                     String string = jsonObject.getString(columnName);
                     answerBeanObject.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(string, questionBean));
                 }
