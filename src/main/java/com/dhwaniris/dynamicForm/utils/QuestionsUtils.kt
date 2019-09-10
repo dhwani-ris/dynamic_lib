@@ -461,12 +461,12 @@ class QuestionsUtils {
 
             val avlList = ArrayList<AnswerOptionsBean>()
 
-            if (parentsAnswer.isEmpty()) {
-                avlList.addAll(allOptions)
-                return avlList
-            }
+            /* if (parentsAnswer.isEmpty()) {
+                 avlList.addAll(allOptions)
+                 return avlList
+             }*/
             for (answerOptionsBean in allOptions) {
-                if (answerOptionsBean.did.isNotEmpty() && parentsAnswer.isNotEmpty()) {
+                if (answerOptionsBean.did.isNotEmpty()) {
                     var isInList = false
                     for (parentAns in parentsAnswer) {
                         val did = if (!multiParent) {
@@ -975,11 +975,13 @@ class QuestionsUtils {
             }
             return answers.label
         }
-         fun getValueFormTextInputType(answers: Answers): String {
+
+        fun getValueFormTextInputType(answers: Answers): String {
             val textValue = answers.textValue
             val value = answers.value
             return if (textValue.trim { it <= ' ' }.isNotEmpty()) textValue else value
         }
+
         fun isItHasAns(answersList: List<Answers>): Boolean {
             if (answersList.isNotEmpty()) return (answersList.first().value.isNotEmpty() || answersList.first().textValue.isNotEmpty())
             return false
@@ -987,7 +989,6 @@ class QuestionsUtils {
 
         }
     }
-
 
 
 }

@@ -500,7 +500,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         final android.app.AlertDialog alertDialog = dialog.create();
 
 
-        final MultiSelectorAdapter adapter = new MultiSelectorAdapter(innerListener, tempList, checkLimit, tempSelectedList, questionBean);
+        final MultiSelectorAdapter adapter = new MultiSelectorAdapter(innerListener, new ArrayList<>(tempList) , checkLimit, tempSelectedList, questionBean);
         recyclerView.setAdapter(adapter);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1389,7 +1389,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-   public String userLanguage() {
+    public String userLanguage() {
         return "en";
     }
 }

@@ -44,6 +44,7 @@ public class LibDynamicAppConfig {
     public static final String VAL_PAST_AND_TODAY = "24";
     public static final String VAL_DESELECT_ALL = "31";
     public static final String VAL_CHECKLIMIT = "32";
+    public static final String VAL_COMBIND_CHECK = "33";
     public static final String VAL_ADD_INFO_IMAGE = "36";
     public static final String VAL_ADD_INFO_GPS = "37";
     public static final String VAL_ADD_INFO_TIME = "38";
