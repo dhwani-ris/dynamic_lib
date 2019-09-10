@@ -569,7 +569,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                             JSONObject nestedJSONObject = nestedJsonArray.getJSONObject(i);
                             if (nestedJSONObject != null) {
                                 convertJsonDataToAnswer(nestedQuestion, nestedJSONObject, childAswer);
-                                nested.setForParentValue(nestedJSONObject.getString(Constant.FOR_PARENT_VALUE));
+                                if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING)) {
+                                    nested.setForParentValue(String.valueOf((i + 1)));
+
+                                } else {
+                                    nested.setForParentValue(nestedJSONObject.getString(Constant.FOR_PARENT_VALUE));
+                                }
                                 nested.setAnswerNestedData(new ArrayList<>());
                                 nested.getAnswerNestedData().addAll(childAswer.values());
                                 nestedList.add(nested);
