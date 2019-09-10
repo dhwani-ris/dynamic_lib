@@ -306,7 +306,7 @@ public class FormViewActivityRxJava extends BaseFormActivity implements View.OnC
                                 .forEach(questionBean -> {
                                     String columnName = questionBean.getColumnName();
 
-                                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true);
+                                    QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, true, answerBeanHelperList);
                                     answerBeanObject.setFilled(true);
                                     answerBeanObject.setValidAns(true);
                                     try {

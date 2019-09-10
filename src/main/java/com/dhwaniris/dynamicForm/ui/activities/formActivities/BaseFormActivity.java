@@ -222,7 +222,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         for (Nested nested : questionBeanFilled.getNestedAnswer()) {
                             JSONObject childJsonObject = new JSONObject();
                             try {
-                                childJsonObject.put("forParentValue",nested.getForParentValue());
+                                childJsonObject.put(Constant.FOR_PARENT_VALUE, nested.getForParentValue());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -283,7 +283,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         @Override
         public void createNewAnswerObject(QuestionBean questionBean, boolean isVisibleInHideList) {
-            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList);
+            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList, answerBeanHelperList);
         }
 
         @Override
@@ -373,7 +373,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         @Override
         public void createNewAnswerObject(QuestionBean questionBean, boolean isVisibleInHideList) {
-            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList);
+            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList, answerBeanHelperList);
 
         }
     };
@@ -539,11 +539,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     }
 
 
-    void convertJsonDataToAnswer(List<QuestionBean> questionBeanList, JSONObject jsonObject) {
+    void convertJsonDataToAnswer(List<QuestionBean> questionBeanList, JSONObject jsonObject, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
         for (QuestionBean questionBean : questionBeanList) {
             String columnName = questionBean.getColumnName();
 
-            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList));
+            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList), answerBeanHelperList);
             answerBeanObject.setFilled(true);
             answerBeanObject.setValidAns(true);
             try {
@@ -555,21 +555,35 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 e.printStackTrace();
             }
 
-           /* if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING) ||
+            if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING) ||
                     questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)) {
                 List<QuestionBean> nestedQuestion = getNestedQuestion(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 String nestedColumnName = questionBean.getNestedColumnName();
                 try {
                     JSONArray nestedJsonArray = (JSONArray) jsonObject.get(nestedColumnName);
-
+                    List<Nested> nestedList = new ArrayList<>();
+                    if (nestedJsonArray != null) {
+                        for (int i = 0; i < nestedJsonArray.length(); i++) {
+                            LinkedHashMap<String, QuestionBeanFilled> childAswer = new LinkedHashMap<>();
+                            Nested nested = new Nested();
+                            JSONObject nestedJSONObject = nestedJsonArray.getJSONObject(i);
+                            if (nestedJSONObject != null) {
+                                convertJsonDataToAnswer(nestedQuestion, nestedJSONObject, childAswer);
+                                nested.setForParentValue(nestedJSONObject.getString(Constant.FOR_PARENT_VALUE));
+                                nested.setAnswerNestedData(new ArrayList<>());
+                                nested.getAnswerNestedData().addAll(childAswer.values());
+                                nestedList.add(nested);
+                            }
+                        }
+                    }
+                    answerBeanObject.setNestedAnswer(nestedList);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
 
-            }*/
-
+            }
 
             answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(answerBeanObject), answerBeanObject);
 
@@ -620,7 +634,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     QuestionHelperCallback.RecordAudioResponseListener recordAudioResponseListener = new QuestionHelperCallback.RecordAudioResponseListener() {
         @Override
         public void onCreateNewAnswerObject(QuestionBean questionBean, boolean isVisibleInHideList) {
-            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList);
+            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList, answerBeanHelperList);
         }
 
         @Override
@@ -681,7 +695,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         @Override
         public void onCreateNewAnswerObject(QuestionBean questionBean, boolean isVisibleInHideList) {
-            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList);
+            createOrModifyAnswerBeanObject(questionBean, isVisibleInHideList, answerBeanHelperList);
         }
 
         @Override
@@ -867,7 +881,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 labelType.setAnswerAnsQuestionData(answerBeanHelperList);
                 labelType.setBasicFunctionality(view, questionBean, formStatus);
                 if (formStatus == NEW_FORM) {
-                    createOrModifyAnswerBeanObject(questionBean, view.getVisibility() == View.VISIBLE);
+                    createOrModifyAnswerBeanObject(questionBean, view.getVisibility() == View.VISIBLE, answerBeanHelperList);
                 }
                 questionObjectList.put(questionUniqueId, labelType);
                 break;
@@ -1005,7 +1019,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     //creating new Answer Object
-    QuestionBeanFilled createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList) {
+    QuestionBeanFilled createOrModifyAnswerBeanObject(final QuestionBean questionBean, final boolean isVisibleInHideList, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
         String questionUid = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
 
         QuestionBeanFilled answerBeanHelper = answerBeanHelperList.get(questionUid);

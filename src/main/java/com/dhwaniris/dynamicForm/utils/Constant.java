@@ -36,6 +36,7 @@ public class Constant {
     public static final String TIME_TAKKEN = "timeTaken";
     public static final String LOCATION = "location";
     public static final String UNIQUE_ID = "uniqueId";
+    public static final String FOR_PARENT_VALUE = "forParentValue";
 
 
 }

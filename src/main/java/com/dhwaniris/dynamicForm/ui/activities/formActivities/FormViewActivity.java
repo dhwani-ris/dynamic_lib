@@ -43,7 +43,6 @@ import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.locationservice.LocationUpdatesService;
 import com.dhwaniris.dynamicForm.questionTypes.BaseType;
 import com.dhwaniris.dynamicForm.utils.Constant;
-import com.dhwaniris.dynamicForm.utils.DynamicLibUtils;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationHandlerListener;
 import com.dhwaniris.dynamicForm.utils.LocationReceiver;
@@ -279,7 +278,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                     }
                 }
 
-                convertJsonDataToAnswer(questionBeanList, jsonObject);
+                convertJsonDataToAnswer(questionBeanList, jsonObject,answerBeanHelperList);
 
 
             }
@@ -827,7 +826,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
         for (QuestionBean questionBean : tempQuestionbeanList) {
             QuestionBeanFilled questionBeanFilled = beanFilledLinkedHashMap.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
             if (questionBeanFilled == null && !questionBean.getOrder().contains(".")) {
-                createOrModifyAnswerBeanObject(questionBean, true);
+                createOrModifyAnswerBeanObject(questionBean, true, answerBeanHelperList);
             }
         }
 

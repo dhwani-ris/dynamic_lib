@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -203,7 +202,7 @@ public class InnerLoopingFormActivity extends BaseFormActivity
                 String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
                 QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
                 if (questionBeanFilled != null && (questionBeanFilled.getTitle() == null || questionBeanFilled.getTitle().equals(""))) {
-                    createOrModifyAnswerBeanObject(questionBean, questionBean.getParent().size() == 0);
+                    createOrModifyAnswerBeanObject(questionBean, questionBean.getParent().size() == 0, answerBeanHelperList);
                 }
 
             }
