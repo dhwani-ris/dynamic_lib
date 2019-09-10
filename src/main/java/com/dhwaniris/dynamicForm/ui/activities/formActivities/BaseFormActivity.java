@@ -218,9 +218,14 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING_MILTISELECT)) {
                     String nestedColumnName = questionBean.getNestedColumnName();
                     JSONArray nestedJsonAns = new JSONArray();
-                    if(questionBeanFilled!=null && questionBeanFilled.getNestedAnswer()!=null) {
+                    if (questionBeanFilled.getNestedAnswer() != null) {
                         for (Nested nested : questionBeanFilled.getNestedAnswer()) {
                             JSONObject childJsonObject = new JSONObject();
+                            try {
+                                childJsonObject.put("forParentValue",nested.getForParentValue());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             for (QuestionBeanFilled nestedQuestionBeanFilled : nested.getAnswerNestedData()) {
                                 try {
                                     childJsonObject.put(nestedQuestionBeanFilled.getColumnName(), getAnswerForm(nestedQuestionBeanFilled));
