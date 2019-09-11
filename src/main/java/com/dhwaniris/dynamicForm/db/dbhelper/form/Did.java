@@ -1,6 +1,8 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 
+import androidx.annotation.NonNull;
+
 public class Did {
 
 
@@ -22,5 +24,16 @@ public class Did {
 
     public void setParent_option(String parent_option) {
         this.parent_option = parent_option;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return parent_option+parentOrder;
+    }
+
+    @Override
+    public int hashCode() {
+        return (parent_option+parentOrder).hashCode();
     }
 }

@@ -969,7 +969,17 @@ class QuestionsUtils {
             return viewText.toString()
         }
 
-        private fun getAnsLabel(answers: Answers, answerOption: List<AnswerOptionsBean>): String {
+        fun getAnsLabel(answers: Answers, answerOption: List<AnswerOptionsBean>): String {
+            answerOption.find { it._id == answers.value }?.let {
+                return it.name
+            }
+            return if (answers.label.isNotEmpty())
+                answers.label
+            else
+                answers.value
+        }
+
+        fun getAnsLabelOnly(answers: Answers, answerOption: List<AnswerOptionsBean>): String? {
             answerOption.find { it._id == answers.value }?.let {
                 return it.name
             }

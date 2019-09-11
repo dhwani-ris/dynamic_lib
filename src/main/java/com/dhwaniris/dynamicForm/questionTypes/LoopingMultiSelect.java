@@ -3,10 +3,10 @@ package com.dhwaniris.dynamicForm.questionTypes;
 import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
@@ -15,9 +15,6 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
-
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
@@ -29,7 +26,7 @@ public class LoopingMultiSelect extends BaseEditTextWithButtonType {
 
     public LoopingMultiSelect(View view, final QuestionBean questionBean, int formStatus, final QuestionHelperCallback.DataListener dataListener,
                               LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, final QuestionHelperCallback.QuestionButtonClickListener buttonClickListener, int form_id) {
-        super(dataListener, view, questionBeenList, answerBeanHelperList, buttonClickListener, questionBean, formStatus,form_id);
+        super(dataListener, view, questionBeenList, answerBeanHelperList, buttonClickListener, questionBean, formStatus, form_id);
 
         if (formStatus == DRAFT || formStatus == SUBMITTED || formStatus == SYNCED_BUT_EDITABLE || formStatus == LibDynamicAppConfig.EDITABLE_SUBMITTED || formStatus == EDITABLE_DARFT) {
             setData();
@@ -84,37 +81,9 @@ public class LoopingMultiSelect extends BaseEditTextWithButtonType {
         if (answerBeanFilled != null) {
             //setAnswer
             final List<Answers> ans = answerBeanFilled.getAnswer();
-            if (ans.size() > 0 && !ans.get(0).getValue().equals("")) {
-                String text = "";
-                if (questionBean.getAnswer_options().size() > 1) {
-                    for (int i = 0; i < questionBean.getAnswer_options().size(); i++) {
-                        for (int j = 0; j < ans.size(); j++) {
+            String viewableStringFormAns = QuestionsUtils.Companion.getViewableStringFormAns(answerBeanFilled, questionBean);
 
-                            if (questionBean.getAnswer_options().get(i).get_id()
-                                    .equals(ans.get(j).getValue())) {
-                                if ((j + 1) == ans.size()) {
-                                    text = String.format(Locale.getDefault(),
-                                            "%s%s", text, questionBean.getAnswer_options()
-                                                    .get(i).getName());
-                                } else {
-                                    text = String.format(Locale.getDefault(),
-                                            "%s%s, ", text, questionBean
-                                                    .getAnswer_options().get(i).getName());
-                                }
-
-                            }
-                        }
-                    }
-
-
-                } else {
-                    String prifix = "";
-                    for (Answers answers : ans) {
-                        text = String.format(Locale.getDefault(),
-                                "%s%s%s ", prifix, text, answers.getLabel());
-                        prifix = ", ";
-                    }
-                }
+            if (QuestionsUtils.Companion.isItHasAns(ans)) {
                 if (answerBeanFilled.isFilled()) {
                     dynamicLoopingView.changebuttonStatus(true, 1);
 
@@ -138,11 +107,11 @@ public class LoopingMultiSelect extends BaseEditTextWithButtonType {
                 if (questionBean.getRestrictions().size() > 0) {
                     for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                         if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
-                            changeTitleRequest(restrictionsBean, text);
+                            changeTitleRequest(restrictionsBean, viewableStringFormAns);
                         }
                     }
                 }
-                dynamicLoopingView.setText(text);
+                dynamicLoopingView.setText(viewableStringFormAns);
 
             } else {
                 dynamicLoopingView.changebuttonStatus(false, 0);

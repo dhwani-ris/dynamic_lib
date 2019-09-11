@@ -16,7 +16,6 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
@@ -54,49 +53,23 @@ public class MultiSelect extends BaseSelectType {
         if (answerBeanFilled != null) {
             //setAnswer
             final List<Answers> ans = answerBeanFilled.getAnswer();
-            if (!ans.isEmpty()) {
-                String text = "";
-                if (questionBean.getAnswer_options().size() >= 1) {
-                    for (int i = 0; i < questionBean.getAnswer_options().size(); i++) {
-                        for (int j = 0; j < ans.size(); j++) {
+            if (QuestionsUtils.Companion.isItHasAns(ans)) {
+                dynamicEditTextRow.setAnswerStatus(EditTextRowView.ANSWERED);
 
-                            if (questionBean.getAnswer_options().get(i).get_id()
-                                    .equals(ans.get(j).getValue())) {
-                                if ((j + 1) == ans.size()) {
-                                    text = String.format(Locale.getDefault(),
-                                            "%s%s", text, questionBean.getAnswer_options()
-                                                    .get(i).getName());
-                                } else {
-                                    text = String.format(Locale.getDefault(),
-                                            "%s%s, ", text, questionBean
-                                                    .getAnswer_options().get(i).getName());
-                                }
 
-                            }
-                        }
-                    }
-                } else {
-                    String prifix = "";
-                    for (Answers answers : ans) {
-                        text = String.format(Locale.getDefault(),
-                                "%s%s%s ", prifix, text, answers.getLabel());
-                        prifix = ", ";
-                    }
-                }
-                if (!text.trim().equals("")) {
-                    dynamicEditTextRow.setAnswerStatus(EditTextRowView.ANSWERED);
-                }
+                String viewableStringFormAns = QuestionsUtils.Companion.getViewableStringFormAns(answerBeanFilled, questionBean);
+
 
                 if (questionBean.getRestrictions().size() > 0) {
                     for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                         if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
-                            changeTitleRequest(restrictionsBean, text);
+                            changeTitleRequest(restrictionsBean, viewableStringFormAns);
                         }
                     }
                 }
 
 
-                dynamicEditTextRow.setText(text);
+                dynamicEditTextRow.setText(viewableStringFormAns);
             }
 
         }

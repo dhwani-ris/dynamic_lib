@@ -39,6 +39,7 @@ import com.dhwaniris.dynamicForm.interfaces.PermissionListener;
 import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.locationservice.LocationUpdatesService;
 import com.dhwaniris.dynamicForm.questionTypes.BaseType;
+import com.dhwaniris.dynamicForm.utils.DynamicLibUtils;
 import com.dhwaniris.dynamicForm.utils.InnerFormData;
 import com.dhwaniris.dynamicForm.utils.LocationHandler;
 import com.dhwaniris.dynamicForm.utils.LocationHandlerListener;
@@ -549,6 +550,8 @@ public class InnerLoopingFormActivity extends BaseFormActivity
             nestedBean = questionBeanFilled2.getNestedAnswer();
             for (Nested nested : nestedBean) {
                 String forParentValue = nested.getForParentValue();
+                QuestionBeanFilled fristAnswerTitle = nested.getAnswerNestedData().get(0);
+                fristAnswerTitle.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(forParentValue, null));
                 for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
                     questionBeanFilled.setOrder(QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, questionBeanFilled.getOrder()));
                     answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled), questionBeanFilled);
