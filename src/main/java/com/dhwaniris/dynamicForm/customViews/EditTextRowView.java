@@ -467,7 +467,7 @@ public class EditTextRowView extends LinearLayout {
 
     //setClickListener
     public void setOnCustomClickListener(OnClickListener listener) {
-        answerEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        answerEditText.setRawInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         answerEditText.setCursorVisible(false);
         answerEditText.setOnClickListener(listener);
         //this.setOnClickListener(listener);
