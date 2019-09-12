@@ -998,6 +998,20 @@ class QuestionsUtils {
 
 
         }
+
+        fun isNotifyRestrictoin(restrictionsBean: RestrictionsBean): Boolean {
+            return arrayOf(LibDynamicAppConfig.REST_DID_RELATION,
+                    LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN,
+                    LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN_EQUAL,
+                    LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN,
+                    LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_MONTH,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_DAYS,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_IN_DAYS
+
+            ).contains(restrictionsBean.type)
+        }
     }
 
 

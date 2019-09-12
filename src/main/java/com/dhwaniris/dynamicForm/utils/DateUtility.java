@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import android.util.Log;
 
@@ -145,5 +146,37 @@ public class DateUtility {
         ages = ageInt.toString();
 
         return ages;
+    }
+
+    public static String getAgeInDaysFromDob(int year, int month, int day) {
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        dob.set(year, month - 1, day);
+        long diff = today.getTimeInMillis() - dob.getTimeInMillis();
+        long numberOfDays = TimeUnit.MILLISECONDS.toDays(diff);
+        return String.valueOf(numberOfDays);
+    }
+
+    public static String getMonthFromDob(int year, int month, int day) {
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        dob.set(year, month - 1, day);
+        long diff = today.getTimeInMillis() - dob.getTimeInMillis();
+        Calendar diffrence = Calendar.getInstance();
+        diffrence.setTimeInMillis(diff);
+        int monthOfYear = diffrence.get(Calendar.MONTH)+1;
+        return String.valueOf(monthOfYear);
+    }
+
+    public static String getDaysFromDob(int year, int month, int day) {
+        Calendar dob = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        dob.set(year, month - 1, day);
+        long diff = today.getTimeInMillis() - dob.getTimeInMillis();
+        Calendar diffrence = Calendar.getInstance();
+        diffrence.setTimeInMillis(diff);
+        int dayOfMonth = diffrence.get(Calendar.DAY_OF_MONTH);
+        return String.valueOf(dayOfMonth);
     }
 }

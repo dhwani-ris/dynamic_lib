@@ -1003,13 +1003,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private void createNotifyOnChangeList(QuestionBean questionBean) {
         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-            if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_DID_RELATION)
-                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN)
-                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_LESS_THAN_EQUAL)
-                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN)
-                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL)
-                    || restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALCULATE_AGE)
-            ) {
+            if (QuestionsUtils.Companion.isNotifyRestrictoin(restrictionsBean)) {
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                     HashSet<String> ordersToNotify = notifyOnchangeMap.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
                     if (ordersToNotify == null) {
@@ -1307,7 +1301,20 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         String ageFromDob = DateUtility.getAgeFromDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
                         baseType.superSetAnswer(ageFromDob);
                         baseType.superSetEditable(false, childQuestion.getInput_type());
-                        break;
+                    } else if (LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_MONTH.equals(restrictionsBean.getType())) {
+                        String ageFromDob = DateUtility.getMonthFromDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
+                        baseType.superSetAnswer(ageFromDob);
+                        baseType.superSetEditable(false, childQuestion.getInput_type());
+
+                    } else if (LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_DAYS.equals(restrictionsBean.getType())) {
+                        String ageFromDob = DateUtility.getDaysFromDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
+                        baseType.superSetAnswer(ageFromDob);
+                        baseType.superSetEditable(false, childQuestion.getInput_type());
+
+                    } else if (LibDynamicAppConfig.REST_CALCULATE_AGE_IN_DAYS.equals(restrictionsBean.getType())) {
+                        String ageInDaysFromDob = DateUtility.getAgeInDaysFromDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
+                        baseType.superSetAnswer(ageInDaysFromDob);
+                        baseType.superSetEditable(false, childQuestion.getInput_type());
                     }
                 }
             }

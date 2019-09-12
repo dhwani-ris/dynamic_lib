@@ -99,6 +99,9 @@ public class LibDynamicAppConfig {
     public static final String REST_GET_ANS_OPTION_LOOPING_FILTER = "16.1";
     public static final String REST_CLEAR_DID_CHILD = "17";
     public static final String REST_CALCULATE_AGE = "20";
+    public static final String REST_CALCULATE_AGE_SPLIT_MONTH = "20.1";
+    public static final String REST_CALCULATE_AGE_SPLIT_DAYS = "20.2";
+    public static final String REST_CALCULATE_AGE_IN_DAYS = "20.3";
 
 
     public static final String BLANK_TITLE = "___";
