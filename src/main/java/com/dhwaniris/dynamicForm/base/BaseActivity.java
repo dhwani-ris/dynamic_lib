@@ -1359,8 +1359,19 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
         if (status == 0) {
             layout.setBackgroundResource(R.drawable.green_circle);
+            View v = layout.findViewById(R.id.image);
+            if(v!=null)
+                    v.setVisibility(View.VISIBLE);
         } else if (status == 2) {
             layout.setBackgroundResource(R.drawable.orange_circle);
+            View v = layout.findViewById(R.id.image);
+            if(v!=null)
+                v.setVisibility(View.VISIBLE);
+        }else {
+            layout.setBackgroundResource(R.drawable.red_circle);
+            View v = layout.findViewById(R.id.image);
+            if(v!=null)
+                v.setVisibility(View.GONE);
         }
 
 

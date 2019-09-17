@@ -56,6 +56,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -703,7 +704,10 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                             @Override
                             public void onError(Throwable e) {
                                 hideLoader();
-                                showCustomToast(e.getMessage(), 2);
+                                if(e instanceof IOException){
+                                    showCustomToast("Unable to Connect right now please try again later", 3);
+                                }else
+                                    showCustomToast(e.getMessage(), 3);
                             }
                         });
 

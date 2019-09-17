@@ -195,7 +195,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     protected void modifyAnswerJson(JSONObject jsonObject, HashMap<String, Boolean> answerMapper) {
         for (QuestionBean questionBean : questionBeenList.values()) {
             QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
-            if (questionBeanFilled != null) {
+            if (questionBeanFilled != null && questionBean.getColumnName()!=null && !questionBean.getColumnName().equals("")) {
                 String columnName = questionBean.getColumnName();
                 String value = getAnswerForm(questionBeanFilled);
                 if (!answerMapper.containsKey(columnName)) {
