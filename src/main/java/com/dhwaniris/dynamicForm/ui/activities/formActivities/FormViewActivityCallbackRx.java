@@ -697,7 +697,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                                 if (isWorkComplete.first && isFinish) {
                                     workCompletion(true, status);
                                 } else {
-                                    showCustomToast(isWorkComplete.second, 2);
+                                    showCustomToast(isWorkComplete.second, 3);
                                 }
                             }
 

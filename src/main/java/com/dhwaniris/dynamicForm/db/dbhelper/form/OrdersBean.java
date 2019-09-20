@@ -3,17 +3,17 @@ package com.dhwaniris.dynamicForm.db.dbhelper.form;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
+import com.google.gson.annotations.SerializedName;
 
 
 public class OrdersBean  implements Parcelable {
 
 
-    private String _id;
+    @SerializedName("_id") private String _id;
 
-    private String value;
+    @SerializedName("value") private String value;
 
-    private String order;
+    @SerializedName("order") private String order;
 
     public OrdersBean() {
     }
