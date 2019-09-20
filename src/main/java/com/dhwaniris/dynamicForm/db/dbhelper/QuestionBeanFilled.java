@@ -2,7 +2,7 @@ package com.dhwaniris.dynamicForm.db.dbhelper;
 
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested;
-
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -10,28 +10,28 @@ import java.util.List;
 public class QuestionBeanFilled implements Comparable<QuestionBeanFilled> {
 
 
-    private String order;
-    private String label;
+    @SerializedName("order") private String order;
+    @SerializedName("label") private String label;
 
-    private List<Answers> answer;
-    private String title;
+    @SerializedName("answer") private List<Answers> answer;
+    @SerializedName("title") private String title;
 
-    private String input_type;
-    private String viewSequence;
-    private boolean required;
-    private boolean optional;
-    private boolean validAns;
+    @SerializedName("input_type") private String input_type;
+    @SerializedName("viewSequence") private String viewSequence;
+    @SerializedName("required") private boolean required;
+    @SerializedName("optional") private boolean optional;
+    @SerializedName("validAns") private boolean validAns;
 
-    private List<Nested> nestedAnswer;
-    private boolean isFilled;
+    @SerializedName("nestedAnswer") private List<Nested> nestedAnswer;
+    @SerializedName("isFilled") private boolean isFilled;
 
-    private String uid;
+    @SerializedName("uid") private String uid;
 
-    private LocationBean location;
+    @SerializedName("location") private LocationBean location;
 
-    private String image;
+    @SerializedName("image") private String image;
 
-    private String columnName;
+    @SerializedName("columnName") private String columnName;
 
     public String getColumnName() {
         return columnName;

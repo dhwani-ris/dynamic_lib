@@ -1,6 +1,7 @@
 package com.dhwaniris.dynamicForm.db.dbhelper;
 
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -12,13 +13,13 @@ public class DynamicAnswerOption  {
 
 
 
-    private String uniqueId;
+    @SerializedName("uniqueId") private String uniqueId;
 
-    private int formId;
+    @SerializedName("formId") private int formId;
 
-    private String order;
+    @SerializedName("order") private String order;
 
-    private List<AnswerOptionsBean> answer_option;
+    @SerializedName("answer_option") private List<AnswerOptionsBean> answer_option;
 
 
     public void makeUnique() {

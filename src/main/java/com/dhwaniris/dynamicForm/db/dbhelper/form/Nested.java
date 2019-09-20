@@ -1,14 +1,15 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Nested  {
 
 
-    private List<QuestionBeanFilled> answerNestedData;
+    @SerializedName("answerNestedData") private List<QuestionBeanFilled> answerNestedData;
 
-    private String forParentValue;
+    @SerializedName("forParentValue") private String forParentValue;
 
     public List<QuestionBeanFilled> getAnswerNestedData() {
         return answerNestedData;

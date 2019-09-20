@@ -1,16 +1,16 @@
 package com.dhwaniris.dynamicForm.db.dbhelper;
 
 
-
+import com.google.gson.annotations.SerializedName;
 
 public class HelpDataBean  {
 
 
-    private String title;
+    @SerializedName("title") private String title;
 
-    private String name;
+    @SerializedName("name") private String name;
 
-    private String number;
+    @SerializedName("number") private String number;
 
     public String getTitle() {
         return title;
