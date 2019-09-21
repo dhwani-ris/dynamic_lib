@@ -3,12 +3,14 @@ package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Did {
 
 
-    private String parent_option;
+    @SerializedName("parent_option") private String parent_option;
 
-    private String parentOrder;
+    @SerializedName("parentOrder") private String parentOrder;
 
     public String getParentOrder() {
         return parentOrder;
