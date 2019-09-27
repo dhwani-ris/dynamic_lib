@@ -38,6 +38,17 @@ public class SingletonSubmitForm {
         instance = new SingletonSubmitForm();
         return instance;
     }
+    public static SingletonSubmitForm createNew(Form form) {
+        instance = new SingletonSubmitForm();
+        instance.setForm(form);
+        return instance;
+    }
+    public static SingletonSubmitForm createNew(Form form,JSONObject jsonObject) {
+        instance = new SingletonSubmitForm();
+        instance.setForm(form);
+        instance.setJsonObject(jsonObject);
+        return instance;
+    }
 
 
     private static Form form;
