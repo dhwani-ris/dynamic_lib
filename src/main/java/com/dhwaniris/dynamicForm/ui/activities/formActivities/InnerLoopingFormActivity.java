@@ -548,13 +548,15 @@ public class InnerLoopingFormActivity extends BaseFormActivity
             QuestionBeanFilled questionBeanFilled2 = gson.fromJson(gson.toJson(questionBeanFilled1), QuestionBeanFilled.class);
 
             nestedBean = questionBeanFilled2.getNestedAnswer();
-            for (Nested nested : nestedBean) {
-                String forParentValue = nested.getForParentValue();
-                QuestionBeanFilled fristAnswerTitle = nested.getAnswerNestedData().get(0);
-                fristAnswerTitle.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(forParentValue, null));
-                for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
-                    questionBeanFilled.setOrder(QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, questionBeanFilled.getOrder()));
-                    answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled), questionBeanFilled);
+            if(nestedBean!=null) {
+                for (Nested nested : nestedBean) {
+                    String forParentValue = nested.getForParentValue();
+                    QuestionBeanFilled fristAnswerTitle = nested.getAnswerNestedData().get(0);
+                    fristAnswerTitle.setAnswer(DynamicLibUtils.Companion.getAnswerFormText(forParentValue, null));
+                    for (QuestionBeanFilled questionBeanFilled : nested.getAnswerNestedData()) {
+                        questionBeanFilled.setOrder(QuestionsUtils.Companion.getUpdatedChildOrder(forParentValue, questionBeanFilled.getOrder()));
+                        answerBeanHelperList.put(QuestionsUtils.Companion.getAnswerUniqueId(questionBeanFilled), questionBeanFilled);
+                    }
                 }
             }
 

@@ -3,53 +3,76 @@ package com.dhwaniris.dynamicForm.db.dbhelper.form;
 import com.dhwaniris.dynamicForm.db.dbhelper.ResourceUrlsBean;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
 
 
-    @SerializedName("_id") private String _id;
+    @SerializedName("_id")
+    private String _id;
 
-    @SerializedName("order") private String order;
+    @SerializedName("order")
+    private String order;
 
-    @SerializedName("viewSequence") private String viewSequence;
+    @SerializedName("viewSequence")
+    private String viewSequence;
 
-    @SerializedName("title") private String title;
+    @SerializedName("title")
+    private String title;
 
-    @SerializedName("input_type") private String input_type;
+    @SerializedName("input_type")
+    private String input_type;
 
-    @SerializedName("hint") private String hint;
+    @SerializedName("hint")
+    private String hint;
 
-    @SerializedName("pattern") private String pattern;
+    @SerializedName("pattern")
+    private String pattern;
 
-    @SerializedName("min") private String min;
+    @SerializedName("min")
+    private String min;
 
-    @SerializedName("max") private String max;
+    @SerializedName("max")
+    private String max;
 
-    @SerializedName("constant") private String constant;
+    @SerializedName("constant")
+    private String constant;
 
-    @SerializedName("label") private String label;
+    @SerializedName("label")
+    private String label;
 
-    @SerializedName("information") private String information;
+    @SerializedName("information")
+    private String information;
 
-    @SerializedName("editable") private boolean editable;
+    @SerializedName("editable")
+    private boolean editable;
 
-    @SerializedName("child") private List<ChildBean> child;
+    @SerializedName("child")
+    private List<ChildBean> child;
 
-    @SerializedName("parent") private List<ParentBean> parent;
+    @SerializedName("parent")
+    private List<ParentBean> parent;
 
-    @SerializedName("validation") private List<ValidationBean> validation;
+    @SerializedName("validation")
+    private List<ValidationBean> validation;
 
-    @SerializedName("answer_option") private List<AnswerOptionsBean> answer_option;
+    @SerializedName("answer_option")
+    private List<AnswerOptionsBean> answer_option;
 
-    @SerializedName("answers") private List<Answers> answers;
+    @SerializedName("answers")
+    private List<Answers> answers;
 
-    @SerializedName("restrictions") private List<RestrictionsBean> restrictions;
+    @SerializedName("restrictions")
+    private List<RestrictionsBean> restrictions;
 
-    @SerializedName("resource_urls") private List<ResourceUrlsBean> resource_urls;
+    @SerializedName("resource_urls")
+    private List<ResourceUrlsBean> resource_urls;
 
-    @SerializedName(value = "columnName",alternate = {"shortkey","shortKey"}) private String columnName;
-    @SerializedName("nestedColumnName") private String nestedColumnName;
+    @SerializedName(value = "columnName", alternate = {"shortkey", "shortKey"})
+    private String columnName;
+    @SerializedName("nestedColumnName")
+    private String nestedColumnName;
 
     public String getNestedColumnName() {
         return nestedColumnName;
@@ -251,5 +274,31 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
             return 1;
         }
         return 0;
+    }
+
+    /**
+     * Adds Question validation 3
+     * For question of type select, Editable , radio button to non editable
+     */
+    public void setNonEditable() {
+        boolean contain = false;
+        //alternte for Any operator
+        if (this.validation != null) {
+            for (ValidationBean validation : this.validation) {
+                if (validation.get_id().equals("3")) {
+                    contain = true;
+                    break;
+                }
+            }
+        } else {
+            this.validation = new ArrayList<ValidationBean>();
+        }
+
+        if (!contain) {
+            ValidationBean validation = new ValidationBean();
+            validation.set_id("3");
+            validation.setError_msg("");
+            this.validation.add(validation);
+        }
     }
 }
