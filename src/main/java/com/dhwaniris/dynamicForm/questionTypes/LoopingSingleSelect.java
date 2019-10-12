@@ -3,17 +3,16 @@ package com.dhwaniris.dynamicForm.questionTypes;
 import android.view.View;
 
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
+import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.AnswerOptionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
-import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-
 
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.EDITABLE_DARFT;
@@ -102,6 +101,8 @@ public class LoopingSingleSelect extends BaseEditTextWithButtonType {
                 }
 
 
+            }else {
+                dynamicLoopingView.changebuttonStatus(false, 0);
             }
 
         }

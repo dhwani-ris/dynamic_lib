@@ -283,22 +283,26 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
     public void setNonEditable() {
         boolean contain = false;
         //alternte for Any operator
-        if (this.validation != null) {
-            for (ValidationBean validation : this.validation) {
-                if (validation.get_id().equals("3")) {
-                    contain = true;
-                    break;
+        if(!input_type.equals("20")) {
+            if (this.validation != null) {
+                for (ValidationBean validation : this.validation) {
+                    if (validation.get_id().equals("3")) {
+                        contain = true;
+                        break;
+                    }
                 }
+            } else {
+                this.validation = new ArrayList<ValidationBean>();
             }
-        } else {
-            this.validation = new ArrayList<ValidationBean>();
-        }
 
-        if (!contain) {
-            ValidationBean validation = new ValidationBean();
-            validation.set_id("3");
-            validation.setError_msg("");
-            this.validation.add(validation);
+            if (!contain) {
+                ValidationBean validation = new ValidationBean();
+                validation.set_id("3");
+                validation.setError_msg("");
+                this.validation.add(validation);
+            }
+        }else{
+            setEditable(false);
         }
     }
 }
