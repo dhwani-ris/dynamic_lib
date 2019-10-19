@@ -58,35 +58,35 @@ class MultiSelectorAdapter(private val formListener: SelectListener,
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, pos: Int) {
-        holder.checkBox.text = list[pos]!!.name
-        holder.checkBox.isChecked = checkedList.contains(list[pos]!!._id)
-        holder.checkBox.isEnabled = !(checkedList.size >= checkLimit && !checkedList.contains(list[pos]!!._id))
+        holder.checkBox.text = list[pos].name
+        holder.checkBox.isChecked = checkedList.contains(list[pos]._id)
+        holder.checkBox.isEnabled = !(checkedList.size >= checkLimit && !checkedList.contains(list[pos]._id))
 
 
         holder.checkBox.setOnClickListener {
             if (holder.checkBox.isChecked) {
-                if (!checkedList.contains(list[pos]!!._id)) {
+                if (!checkedList.contains(list[pos]._id)) {
 
                     ///if check alone item available
                     if (itemsCheckAlone.size > 0) {
-                        if (itemsCheckAlone.contains(list[pos]!!._id) || itemsCheckAlone.containsAll(checkedList)) {
+                        if (itemsCheckAlone.contains(list[pos]._id) || itemsCheckAlone.containsAll(checkedList)) {
                             checkedList.clear()
                             formListener.SingleSelector(null, "ClearAll", null, false)
-                            checkedList.add(list[pos]!!._id)
-                            formListener.SingleSelector(null, null, list[pos]!!._id, false)
+                            checkedList.add(list[pos]._id)
+                            formListener.SingleSelector(null, null, list[pos]._id, false)
                         } else {
-                            checkedList.add(list[pos]!!._id)
-                            formListener.SingleSelector(null, null, list[pos]!!._id, false)
+                            checkedList.add(list[pos]._id)
+                            formListener.SingleSelector(null, null, list[pos]._id, false)
                         }
 
                     } else {
-                        checkedList.add(list[pos]!!._id)
-                        formListener.SingleSelector(null, null, list[pos]!!._id, false)
+                        checkedList.add(list[pos]._id)
+                        formListener.SingleSelector(null, null, list[pos]._id, false)
 
                     }
 
                     if (isCheckAllCase) {
-                        if (Pattern.matches(checkAllPattern, list[pos]!!._id)) {
+                        if (Pattern.matches(checkAllPattern, list[pos]._id)) {
                             for (answerOptions in list) {
                                 if (Pattern.matches(checkAllPattern, answerOptions._id)) {
                                     checkedList.add(answerOptions._id)
@@ -100,10 +100,10 @@ class MultiSelectorAdapter(private val formListener: SelectListener,
                 }
 
             } else {
-                checkedList.remove(list[pos]!!._id)
-                formListener.SingleSelector(null, list[pos]!!._id, null, false)
+                checkedList.remove(list[pos]._id)
+                formListener.SingleSelector(null, list[pos]._id, null, false)
                 if (isCheckAllCase) {
-                    if (Pattern.matches(checkAllPattern, list[pos]!!._id)) {
+                    if (Pattern.matches(checkAllPattern, list[pos]._id)) {
                         for (answerOptions in list) {
                             if (Pattern.matches(checkAllPattern, answerOptions._id)) {
                                 checkedList.remove(answerOptions._id)

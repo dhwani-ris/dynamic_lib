@@ -1,16 +1,16 @@
 package com.dhwaniris.dynamicForm.adapters
 
-import android.os.Build
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig
 import com.dhwaniris.dynamicForm.R
 import com.dhwaniris.dynamicForm.db.FilledForms
@@ -84,7 +84,7 @@ class FilledFormsViewHolder(v: View, private val viewSequenceOrders: List<String
                     .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.data_will_be_removed)
                     .setPositiveButton(R.string.delete) { _, _ ->
-                     // todo delete here
+                        // todo delete here
 
                         Toast.makeText(del.context, R.string.data_deleted, Toast.LENGTH_LONG).show()
                     }
@@ -100,7 +100,7 @@ class FilledFormsViewHolder(v: View, private val viewSequenceOrders: List<String
                     .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.re_submmit_response)
                     .setPositiveButton(R.string.submit) { _, _ ->
-                   //todo retry here
+                        //todo retry here
 
                         Toast.makeText(del.context, R.string.form_submitted_successfully, Toast.LENGTH_LONG).show()
                     }
@@ -148,11 +148,7 @@ class FilledFormsViewHolder(v: View, private val viewSequenceOrders: List<String
 
     private fun setTextAnsColor(tv: TextView, stringResId: Int, colorResId: Int) {
         tv.setText(stringResId)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tv.setBackgroundColor(tv.context.resources.getColor(colorResId, null))
-        } else {
-            tv.setBackgroundColor(tv.context.resources.getColor(colorResId))
-        }
+        tv.setBackgroundColor(ResourcesCompat.getColor(tv.context.resources, colorResId, null))
     }
 
     private fun getDateTime(value: String): String {
