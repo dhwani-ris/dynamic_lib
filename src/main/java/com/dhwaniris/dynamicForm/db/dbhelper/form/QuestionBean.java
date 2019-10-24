@@ -283,7 +283,7 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
     public void setNonEditable() {
         boolean contain = false;
         //alternte for Any operator
-        if(!input_type.equals("20")) {
+        if (!input_type.equals("20") && !input_type.equals("10")) {
             if (this.validation != null) {
                 for (ValidationBean validation : this.validation) {
                     if (validation.get_id().equals("3")) {
@@ -301,7 +301,7 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
                 validation.setError_msg("");
                 this.validation.add(validation);
             }
-        }else{
+        } else {
             setEditable(false);
         }
     }
