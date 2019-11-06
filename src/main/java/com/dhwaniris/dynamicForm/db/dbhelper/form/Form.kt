@@ -15,6 +15,7 @@ data class Form(
         @SerializedName("isActive") var isActive: Boolean = false,
         @SerializedName("language") var language: List<LanguageBean> = listOf(),
         @SerializedName("location") var location: Boolean = false,
+        @SerializedName("delayLocation") var delayLocation: Boolean = false,
         @SerializedName("isMedia") var isMedia: Boolean = false,
         @SerializedName("expiryDate") var expiryDate: Long = 0,
 //@SerializedName("minAppVersion")   private String minAppVersion; ,

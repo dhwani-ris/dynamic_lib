@@ -59,21 +59,16 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
     lateinit var compositeDisposable:CompositeDisposable
 
-    @Volatile
-    private var isDestroyedLocal = false
-
-    private val locMnagaer: LocationManager? = null
+    @Volatile private var isDestroyedLocal = false
     private var longitutde = "0.0"
     private var latitude = "0.0"
     private var accuracy = "0.0"
     private var time: Long = 0
-    private var lastTimestamp: kotlin.Long = 0
+    private var lastTimestamp: Long = 0
     protected var isErrorViewRequired = false
 
-    private var originalFilledFormList: FilledForms? = null
     private var isListLoaded = false
     private var formModel: Form? = null
-    private var tempQuestionbeanList: List<QuestionBean> = ArrayList()
 
     private lateinit var ctx: Context
     private val toolbar: Toolbar? by lazy { findViewById<Toolbar?>(R.id.toolbar) }
@@ -205,7 +200,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                         if (!it.order.contains(".")) {
                             questionBeanList.add(it)
                         } else {
-                            childQuestionBeenList.put(QuestionsUtils.getQuestionUniqueId(it), it)
+                            childQuestionBeenList.put(getQuestionUniqueId(it), it)
                         }
                         Observable.just(it)
                     }.toList()
@@ -350,7 +345,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         val i = view!!.id
         if (i == R.id.save) {
             if (requirdAlertMap.containsValue(true)) {
-                val orderlist: List<String?>? = checkRegexHashMap(requirdAlertMap)
+                val orderlist: List<String>? = checkRegexHashMap(requirdAlertMap)
                 if (!orderlist!!.isEmpty()) {
                     val text: String? = answerBeanHelperList[orderlist[0]]!!.answer[0].value
                     checkAlert(text, questionBeenList[orderlist[0]])
@@ -429,26 +424,24 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         }
     }
 
-//    private var uploadtask: UpdateDataData? = null
-
     //show unanswered question
     private fun showUnansweredQuestions(tempList: List<QuestionBeanFilled?>?, showAll: Boolean) {
         //creating dropdown selector
 
         val dialog = AlertDialog.Builder(this)
         val inflater: LayoutInflater? = layoutInflater
-        val view: View? = inflater!!.inflate(R.layout.dynamic_custom_selector_layout, null)
-        val title = view!!.findViewById<TextView?>(R.id.dTitle)
-        val close = view.findViewById<ImageView?>(R.id.dClose)
-        val recyclerView: RecyclerView = view.findViewById(R.id.dRecycler)
+        val view: View? = inflater?.inflate(R.layout.dynamic_custom_selector_layout, null)
+        val title = view?.findViewById<TextView?>(R.id.dTitle)
+        val close = view?.findViewById<ImageView?>(R.id.dClose)
+        val recyclerView: RecyclerView? = view?.findViewById(R.id.dRecycler)
         dialog.setView(view)
-        title!!.setText(R.string.pending_questions)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        title?.setText(R.string.pending_questions)
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.layoutManager = LinearLayoutManager(this)
         val alertDialog: AlertDialog? = dialog.create()
         val adapter = UnansweredQusAdapter(unansweredListener, tempList, alertDialog, showAll, questionBeenList)
-        recyclerView.adapter = adapter
-        close!!.setOnClickListener { alertDialog!!.dismiss() }
+        recyclerView?.adapter = adapter
+        close?.setOnClickListener { alertDialog!!.dismiss() }
         dialog.setPositiveButton(R.string.ok) { dialogInterface, i -> alertDialog!!.dismiss() }
         alertDialog!!.show()
     }
@@ -526,85 +519,6 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                 },{e->Log.e("Error","Error",e)}))
     }
 
-
-    inner class UpdateDataData internal constructor(internal var status: Int, internal var isFinish: Boolean) : AsyncTask<Void?, Void?, Boolean?>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-            showLoading()
-        }
-
-        override fun doInBackground(vararg integers: Void?): Boolean? {
-            val locationBean = LocationBean()
-            val locationData: Location? = locationReceiver.locationData.value
-            if (locationData != null) {
-                longitutde = "" + locationData.longitude
-                latitude = "" + locationData.latitude
-                accuracy = "" + locationData.accuracy
-            }
-            locationBean.accuracy = accuracy
-            locationBean.lat = latitude
-            locationBean.lng = longitutde
-            val timestamp = System.currentTimeMillis()
-            time = time + timestamp - lastTimestamp
-            filledFormList.timeTaken = time.toString()
-            filledFormList.version = formModel?.version
-            filledFormList.formId = formModel?.formId.toString()
-            filledFormList.setMobileUpdatedAt("" + System.currentTimeMillis())
-            filledFormList.setUpload_status(status)
-            val answerFilledList: MutableList<QuestionBeanFilled> = mutableListOf()
-            answerFilledList.addAll(answerBeanHelperList.values)
-            sortAnsList(answerFilledList)
-            filledFormList.setQuestion(answerFilledList)
-            val jsonObject: JSONObject = singletonForm?.getJsonObject()?: JSONObject()
-            val answerMapper = HashMap<String?, Boolean?>()
-            modifyAnswerJson(jsonObject, answerMapper)
-            try {
-                jsonObject.put(Constant.TIME_TAKKEN, time.toString())
-                if (formModel?.isLocation() == true) {
-                    val locationJsonObject = JSONObject()
-                    locationJsonObject.put("lat", locationBean.lat)
-                    locationJsonObject.put("lng", locationBean.lng)
-                    locationJsonObject.put("accuracy", locationBean.accuracy)
-                    jsonObject.put(Constant.LOCATION, locationJsonObject)
-                }
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-            singletonForm?.jsonObject = jsonObject
-            return true
-        }
-
-        override fun onPostExecute(aBoolean: Boolean?) {
-            if (singletonForm?.workOnSubmit != null) {
-                singletonForm?.getWorkOnSubmit()
-                        ?.subscribeOn(Schedulers.io())
-                        ?.observeOn(AndroidSchedulers.mainThread())
-                        ?.subscribe(object : SingleObserver<Pair<Boolean?, String?>?> {
-                            override fun onSubscribe(d: Disposable) {}
-                            override fun onSuccess(isWorkComplete: Pair<Boolean?, String?>) {
-                                hideLoader()
-                                if (isWorkComplete.first==true && isFinish) {
-                                    workCompletion(true, status)
-                                } else {
-                                    showCustomToast(isWorkComplete.second, 3)
-                                }
-                            }
-
-                            override fun onError(e: Throwable) {
-                                hideLoader()
-                                if (e is IOException) {
-                                    showCustomToast("Unable to Connect right now please try again later", 3)
-                                } else showCustomToast(e.message, 3)
-                            }
-                        })
-            } else {
-                workCompletion(isFinish, status)
-            }
-            super.onPostExecute(aBoolean)
-        }
-
-    }
-
     internal fun workCompletion(isFinish: Boolean, status: Int) {
         hideLoading()
         if (isFinish) {
@@ -637,12 +551,9 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         }
     }
 
-
     //get filled fields count
     private fun getValidAnsCount(): Int {
         var ans = 0
-        val total = 0
-        val opt = 0
         for (questionBeanFilled in answerBeanHelperList.values) {
             if (questionBeanFilled!!.isFilled) {
                 ans++
@@ -651,16 +562,12 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         return ans
     }
 
-    internal var execute: AsyncTask<Void?, Void?, List<QuestionBean?>?>? = null
     override fun onDestroy() {
         compositeDisposable.dispose()
         isDestroyedLocal = true
         unansweredListener = null
-//        if (execute != null && execute?.getStatus() == Status.RUNNING) execute?.cancel(true)
-//        if (uploadtask != null && uploadtask?.getStatus() == Status.RUNNING) uploadtask!!.cancel(true)
         super.onDestroy()
     }
-
 
     override fun acceptedPermission(grantResults: IntArray) {
         saved = false
