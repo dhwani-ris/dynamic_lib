@@ -132,7 +132,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
     override fun onStart() {
         super.onStart()
         locationDataN.observe(this, androidx.lifecycle.Observer {
-            if (delayedLocation) {
+            if (delayedLocation && isValidateCalled) {
                 hideLoader()
                 AlertDialog.Builder(this)
                         .setTitle(R.string.save_data)
