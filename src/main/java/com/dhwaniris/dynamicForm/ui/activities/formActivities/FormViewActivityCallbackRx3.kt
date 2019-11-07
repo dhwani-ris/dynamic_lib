@@ -3,11 +3,9 @@ package com.dhwaniris.dynamicForm.ui.activities.formActivities
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.IntentFilter
 import android.location.Location
-import android.location.LocationManager
-import android.os.AsyncTask
-import android.os.AsyncTask.Status
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -41,6 +39,7 @@ import com.dhwaniris.dynamicForm.utils.QuestionsUtils.Companion.isItHasAns
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils.Companion.isLoopingType
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils.Companion.sortAnsList
 import com.dhwaniris.dynamicForm.utils.QuestionsUtils.Companion.sortQusList
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -57,9 +56,10 @@ import kotlin.collections.ArrayList
 
 class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
-    lateinit var compositeDisposable:CompositeDisposable
+    lateinit var compositeDisposable: CompositeDisposable
 
-    @Volatile private var isDestroyedLocal = false
+    @Volatile
+    private var isDestroyedLocal = false
     private var longitutde = "0.0"
     private var latitude = "0.0"
     private var accuracy = "0.0"
@@ -78,10 +78,16 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
     private var singletonForm: SingletonSubmitForm? = null
     private var titleInLanguage: String? = null
 
+    private var delayedLocation: Boolean = false
+
+    private var isValidateCalled = false
+    /**isValidateCalled Variable for delayed location calls*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         compositeDisposable = CompositeDisposable()
         isDestroyedLocal = false
+        isValidateCalled = false
         setContentView(R.layout.activity_form)
         ctx = this
         superViewBind()
@@ -125,6 +131,21 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
 
     override fun onStart() {
         super.onStart()
+        locationDataN.observe(this, androidx.lifecycle.Observer {
+            if (delayedLocation) {
+                hideLoader()
+                AlertDialog.Builder(this)
+                        .setTitle(R.string.save_data)
+                        .setMessage(R.string.are_you_sure)
+                        .setPositiveButton(R.string.yes) { dialogInterface, i ->
+                            loadUploadData(LibDynamicAppConfig.SUBMITTED, true)
+//                            uploadtask = UpdateDataData(LibDynamicAppConfig.SUBMITTED, true)
+//                            uploadtask!!.execute()
+                        }
+                        .setNegativeButton(R.string.no, null)
+                        .show()
+            }
+        })
         LocalBroadcastManager.getInstance(this).registerReceiver(locationReceiver,
                 IntentFilter(LocationUpdatesService.ACTION_BROADCAST))
     }
@@ -177,6 +198,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         if (jsonObject != null && formModel != null) {
             var userLanguage: String = userLanguage()
             var isFoundLanguage = false
+            delayedLocation = formModel?.delayLocation ?: false
             val ss = Single.just(formModel)
                     .subscribeOn(Schedulers.computation())
                     .map {
@@ -191,12 +213,12 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                         userLanguage = if (isFoundLanguage) userLanguage() else "en"
                         it.language
                     }.toObservable().flatMapIterable { it }
-                    .takeUntil { it.lng== userLanguage }.filter { it.lng== userLanguage }
+                    .takeUntil { it.lng == userLanguage }.filter { it.lng == userLanguage }
                     .map {
                         titleInLanguage = it.title
                         it
-                    }.flatMapIterable {it.question}
-                    .flatMap{
+                    }.flatMapIterable { it.question }
+                    .flatMap {
                         if (!it.order.contains(".")) {
                             questionBeanList.add(it)
                         } else {
@@ -219,7 +241,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                             showToast(R.string.something_went_wrong)
                             myFinishActivity(true)
                         }
-                    },{e-> Log.e("Error Json","Some Error",e)})
+                    }, { e -> Log.e("Error Json", "Some Error", e) })
             compositeDisposable.add(ss)
         }
     }
@@ -227,13 +249,14 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
     fun prepareQuestionView() {
         prepareQuestionsRx()
     }
+
     internal fun checkRequiredStuff(questionBeanList: List<QuestionBean>) {
         sortQusList(questionBeanList)
         for (questionBean in questionBeanList) {
             questionBeenList[getQuestionUniqueId(questionBean)] = questionBean
         }
         if (questionBeenList.size > 0) {
-            if (isLocationRequired) {
+            if (isLocationRequired && !delayedLocation) {
                 if (permissionHandler.checkGpsPermission()) {
                     if (!isDestroyedLocal) locationHandler.startGpsService()
                     AddNewObjectView(questionBeenList)
@@ -265,6 +288,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         }
         isListLoaded = true
     }
+
     //adding dynamic view in LinearLayout
     private fun AddNewObjectView(questionBeanRealmList: LinkedHashMap<String?, QuestionBean?>?) {
         for (questionBean in questionBeanRealmList!!.values) {
@@ -302,9 +326,14 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
     override fun onResume() {
         super.onResume()
         if (isLocationRequired) {
-            if (permissionHandler.checkGpsPermission()) {
-                locationHandler.startGpsService()
-            }
+            if (delayedLocation) {
+                if (isValidateCalled && permissionHandler.checkGpsPermission()) {
+                    locationHandler.startGpsService()
+                }
+            } else
+                if (permissionHandler.checkGpsPermission()) {
+                    locationHandler.startGpsService()
+                }
         }
         alreadyRequest = false
     }
@@ -317,7 +346,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
     }
 
     override fun onBackPressed() {
-        if (formStatus == LibDynamicAppConfig.SUBMITTED) {
+        if (formStatus != LibDynamicAppConfig.SUBMITTED) {
             Builder(ctx)
                     .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)
@@ -371,7 +400,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                         .setCancelable(true)
                         .show()
             } else {
-                Snackbar.make(submit!!, R.string.please_fill_at_least_one_field, Snackbar.LENGTH_SHORT)
+                Snackbar.make(submit!!, R.string.please_fill_at_least_one_field, BaseTransientBottomBar.LENGTH_SHORT)
                         .setAction(R.string.ok, null)
                         .show()
             }
@@ -401,22 +430,34 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
             }
             return
         } else if (!answerBeanHelperList.isEmpty()) {
+            isValidateCalled = true
             validateOnChangeListeners()
             refreshLoopingFiltersQuestions()
             val tempList: List<QuestionBeanFilled?>? = findInvalidAnswersList(answerBeanHelperList, questionObjectList)
             if (!tempList!!.isEmpty()) {
                 showUnansweredQuestions(tempList, false)
             } else {
-                AlertDialog.Builder(this)
-                        .setTitle(R.string.save_data)
-                        .setMessage(R.string.are_you_sure)
-                        .setPositiveButton(R.string.yes) { dialogInterface, i ->
-                            loadUploadData(LibDynamicAppConfig.SUBMITTED, true)
+                if (delayedLocation) {
+                    if (permissionHandler.checkGpsPermission()) {
+                        showLoading()
+                        locationHandler.startGpsService()
+                        saved = false
+                    } else {
+                        permissionHandler.requestGpsPermission()
+                    }
+//                    if (!isDestroyedLocal) locationHandler.startGpsService()
+                } else {
+                    AlertDialog.Builder(this)
+                            .setTitle(R.string.save_data)
+                            .setMessage(R.string.are_you_sure)
+                            .setPositiveButton(R.string.yes) { dialogInterface, i ->
+                                loadUploadData(LibDynamicAppConfig.SUBMITTED, true)
 //                            uploadtask = UpdateDataData(LibDynamicAppConfig.SUBMITTED, true)
 //                            uploadtask!!.execute()
-                        }
-                        .setNegativeButton(R.string.no, null)
-                        .show()
+                            }
+                            .setNegativeButton(R.string.no, null)
+                            .show()
+                }
             }
         } else {
             BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, "Invalid Form. Line No. 406"
@@ -446,7 +487,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         alertDialog!!.show()
     }
 
-    fun loadUploadData(status: Int, isFinish: Boolean){
+    fun loadUploadData(status: Int, isFinish: Boolean) {
         showLoading()
         compositeDisposable.add(Single.just(1)
                 .subscribeOn(Schedulers.io())
@@ -473,7 +514,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                         answerFilledList.addAll(answerBeanHelperList.values)
                         sortAnsList(answerFilledList)
                         filledFormList.setQuestion(answerFilledList)
-                        val jsonObject: JSONObject = singletonForm?.getJsonObject()?: JSONObject()
+                        val jsonObject: JSONObject = singletonForm?.getJsonObject() ?: JSONObject()
                         val answerMapper = HashMap<String?, Boolean?>()
                         modifyAnswerJson(jsonObject, answerMapper)
                         try {
@@ -499,7 +540,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                                     override fun onSubscribe(d: Disposable) {}
                                     override fun onSuccess(isWorkComplete: Pair<Boolean?, String?>) {
                                         hideLoader()
-                                        if (isWorkComplete.first==true && isFinish) {
+                                        if (isWorkComplete.first == true && isFinish) {
                                             workCompletion(true, status)
                                         } else {
                                             showCustomToast(isWorkComplete.second, 3)
@@ -516,7 +557,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
                     } else {
                         workCompletion(isFinish, status)
                     }
-                },{e->Log.e("Error","Error",e)}))
+                }, { e -> Log.e("Error", "Error", e) }))
     }
 
     internal fun workCompletion(isFinish: Boolean, status: Int) {
@@ -582,5 +623,14 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
 
     override fun deniedGPS() {
         myFinishActivity(true)
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionHandler.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        locationHandler.onActivityResult(requestCode, resultCode)
     }
 }
