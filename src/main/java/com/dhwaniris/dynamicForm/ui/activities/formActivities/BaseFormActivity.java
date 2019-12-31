@@ -1003,7 +1003,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private void createNotifyOnChangeList(QuestionBean questionBean) {
         for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-            if (QuestionsUtils.Companion.isNotifyRestrictoin(restrictionsBean)) {
+            if (QuestionsUtils.Companion.isNotifyRestriction(restrictionsBean)) {
                 for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
                     HashSet<String> ordersToNotify = notifyOnchangeMap.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
                     if (ordersToNotify == null) {
@@ -1315,6 +1315,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         String ageInDaysFromDob = DateUtility.getAgeInDaysFromDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
                         baseType.superSetAnswer(ageInDaysFromDob);
                         baseType.superSetEditable(false, childQuestion.getInput_type());
+                    }else if (LibDynamicAppConfig.REST_CALCULATE_AGE_IN_MONTHS.equals(restrictionsBean.getType())) {
+                        String ageInDaysFromDob = DateUtility.getAgeInMonthDob(Integer.parseInt(yy), Integer.parseInt(mm), Integer.parseInt(dd));
+                        baseType.superSetAnswer(ageInDaysFromDob);
+                        baseType.superSetEditable(false, childQuestion.getInput_type());
+
                     }
                 }
             }

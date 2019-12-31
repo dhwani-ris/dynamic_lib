@@ -102,6 +102,7 @@ public class LibDynamicAppConfig {
     public static final String REST_CALCULATE_AGE_SPLIT_MONTH = "20.1";
     public static final String REST_CALCULATE_AGE_SPLIT_DAYS = "20.2";
     public static final String REST_CALCULATE_AGE_IN_DAYS = "20.3";
+    public static final String REST_CALCULATE_AGE_IN_MONTHS = "20.4";
 
 
     public static final String BLANK_TITLE = "___";

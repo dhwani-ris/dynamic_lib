@@ -179,4 +179,11 @@ public class DateUtility {
         int dayOfMonth = diffrence.get(Calendar.DAY_OF_MONTH);
         return String.valueOf(dayOfMonth);
     }
+
+    public static String getAgeInMonthDob(int year, int month, int day) {
+        String monthFromDob = getMonthFromDob(year, month, day);
+        String ageFromDob = getAgeFromDob(year, month, day);
+        int ageInMonth = (Integer.parseInt(ageFromDob) * 12) + (Integer.parseInt(monthFromDob));
+        return String.valueOf(ageInMonth);
+    }
 }
