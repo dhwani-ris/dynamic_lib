@@ -186,4 +186,20 @@ public class DateUtility {
         int ageInMonth = (Integer.parseInt(ageFromDob) * 12) + (Integer.parseInt(monthFromDob));
         return String.valueOf(ageInMonth);
     }
+
+
+    public static long getTimeStampFromDate(String dateString) {
+        DateFormat formatter;
+        Date date;
+        formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        try {
+            date = formatter.parse(dateString);
+            Calendar selDateC = Calendar.getInstance();
+            selDateC.setTime(date);
+            return selDateC.getTimeInMillis();
+        } catch (ParseException e) {
+            return 0;
+        }
+
+    }
 }

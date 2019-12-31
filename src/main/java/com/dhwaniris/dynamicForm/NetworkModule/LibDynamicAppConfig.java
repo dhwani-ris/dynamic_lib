@@ -38,10 +38,11 @@ public class LibDynamicAppConfig {
     public static final String VAL_OR_CASE_WITH_MULTIPLE_PARENT = "6";
     public static final String VAL_OR_CASE_WITH_GET_FILTER_OPTION = "7";
     public static final String VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES = "8";
-    public static final String VAL_FUTURE_DATE = "21";
-    public static final String VAL_FUTURE_AND_TODAY = "22";
-    public static final String VAL_PAST_DATE = "23";
-    public static final String VAL_PAST_AND_TODAY = "24";
+    public static final String VAL_FUTURE = "21";
+    public static final String VAL_FUTURE_AND_PRESENT = "22";
+    public static final String VAL_PAST = "23";
+    public static final String VAL_PAST_AND_PRESENT = "24";
+    public static final String VAL__PRESENT = "25";
     public static final String VAL_DESELECT_ALL = "31";
     public static final String VAL_CHECKLIMIT = "32";
     public static final String VAL_COMBIND_CHECK = "33";
@@ -81,6 +82,7 @@ public class LibDynamicAppConfig {
 
     public static final String REST_SHOULD_BE_LESS_THAN = "3";
     public static final String REST_SHOULD_BE_LESS_THAN_EQUAL = "4";
+    public static final String REST_SHOULD_BE_EQUAL_TO = "5";
     public static final String REST_SHOULD_BE_GRATER_THAN = "6";
     public static final String REST_SHOULD_BE_GRATER_THAN_EQUAL = "7";
     public static final String REST_CALL_FOR_EXPRESSION = "8";

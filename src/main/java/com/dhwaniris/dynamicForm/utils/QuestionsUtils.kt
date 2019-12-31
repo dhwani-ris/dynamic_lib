@@ -15,6 +15,9 @@ class QuestionsUtils {
 
 
     companion object {
+        fun isOneOf(inputType: String, vararg types: String): Boolean {
+            return (types.contains(inputType))
+        }
 
         fun getNewAnswerList(): ArrayList<Answers> {
             val answerBeanHelperList = ArrayList<Answers>()
@@ -26,6 +29,17 @@ class QuestionsUtils {
             answerBeanHelperList.add(answers)
             return answerBeanHelperList
 
+        }
+
+        fun isQuestionHasValidation(questionBean: QuestionBean, validationId: String): Boolean {
+            return (questionBean.validation.any { it._id == validationId })
+        }
+
+        fun isQuestionRequired(questionBean: QuestionBean): Boolean {
+            if (questionBean.validation.find { it._id == LibDynamicAppConfig.VAL_REQUIRED } != null) {
+                return true
+            }
+            return false
         }
 
         fun isAnswerIsExpected(uniqueKey: String, value: String, questionBeanFilledList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
@@ -1006,6 +1020,26 @@ class QuestionsUtils {
                     LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN,
                     LibDynamicAppConfig.REST_SHOULD_BE_GRATER_THAN_EQUAL,
                     LibDynamicAppConfig.REST_CALCULATE_AGE,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_MONTH,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_DAYS,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_IN_DAYS,
+                    LibDynamicAppConfig.REST_CALCULATE_AGE_IN_MONTHS
+
+            ).contains(restrictionsBean.type)
+        }
+
+        fun isQuestionHasAutoFillRestriction(questionBean: QuestionBean): Boolean {
+            return questionBean.restrictions.any { isAutoFillRestriction(it) }
+
+        }
+
+        fun isQuestionHasNotifyRestriction(questionBean: QuestionBean): Boolean {
+            return questionBean.restrictions.any { isNotifyRestriction(it) }
+
+        }
+
+        fun isAutoFillRestriction(restrictionsBean: RestrictionsBean): Boolean {
+            return arrayOf(LibDynamicAppConfig.REST_CALCULATE_AGE,
                     LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_MONTH,
                     LibDynamicAppConfig.REST_CALCULATE_AGE_SPLIT_DAYS,
                     LibDynamicAppConfig.REST_CALCULATE_AGE_IN_DAYS,
