@@ -31,8 +31,7 @@ class QuestionsUtils {
 
         }
 
-        fun QuestionBean.hasValidation(validationId: String): Boolean
-                = (this.validation.any { it._id == validationId })
+        fun QuestionBean.hasValidation(validationId: String): Boolean = (this.validation.any { it._id == validationId })
 
 
         fun isQuestionHasValidation(questionBean: QuestionBean, validationId: String): Boolean {
@@ -69,14 +68,15 @@ class QuestionsUtils {
         }
 
 
-        fun checkValueForVisibility(questionBean: QuestionBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
+        fun checkValueForVisibility(questionBean: QuestionBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>, questionBeanList: LinkedHashMap<String, QuestionBean>): Boolean {
             var isMatch: Boolean
             if (questionBean != null && questionBean.parent.isNotEmpty()) {
                 val parentBean1 = questionBean.parent[0]
-                isMatch = isAnswerIsExpected(getParentUniqueId(parentBean1!!), parentBean1.value, answerBeanHelperList)
+                isMatch = validateSuperParent(parentBean1, questionBeanList, answerBeanHelperList)
+                        && isAnswerIsExpected(getParentUniqueId(parentBean1!!), parentBean1.value, answerBeanHelperList)
 
                 if (questionBean.parent.size > 1) {
-                    isMatch = validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList)
+                    isMatch = validateVisibilityWithMultiParent(questionBean, answerBeanHelperList,questionBeanList)
                 }
             } else {
                 return true
@@ -84,39 +84,36 @@ class QuestionsUtils {
             return isMatch
         }
 
-        fun validateVisibilityWithMultiParent(questionBean: QuestionBean, isMatchOld: Boolean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
-            var isMatch = isMatchOld
-            var isOrCase = false
-            var isVisibleOnParentsDiffrentValue = false
-            for (validationBean in questionBean.validation) {
-                if (validationBean._id == LibDynamicAppConfig.VAL_OR_CASE_WITH_MULTIPLE_PARENT) {
-                    isOrCase = true
-                    break
-                } else if (validationBean._id == LibDynamicAppConfig.VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES) {
-                    isVisibleOnParentsDiffrentValue = true
-                    break
-                }
+         fun validateSuperParent(parentBean1: ParentBean, questionBeanList: LinkedHashMap<String, QuestionBean>, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
+            val parentUniqueId = getParentUniqueId(parentBean1)
+            val superParentQuestionBean = questionBeanList[parentUniqueId]
+            return if (superParentQuestionBean != null && superParentQuestionBean.parent.size > 0) {
+                checkValueForVisibility(superParentQuestionBean, answerBeanHelperList, questionBeanList)
+            } else {
+                true
             }
-            var valueInParent: String? = null
+
+        }
+
+        fun validateVisibilityWithMultiParent(questionBean: QuestionBean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>,questionBeenList: LinkedHashMap<String, QuestionBean>): Boolean {
+            val matchList = ArrayList<Boolean>()
+            val valueList = ArrayList<String?>()
+            val isOrCase = questionBean.hasValidation(LibDynamicAppConfig.VAL_OR_CASE_WITH_MULTIPLE_PARENT)
+            val isVisibleOnParentsDifferentValue = questionBean.hasValidation(LibDynamicAppConfig.VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES)
             for (parentBean in questionBean.parent) {
-                if (!isVisibleOnParentsDiffrentValue) {
-                    if (!isOrCase) {
-                        isMatch = isMatch && isAnswerIsExpected(getParentUniqueId(parentBean), parentBean.value, answerBeanHelperList)
-                    } else {
-                        isMatch = isMatch || isAnswerIsExpected(getParentUniqueId(parentBean), parentBean.value, answerBeanHelperList)
-                    }
-                } else {
-                    if (valueInParent == null) {
-                        valueInParent = getSingleAnswerValueFormOder(getParentUniqueId(parentBean), answerBeanHelperList)
-                    } else {
-                        isMatch = valueInParent != getSingleAnswerValueFormOder(getParentUniqueId(parentBean), answerBeanHelperList)
-                        valueInParent = getSingleAnswerValueFormOder(getParentUniqueId(parentBean), answerBeanHelperList)
-                    }
-
-                }
+                matchList.add(isAnswerIsExpected(getParentUniqueId(parentBean), parentBean.value, answerBeanHelperList)
+                        && validateSuperParent(parentBean,questionBeenList,answerBeanHelperList)
+                )
+                valueList.add(getSingleAnswerValueFormOder(getParentUniqueId(parentBean), answerBeanHelperList))
 
             }
-            return isMatch
+            return if (!isVisibleOnParentsDifferentValue) {
+                if (isOrCase) matchList.any { it } else matchList.all { it }
+            } else {
+                valueList.distinct().size == valueList.size
+            }
+
+
         }
 
         private fun getSingleAnswerValueFormOder(uniqueKey: String, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): String? {
@@ -1050,6 +1047,16 @@ class QuestionsUtils {
                     LibDynamicAppConfig.REST_CALCULATE_AGE_IN_MONTHS
 
             ).contains(restrictionsBean.type)
+        }
+
+        fun getQuestionBeanMap(questionBeanList: MutableList<QuestionBean>): LinkedHashMap<String, QuestionBean> {
+            val questionMap: LinkedHashMap<String, QuestionBean> = LinkedHashMap()
+            questionBeanList.forEach {
+                questionMap[it.order] = it
+            }
+
+            return questionMap
+
         }
     }
 

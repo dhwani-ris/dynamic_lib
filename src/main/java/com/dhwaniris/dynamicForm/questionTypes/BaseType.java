@@ -62,10 +62,11 @@ public abstract class BaseType {
         boolean isMatch;
         if (questionBean.getParent().size() > 0) {
             ParentBean parentBean1 = questionBean.getParent().get(0);
-            isMatch = QuestionsUtils.Companion.isAnswerIsExpected(parentBean1.getOrder(), parentBean1.getValue(), answerBeanHelperList);
+            isMatch = QuestionsUtils.Companion.isAnswerIsExpected(parentBean1.getOrder(), parentBean1.getValue(), answerBeanHelperList)
+            && QuestionsUtils.Companion.validateSuperParent(parentBean1,questionBeenList,answerBeanHelperList);
 
             if (questionBean.getParent().size() > 1) {
-                isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList);
+                isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(questionBean, answerBeanHelperList,questionBeenList);
             }
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                 if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {

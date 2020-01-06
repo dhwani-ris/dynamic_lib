@@ -535,10 +535,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     void convertJsonDataToAnswer(List<QuestionBean> questionBeanList, JSONObject jsonObject, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
+        LinkedHashMap<String, QuestionBean> questionBeanMap = QuestionsUtils.Companion.getQuestionBeanMap(questionBeanList);
         for (QuestionBean questionBean : questionBeanList) {
             String columnName = questionBean.getColumnName();
 
-            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList), answerBeanHelperList);
+            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList, questionBeanMap), answerBeanHelperList);
             answerBeanObject.setFilled(true);
             answerBeanObject.setValidAns(true);
             try {
@@ -2188,7 +2189,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 validAns = false;
                 checkEditableDependency(questionBean);
             }
-            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive||isReset, validAns);
+            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive || isReset, validAns);
 
             if (!questionBean.getChild().isEmpty()) {
                 for (ChildBean childBean : questionBean.getChild()) {
@@ -2511,7 +2512,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private boolean getChildVisibilityOnMultiParent(boolean isMatch, QuestionBean childQuestionBean, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, LinkedHashMap<String, QuestionBean> questionBeenList) {
         if (childQuestionBean.getParent().size() > 1) {
-            isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, isMatch, answerBeanHelperList);
+            isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean,  answerBeanHelperList,questionBeenList);
         }
         for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
             if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
