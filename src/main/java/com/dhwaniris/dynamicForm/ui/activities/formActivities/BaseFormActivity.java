@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
@@ -74,12 +72,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1991,28 +1984,34 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         List<String> visibleList = new ArrayList<>();
         for (ChildBean childBean : questionBean.getChild()) {
+            boolean isMatchPatten = false;
+            boolean isMatchValue = false;
+            boolean isValid = false;
+
             if (childBean != null && values.size() == 1) {
                 String childValueIdPattern = childBean.getValue();
-                boolean isMatchPatten = matches(childValueIdPattern, values.get(0));
-                boolean isMatchValue = values.contains(childValueIdPattern);
+                isMatchPatten = matches(childValueIdPattern, values.get(0));
+                isMatchValue = values.contains(childValueIdPattern);
                 if (values.get(0).equals("")) {
                     isMatchPatten = false;
                     isMatchValue = false;
                 }
-                setChildStatus(childBean, isMatchPatten || isMatchValue, visibleList);
-
+                isValid = true;
             } else if (childBean != null && !values.isEmpty()) {
                 String childValueIdPattern = childBean.getValue();
-                boolean isMatchPatten = false;
+                isMatchPatten = false;
                 for (String st : values)
                     if (matches(childValueIdPattern, st)) {
                         isMatchPatten = true;
                         break;
                     }
-                boolean isMatchValue = values.contains(childValueIdPattern);
-                setChildStatus(childBean, isMatchPatten || isMatchValue, visibleList);
-
+                isMatchValue = values.contains(childValueIdPattern);
+                isValid = true;
             }
+            if (isValid) {
+                setChildStatus(childBean, isMatchPatten || isMatchValue, visibleList);
+            }
+
         }
 
         if (!QuestionsUtils.Companion.isLoopingType(questionBean)) {
@@ -2104,7 +2103,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
     //adding in helperList
-    private void addingInHelperArray(QuestionBeanFilled questionBeanFilled, boolean isRequired, boolean isValid, boolean isOptional, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
+    private void addingInHelperArray(QuestionBeanFilled questionBeanFilled, boolean isRequired, boolean isValid, boolean isOptional) {
         if (questionBeanFilled != null) {
             questionBeanFilled.setRequired(isRequired);
             questionBeanFilled.setOptional(isOptional);
@@ -2177,18 +2176,19 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         view.setVisibility(visibility);
         boolean isActive = visibility == View.VISIBLE;
+        boolean isReset = QuestionsUtils.Companion.isQuestionHasValidation(questionBean, LibDynamicAppConfig.VAL_REST_ON_PARENT_CHANGE);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         BaseType baseType = questionObjectList.get(childUid);
         if (questionBeanFilled != null && baseType != null) {
             boolean validAns = questionBeanFilled.isValidAns();
-            if (!isActive) {
+            if (!isActive || isReset) {
                 questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
                 questionBeanFilled.setNestedAnswer(new ArrayList<>());
                 baseType.superResetQuestion();
                 validAns = false;
                 checkEditableDependency(questionBean);
             }
-            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive, validAns);
+            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive||isReset, validAns);
 
             if (!questionBean.getChild().isEmpty()) {
                 for (ChildBean childBean : questionBean.getChild()) {
@@ -2216,12 +2216,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     private boolean setStatusOfAnswerObject(QuestionBeanFilled questionBeanFilled, QuestionBean questionBean, boolean isCurrentlyActive, boolean validAns) {
         if (isCurrentlyActive && !questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LABEL)) {
             if (QuestionsUtils.Companion.isQuestionRequired(questionBean)) {
-                addingInHelperArray(questionBeanFilled, true, validAns, false, answerBeanHelperList);
+                addingInHelperArray(questionBeanFilled, true, validAns, false);
             } else {
-                addingInHelperArray(questionBeanFilled, false, validAns, true, answerBeanHelperList);
+                addingInHelperArray(questionBeanFilled, false, validAns, true);
             }
         } else {
-            addingInHelperArray(questionBeanFilled, false, false, false, answerBeanHelperList);
+            addingInHelperArray(questionBeanFilled, false, false, false);
             validAns = false;
         }
         return validAns;
@@ -2457,28 +2457,27 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         String childUniqueId = QuestionsUtils.Companion.getChildUniqueId(childBean);
         BaseType baseType = questionObjectList.get(childUniqueId);
-        if (baseType != null) {
-            View view = (this.linearLayout).getChildAt(baseType.getViewIndex());
-            QuestionBean childQuestionBean = questionBeenList.get(childUniqueId);
-            if (view != null && childQuestionBean != null) {
-                //show child and add validation
-                isMatch = getChildVisibilityOnMultiParent(isMatch, childQuestionBean, answerBeanHelperList, questionBeenList);
-                if (isMatch) {
-                    visibleList.add(childUniqueId);
-                    setChildValidation(childUniqueId, childQuestionBean, View.VISIBLE, view);
-                    childQuestionBean.setEditable(!QuestionsUtils.Companion.isQuestionHasValidation(childQuestionBean, LibDynamicAppConfig.VAL_NOT_ABLE_TO_FILL));
-                    if (formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE) {
-                        baseType.superSetEditable(true, childQuestionBean.getInput_type());
-                        setFilledAns(answerBeanHelperList.get(childUniqueId), false, false);
-                    }
+        View view = (this.linearLayout).getChildAt(baseType.getViewIndex());
+        QuestionBean childQuestionBean = questionBeenList.get(childUniqueId);
+        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(childUniqueId);
+        if (questionBeanFilled != null && baseType != null && view != null && childQuestionBean != null) {
+            //show child and add validation
+            isMatch = getChildVisibilityOnMultiParent(isMatch, childQuestionBean, answerBeanHelperList, questionBeenList);
+            if (isMatch) {
+                visibleList.add(childUniqueId);
+                setChildValidation(childUniqueId, childQuestionBean, View.VISIBLE, view);
+                childQuestionBean.setEditable(!QuestionsUtils.Companion.isQuestionHasValidation(childQuestionBean, LibDynamicAppConfig.VAL_NOT_ABLE_TO_FILL));
+                if (formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE) {
+                    baseType.superSetEditable(true, childQuestionBean.getInput_type());
+                    setFilledAns(questionBeanFilled, false, false);
+                }
 
-                    //   childanswerBeanHelperList.get(childPos).setRequired(true);
-                } else {
-                    if (!visibleList.contains(childUniqueId)) {
-                        setChildValidation(childUniqueId, childQuestionBean, View.GONE, view);
-                        setFilledAns(answerBeanHelperList.get(childUniqueId), false, false);
+                //   childanswerBeanHelperList.get(childPos).setRequired(true);
+            } else {
+                if (!visibleList.contains(childUniqueId)) {
+                    setChildValidation(childUniqueId, childQuestionBean, View.GONE, view);
+                    setFilledAns(questionBeanFilled, false, false);
 
-                    }
                 }
             }
 
@@ -2490,7 +2489,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             boolean childVisibilityOnMultiParent = getChildVisibilityOnMultiParent(isMatch, childQuestionBeanList, answerBeanHelperList, questionBeenList);
             String parentId = childUniqueId.split("\\.")[0];
 
-            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(parentId);
+            questionBeanFilled = answerBeanHelperList.get(parentId);
             if (questionBeanFilled != null && questionBeanFilled.getNestedAnswer() != null) {
                 for (Nested nested : questionBeanFilled.getNestedAnswer()) {
                     for (QuestionBeanFilled childAnswer : nested.getAnswerNestedData()) {

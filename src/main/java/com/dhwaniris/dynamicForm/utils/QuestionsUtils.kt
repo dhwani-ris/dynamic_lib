@@ -31,6 +31,10 @@ class QuestionsUtils {
 
         }
 
+        fun QuestionBean.hasValidation(validationId: String): Boolean
+                = (this.validation.any { it._id == validationId })
+
+
         fun isQuestionHasValidation(questionBean: QuestionBean, validationId: String): Boolean {
             return (questionBean.validation.any { it._id == validationId })
         }

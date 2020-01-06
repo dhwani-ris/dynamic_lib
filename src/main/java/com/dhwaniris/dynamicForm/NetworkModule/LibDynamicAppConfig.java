@@ -31,13 +31,14 @@ public class LibDynamicAppConfig {
 
     public static final String VAL_REQUIRED = "1";
     public static final String VAL_REGEX = "2";
+    public static final String VAL_NOT_ABLE_TO_FILL = "3";
     public static final String VAL_ALERT_REGEX = "4";
     public static final String VAL_ALERT_MSG = "4.1";
     public static final String VAL_ALERT_IF_BETWEEN = "4.2";
-    public static final String VAL_NOT_ABLE_TO_FILL = "3";
     public static final String VAL_OR_CASE_WITH_MULTIPLE_PARENT = "6";
     public static final String VAL_OR_CASE_WITH_GET_FILTER_OPTION = "7";
     public static final String VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES = "8";
+    public static final String VAL_REST_ON_PARENT_CHANGE = "8.1";
     public static final String VAL_FUTURE = "21";
     public static final String VAL_FUTURE_AND_PRESENT = "22";
     public static final String VAL_PAST = "23";
