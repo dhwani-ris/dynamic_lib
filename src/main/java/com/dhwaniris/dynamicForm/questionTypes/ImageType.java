@@ -18,7 +18,7 @@ public class ImageType extends BaseImageType {
 
 
     public ImageType(View view, final QuestionBean questionBean, int formStatus, QuestionHelperCallback.ImageViewListener ImageviewListener,
-                     LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled>  answerBeanHelperList) {
+                     LinkedHashMap<String, QuestionBean> questionBeenList, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
 
         createDynamicView(view);
         setImageViewListener(ImageviewListener);
@@ -55,6 +55,7 @@ public class ImageType extends BaseImageType {
             @Override
             public void onClick(View view) {
                 hideKeyboard();
+                preventDoubleClicks(view);
                 clickImage(questionBean);
             }
         });
@@ -63,6 +64,7 @@ public class ImageType extends BaseImageType {
             @Override
             public void onClick(View view) {
                 hideKeyboard();
+                preventDoubleClicks(view);
                 pickImage(questionBean);
 
             }

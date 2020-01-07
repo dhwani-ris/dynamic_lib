@@ -93,7 +93,7 @@ public abstract class BaseType {
         new Handler().postDelayed(() -> {
             view.setClickable(true);
             view.setFocusable(true);
-        }, 1000);
+        }, 2000);
 
     }
 }
