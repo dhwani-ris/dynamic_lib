@@ -40,6 +40,8 @@ import com.dhwaniris.dynamicForm.interfaces.PermissionListener;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 import com.dhwaniris.dynamicForm.interfaces.SelectListener;
 import com.dhwaniris.dynamicForm.questionHeplers.DateHelper;
+import com.dhwaniris.dynamicForm.questionHeplers.PrefilledData;
+import com.dhwaniris.dynamicForm.questionHeplers.PrefilledDefaultData;
 import com.dhwaniris.dynamicForm.questionTypes.AudioRecordType;
 import com.dhwaniris.dynamicForm.questionTypes.BaseLabelType;
 import com.dhwaniris.dynamicForm.questionTypes.BaseType;
@@ -1621,13 +1623,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     }
                 }
             }
-            for (ValidationBean validationBean : questionBean.getValidation()) {
+           /* for (ValidationBean validationBean : questionBean.getValidation()) {
                 if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_DYNAMIC_ANSWER_OPTION)) {
                     for (String transactionIds : value)
                         handleDynamicData(questionBean, transactionIds);
                 }
 
-            }
+            }*/
 
             validateChildVisibility(questionBean, questionBeanFilled, baseType);
 
@@ -1708,7 +1710,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         }
                     }
                 }
-                String optionId = id;
+               /* String optionId = id;
                 for (ValidationBean validationBean : questionBean.getValidation()) {
                     if (validationBean.get_id().equals(LibDynamicAppConfig.VAL_VILLAGE_WISE_LIMIT)) {
                         boolean isExceedLimit = checkVillageWiseLimit(questionBean, id);
@@ -1718,7 +1720,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                         handleDynamicData(questionBean, id);
                     }
 
-                }
+                }*/
 
                 validateChildVisibility(questionBean, questionBeanFilled, baseType);
 
@@ -1735,25 +1737,36 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     }
 
-    void handleDynamicData(QuestionBean questionBean, String transactionId) {
-
-
-     /*   List<QuestionBeanFilled> dynamicData = dataRepository.getLocalRepository().getDynamicData(String.valueOf(form_id), transactionId, questionBean.getOrder());
+    void handleDynamicData(List<QuestionBeanFilled> dynamicData) {
         for (QuestionBeanFilled questionBeanFilled : dynamicData) {
-            String order = questionBeanFilled.getOrder();
-            BaseType baseType = questionObjectList.get(order);
-            QuestionBeanFilled originalAnswerBean = answerBeanHelperList.get(order);
-            if (baseType != null && originalAnswerBean != null) {
-                originalAnswerBean.setAnswer(questionBeanFilled.getAnswer());
-                originalAnswerBean.setFilled(true);
-                originalAnswerBean.setValidAns(true);
-                baseType.superSetAnswer(originalAnswerBean);
-                baseType.superChangeStatus(ANSWERED);
-            }
-
+            handleDynamic(questionBeanFilled);
         }
-     */
     }
+
+    private void handleDynamic(QuestionBeanFilled questionBeanFilled) {
+        String order = questionBeanFilled.getOrder();
+        BaseType baseType = questionObjectList.get(order);
+        QuestionBeanFilled originalAnswerBean = answerBeanHelperList.get(order);
+        QuestionBean questionBean = questionBeenList.get(order);
+        if (baseType != null && originalAnswerBean != null && questionBean != null) {
+            originalAnswerBean.setAnswer(questionBeanFilled.getAnswer());
+            originalAnswerBean.setFilled(true);
+            originalAnswerBean.setValidAns(true);
+            baseType.superSetAnswer(originalAnswerBean);
+            baseType.superChangeStatus(ANSWERED);
+            validateChildVisibility(questionBean, originalAnswerBean, baseType);
+            if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DATE)) {
+                if (notifyOnchangeMap.containsKey(order) && notifyOnchangeMap.get(order) != null) {
+                    String ans = QuestionsUtils.Companion.getViewableStringFormAns(questionBeanFilled);
+                    if (!ans.isEmpty() && ans.contains("-")) {
+                        String[] split = ans.split("-");
+                        performDateRestrictions(notifyOnchangeMap.get(order), split[0], split[1], split[2]);
+                    }
+                }
+            }
+        }
+    }
+
 
     boolean checkVillageWiseLimit(QuestionBean questionBean, String villageId) {
        /* Realm realm = Realm.getDefaultInstance();
@@ -2188,6 +2201,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 baseType.superResetQuestion();
                 validAns = false;
                 checkEditableDependency(questionBean);
+            } else {
+                QuestionBeanFilled singleQuestionFilled = PrefilledDefaultData.Companion.getInstance().getSingleQuestionFilled(childUid);
+                if (singleQuestionFilled != null) {
+                    validAns=true;
+                    handleDynamic(singleQuestionFilled);
+                }
+
             }
             validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive || isReset, validAns);
 
@@ -2512,7 +2532,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private boolean getChildVisibilityOnMultiParent(boolean isMatch, QuestionBean childQuestionBean, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, LinkedHashMap<String, QuestionBean> questionBeenList) {
         if (childQuestionBean.getParent().size() > 1) {
-            isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean,  answerBeanHelperList,questionBeenList);
+            isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, answerBeanHelperList, questionBeenList);
         }
         for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
             if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
