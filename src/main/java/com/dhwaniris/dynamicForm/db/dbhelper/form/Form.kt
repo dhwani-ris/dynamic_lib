@@ -78,7 +78,7 @@ data class Form(
     }
 
     @Throws(CloneNotSupportedException::class)
-    override fun clone(): Form {
+    public override fun clone(): Form {
         return super.clone() as Form
     }
 }

@@ -1743,12 +1743,16 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
     }
 
-    private void handleDynamic(QuestionBeanFilled questionBeanFilled) {
+    private boolean handleDynamic(QuestionBeanFilled questionBeanFilled) {
+   boolean isValid=false;
         String order = questionBeanFilled.getOrder();
         BaseType baseType = questionObjectList.get(order);
         QuestionBeanFilled originalAnswerBean = answerBeanHelperList.get(order);
         QuestionBean questionBean = questionBeenList.get(order);
-        if (baseType != null && originalAnswerBean != null && questionBean != null) {
+        if (QuestionsUtils.Companion.isItHasAns(questionBeanFilled.getAnswer())
+                &&
+                baseType != null && originalAnswerBean != null && questionBean != null) {
+            isValid=true;
             originalAnswerBean.setAnswer(questionBeanFilled.getAnswer());
             originalAnswerBean.setFilled(true);
             originalAnswerBean.setValidAns(true);
@@ -1765,6 +1769,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 }
             }
         }
+        return isValid;
     }
 
 
@@ -2204,8 +2209,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             } else {
                 QuestionBeanFilled singleQuestionFilled = PrefilledDefaultData.Companion.getInstance().getSingleQuestionFilled(childUid);
                 if (singleQuestionFilled != null) {
-                    validAns=true;
-                    handleDynamic(singleQuestionFilled);
+                    validAns=handleDynamic(singleQuestionFilled);
                 }
 
             }
@@ -2759,6 +2763,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     @Override
     protected void onDestroy() {
+
+       PrefilledDefaultData.Companion.releaseData();
         super.onDestroy();
         if (linearLayout != null) {
             linearLayout.removeAllViews();
