@@ -1757,7 +1757,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             validateChildVisibility(questionBean, originalAnswerBean, baseType);
             if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DATE)) {
                 if (notifyOnchangeMap.containsKey(order) && notifyOnchangeMap.get(order) != null) {
-                    String ans = QuestionsUtils.Companion.getViewableStringFormAns(questionBeanFilled);
+                    String ans = QuestionsUtils.Companion.getViewableStringFormAns(originalAnswerBean);
                     if (!ans.isEmpty() && ans.contains("-")) {
                         String[] split = ans.split("-");
                         performDateRestrictions(notifyOnchangeMap.get(order), split[0], split[1], split[2]);

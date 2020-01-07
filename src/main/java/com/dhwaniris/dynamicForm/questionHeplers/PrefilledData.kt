@@ -1,6 +1,7 @@
 package com.dhwaniris.dynamicForm.questionHeplers
 
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled
+import com.dhwaniris.dynamicForm.utils.QuestionsUtils
 
 /**
  * Created by  on 1/7/2020.
@@ -64,6 +65,25 @@ class PrefilledDefaultData private constructor() {
 
         }
 
+        fun createNewByPair(vararg defaultValues: Pair<String, String>) {
+            val tempQuestionBeanFilledList = ArrayList<QuestionBeanFilled>()
+            defaultValues.forEach {
+                tempQuestionBeanFilledList.add(getDymmyQuestionFilled(it.first, it.second))
+            }
+            instance = PrefilledDefaultData()
+            instance!!.questionedFilledList = tempQuestionBeanFilledList
+
+        }
+
+        private fun getDymmyQuestionFilled(order: String, value: String): QuestionBeanFilled {
+            val questionBeanFilled = QuestionBeanFilled()
+            questionBeanFilled.order = order
+            val newAnswerList = QuestionsUtils.getNewAnswerList()
+            newAnswerList.first().value = value
+            newAnswerList.first().textValue = value
+            questionBeanFilled.answer = newAnswerList
+            return questionBeanFilled
+        }
 
         fun releaseData() {
             instance = null
