@@ -76,7 +76,7 @@ class QuestionsUtils {
                         && isAnswerIsExpected(getParentUniqueId(parentBean1!!), parentBean1.value, answerBeanHelperList)
 
                 if (questionBean.parent.size > 1) {
-                    isMatch = validateVisibilityWithMultiParent(questionBean, answerBeanHelperList,questionBeanList)
+                    isMatch = validateVisibilityWithMultiParent(questionBean, answerBeanHelperList, questionBeanList)
                 }
             } else {
                 return true
@@ -84,7 +84,7 @@ class QuestionsUtils {
             return isMatch
         }
 
-         fun validateSuperParent(parentBean1: ParentBean, questionBeanList: LinkedHashMap<String, QuestionBean>, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
+        fun validateSuperParent(parentBean1: ParentBean, questionBeanList: LinkedHashMap<String, QuestionBean>, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
             val parentUniqueId = getParentUniqueId(parentBean1)
             val superParentQuestionBean = questionBeanList[parentUniqueId]
             return if (superParentQuestionBean != null && superParentQuestionBean.parent.size > 0) {
@@ -95,14 +95,14 @@ class QuestionsUtils {
 
         }
 
-        fun validateVisibilityWithMultiParent(questionBean: QuestionBean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>,questionBeenList: LinkedHashMap<String, QuestionBean>): Boolean {
+        fun validateVisibilityWithMultiParent(questionBean: QuestionBean, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>, questionBeenList: LinkedHashMap<String, QuestionBean>): Boolean {
             val matchList = ArrayList<Boolean>()
             val valueList = ArrayList<String?>()
             val isOrCase = questionBean.hasValidation(LibDynamicAppConfig.VAL_OR_CASE_WITH_MULTIPLE_PARENT)
             val isVisibleOnParentsDifferentValue = questionBean.hasValidation(LibDynamicAppConfig.VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES)
             for (parentBean in questionBean.parent) {
                 matchList.add(isAnswerIsExpected(getParentUniqueId(parentBean), parentBean.value, answerBeanHelperList)
-                        && validateSuperParent(parentBean,questionBeenList,answerBeanHelperList)
+                        && validateSuperParent(parentBean, questionBeenList, answerBeanHelperList)
                 )
                 valueList.add(getSingleAnswerValueFormOder(getParentUniqueId(parentBean), answerBeanHelperList))
 
@@ -223,13 +223,29 @@ class QuestionsUtils {
 
 
                 LibDynamicAppConfig.REST_DID_RELATION -> {
+                    val hasOrCase = questionBean.hasValidation(LibDynamicAppConfig.VAL_OR_CASE_WITH_DID_ON_MILTI_PARENT)
+                    val isMultiParent = restrictionsBean.orders.size > 1
                     avlList.clear()
-                    avlList.addAll(allOptions)
+                    val optionList: ArrayList<AnswerOptionsBean> = ArrayList()
                     for (orderBean in restrictionsBean.orders) {
-                        val didAnswerFormRestriction = getDIDAnswerFormRestriction(avlList, orderBean, questionBeanFilledList, restrictionsBean.orders.size > 1)
-                        avlList.clear()
-                        avlList.addAll(didAnswerFormRestriction)
+                        val didAnswerFormRestriction = getDIDAnswerFormRestriction(allOptions, orderBean, questionBeanFilledList, isMultiParent)
+                        optionList.addAll(didAnswerFormRestriction)
                     }
+
+                    if (!isMultiParent) {
+                        avlList.addAll(optionList)
+
+                    } else {
+                        avlList.addAll(if (hasOrCase) {
+                            optionList.distinctBy { it._id }
+                        } else {
+
+                            optionList.filter { option ->
+                                optionList.count { it._id == option._id } == restrictionsBean.orders.size
+                            }.distinctBy { it._id }
+                        })
+                    }
+
 
                 }
             }
