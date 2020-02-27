@@ -1704,6 +1704,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                         if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                             applyTitleChangeRestriction(restrictionsBean, value);
+                        } else if (restrictionsBean.getType().equals(REST_CLEAR_DID_CHILD)) {
+                            for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
+                                QuestionBean questionBean1 = questionBeenList.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
+                                if (questionBean1 != null) {
+                                    clearAnswerAndView(questionBean1);
+                                }
+                            }
                         }
                     }
                 }
