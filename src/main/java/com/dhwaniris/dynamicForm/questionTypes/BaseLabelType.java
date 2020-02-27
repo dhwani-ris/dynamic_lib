@@ -37,8 +37,10 @@ public class BaseLabelType extends BaseType {
         this.view = view;
     }
 
-    public void setAnswerAnsQuestionData(LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
+
+    public void setAnswerAnsQuestionData(LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, LinkedHashMap<String, QuestionBean> questionBeenList) {
         this.answerBeanHelperList = answerBeanHelperList;
+        this.questionBeenList = questionBeenList;
     }
 
     public void setBasicFunctionality(View view, final QuestionBean questionBean, int formStatus) {
