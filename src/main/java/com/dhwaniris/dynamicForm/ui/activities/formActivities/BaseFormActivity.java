@@ -538,7 +538,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         for (QuestionBean questionBean : questionBeanList) {
             String columnName = questionBean.getColumnName();
 
-            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList,questionBeenList), answerBeanHelperList);
+            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList, questionBeenList), answerBeanHelperList);
             answerBeanObject.setFilled(true);
             answerBeanObject.setValidAns(true);
             try {
@@ -1951,6 +1951,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                 if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                     applyTitleChangeRestriction(restrictionsBean, label);
+                } else if (restrictionsBean.getType().equals(REST_CLEAR_DID_CHILD)) {
+                    for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
+                        QuestionBean questionBean1 = questionBeenList.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
+                        if (questionBean1 != null) {
+                            clearAnswerAndView(questionBean1);
+                        }
+                    }
                 }
             }
         }
@@ -2195,7 +2202,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 validAns = false;
                 checkEditableDependency(questionBean);
             }
-            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive||isReset, validAns);
+            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive || isReset, validAns);
 
             if (!questionBean.getChild().isEmpty()) {
                 for (ChildBean childBean : questionBean.getChild()) {
