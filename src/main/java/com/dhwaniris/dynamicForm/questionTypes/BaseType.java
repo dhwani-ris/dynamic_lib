@@ -59,25 +59,7 @@ public abstract class BaseType {
     }
 
     public boolean checkValueForVisibility(QuestionBean questionBean) {
-        boolean isMatch;
-        if (questionBean.getParent().size() > 0) {
-            ParentBean parentBean1 = questionBean.getParent().get(0);
-            isMatch = QuestionsUtils.Companion.isAnswerIsExpected(parentBean1.getOrder(), parentBean1.getValue(), answerBeanHelperList);
-
-            if (questionBean.getParent().size() > 1) {
-                isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(questionBean, isMatch, answerBeanHelperList);
-            }
-            for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
-                    isMatch = QuestionsUtils.Companion.validateMultiAnsRestriction(restrictionsBean, answerBeanHelperList, questionBeenList);
-                    break;
-                }
-            }
-
-        } else {
-            return true;
-        }
-        return isMatch;
+        return QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList, questionBeenList);
     }
 
     public void setAdditionalVisibility(int visibility) {

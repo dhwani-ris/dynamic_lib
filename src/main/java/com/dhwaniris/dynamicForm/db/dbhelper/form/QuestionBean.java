@@ -305,4 +305,25 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
             setEditable(false);
         }
     }
+
+    public   boolean containsRestriction(String... types) {
+        for (RestrictionsBean restrictionsBean : restrictions) {
+            for (String type : types) {
+                if (restrictionsBean.getType().equals(type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean containsValidation(String... types) {
+        for (ValidationBean validationBean : validation) {
+            for (String type : types) {
+                if (validationBean.get_id().equals(type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

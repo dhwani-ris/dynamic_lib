@@ -538,7 +538,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         for (QuestionBean questionBean : questionBeanList) {
             String columnName = questionBean.getColumnName();
 
-            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList), answerBeanHelperList);
+            QuestionBeanFilled answerBeanObject = createOrModifyAnswerBeanObject(questionBean, QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList, questionBeenList), answerBeanHelperList);
             answerBeanObject.setFilled(true);
             answerBeanObject.setValidAns(true);
             try {
@@ -879,7 +879,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             case LibDynamicAppConfig.QUS_LABEL:
                 view = getLayoutInflater().inflate(R.layout.dy_row_label, linearLayout, false);
                 BaseLabelType labelType = new BaseLabelType(view);
-                labelType.setAnswerAnsQuestionData(answerBeanHelperList);
+                labelType.setAnswerAnsQuestionData(answerBeanHelperList, questionBeenList);
                 labelType.setBasicFunctionality(view, questionBean, formStatus);
                 if (formStatus == NEW_FORM) {
                     createOrModifyAnswerBeanObject(questionBean, view.getVisibility() == View.VISIBLE, answerBeanHelperList);
@@ -2203,7 +2203,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 validAns = false;
                 checkEditableDependency(questionBean);
             }
-            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive||isReset, validAns);
+            validAns = setStatusOfAnswerObject(questionBeanFilled, questionBean, isActive || isReset, validAns);
 
             if (!questionBean.getChild().isEmpty()) {
                 for (ChildBean childBean : questionBean.getChild()) {
@@ -2526,7 +2526,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     private boolean getChildVisibilityOnMultiParent(boolean isMatch, QuestionBean childQuestionBean, LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, LinkedHashMap<String, QuestionBean> questionBeenList) {
         if (childQuestionBean.getParent().size() > 1) {
-            isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, isMatch, answerBeanHelperList);
+            isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, answerBeanHelperList, questionBeenList);
         }
         for (RestrictionsBean restrictionsBean : childQuestionBean.getRestrictions()) {
             if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
