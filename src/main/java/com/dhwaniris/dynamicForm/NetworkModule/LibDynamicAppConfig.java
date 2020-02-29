@@ -144,6 +144,7 @@ public class LibDynamicAppConfig {
     public static final int FAILED = 8;
     public static final int REJECTED_DUPLICATE = 9;
     public static final int REJECTED_DY_NOT_FOUND = 10;
+    public static final int SYNCED_NON_EDITABLE = 11;
     public static final String FETCH_FORM_FIRST_TIME = "fetch_form_first_time";
     public static final String IS_REQUEST_FOR_SYNC = "is_forms_for_synced";
     public static final String DRAFT_SAVED = "draft_saved";

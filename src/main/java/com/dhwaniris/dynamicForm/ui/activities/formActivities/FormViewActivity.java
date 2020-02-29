@@ -69,6 +69,7 @@ import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REJECT
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_NON_EDITABLE;
 
 public class FormViewActivity extends BaseFormActivity implements View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
@@ -217,7 +218,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (uploadStatus == SUBMITTED) {
+                if (uploadStatus == SUBMITTED || uploadStatus == SYNCED_NON_EDITABLE) {
                     formStatus = SUBMITTED;
                     save.setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
@@ -427,8 +428,13 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-
-        if (formStatus == SUBMITTED) {
+        int uploadStatus=formStatus;
+        try {
+            uploadStatus = SingletonForm.getInstance().getJsonObject().getInt(Constant.UPLOAD_STATUS);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (formStatus == SUBMITTED && uploadStatus != SYNCED_NON_EDITABLE) {
             new androidx.appcompat.app.AlertDialog.Builder(ctx)
                     .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)

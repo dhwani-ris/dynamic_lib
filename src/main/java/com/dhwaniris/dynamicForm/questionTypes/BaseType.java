@@ -59,7 +59,12 @@ public abstract class BaseType {
     }
 
     public boolean checkValueForVisibility(QuestionBean questionBean) {
-        return QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList, questionBeenList);
+        boolean isVisible = QuestionsUtils.Companion.checkValueForVisibility(questionBean, answerBeanHelperList, questionBeenList);
+        QuestionBeanFilled answerBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
+        if (!isVisible && answerBeanFilled != null) {
+            answerBeanFilled.setRequired(false);
+        }
+        return isVisible;
     }
 
     public void setAdditionalVisibility(int visibility) {
