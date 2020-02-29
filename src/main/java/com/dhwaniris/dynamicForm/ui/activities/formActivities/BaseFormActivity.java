@@ -555,29 +555,30 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 List<QuestionBean> nestedQuestion = getNestedQuestion(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
                 String nestedColumnName = questionBean.getNestedColumnName();
                 try {
-                    JSONArray nestedJsonArray = (JSONArray) jsonObject.get(nestedColumnName);
-                    List<Nested> nestedList = new ArrayList<>();
-                    if (nestedJsonArray != null) {
-                        for (int i = 0; i < nestedJsonArray.length(); i++) {
-                            LinkedHashMap<String, QuestionBeanFilled> childAswer = new LinkedHashMap<>();
-                            Nested nested = new Nested();
-                            JSONObject nestedJSONObject = nestedJsonArray.getJSONObject(i);
-                            if (nestedJSONObject != null) {
-                                convertJsonDataToAnswer(nestedQuestion, nestedJSONObject, childAswer);
-                                if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING)) {
-                                    nested.setForParentValue(String.valueOf((i + 1)));
+                    if(jsonObject.has(nestedColumnName) && jsonObject.get(nestedColumnName) instanceof JSONArray) {
+                        JSONArray nestedJsonArray = (JSONArray) jsonObject.get(nestedColumnName);
+                        List<Nested> nestedList = new ArrayList<>();
+                        if (nestedJsonArray != null) {
+                            for (int i = 0; i < nestedJsonArray.length(); i++) {
+                                LinkedHashMap<String, QuestionBeanFilled> childAswer = new LinkedHashMap<>();
+                                Nested nested = new Nested();
+                                JSONObject nestedJSONObject = nestedJsonArray.getJSONObject(i);
+                                if (nestedJSONObject != null) {
+                                    convertJsonDataToAnswer(nestedQuestion, nestedJSONObject, childAswer);
+                                    if (questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_LOOPING)) {
+                                        nested.setForParentValue(String.valueOf((i + 1)));
 
-                                } else {
-                                    nested.setForParentValue(nestedJSONObject.getString(Constant.FOR_PARENT_VALUE));
+                                    } else {
+                                        nested.setForParentValue(nestedJSONObject.getString(Constant.FOR_PARENT_VALUE));
+                                    }
+                                    nested.setAnswerNestedData(new ArrayList<>());
+                                    nested.getAnswerNestedData().addAll(childAswer.values());
+                                    nestedList.add(nested);
                                 }
-                                nested.setAnswerNestedData(new ArrayList<>());
-                                nested.getAnswerNestedData().addAll(childAswer.values());
-                                nestedList.add(nested);
                             }
                         }
+                        answerBeanObject.setNestedAnswer(nestedList);
                     }
-                    answerBeanObject.setNestedAnswer(nestedList);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1951,6 +1952,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
                 if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
                     applyTitleChangeRestriction(restrictionsBean, label);
+                } else if (restrictionsBean.getType().equals(REST_CLEAR_DID_CHILD)) {
+                    for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
+                        QuestionBean questionBean1 = questionBeenList.get(QuestionsUtils.Companion.getRestrictionOrderUniqueId(ordersBean));
+                        if (questionBean1 != null) {
+                            clearAnswerAndView(questionBean1);
+                        }
+                    }
                 }
             }
         }
