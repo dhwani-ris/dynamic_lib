@@ -1,6 +1,7 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form
 
 import com.google.gson.annotations.SerializedName
+import org.json.JSONArray
 import org.json.JSONObject
 
 data class Form(

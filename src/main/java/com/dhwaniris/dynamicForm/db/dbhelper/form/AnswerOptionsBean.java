@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnswerOptionsBean {
@@ -18,7 +19,7 @@ public class AnswerOptionsBean {
     
     @SerializedName("name") private String name;
     
-    @SerializedName("did") private List<Did> did;
+    @SerializedName("did") private List<Did> did=new ArrayList<>();
 
     public String get_id() {
         return _id;
