@@ -58,6 +58,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -76,6 +77,7 @@ import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.REJECT
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SUBMITTED;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_BUT_EDITABLE;
+import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED_NON_EDITABLE;
 
 public class FormViewActivityCallbackRx extends BaseFormActivity implements View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
@@ -433,10 +435,24 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
         super.onPause();
     }
 
+    /** added by Shrey
+     * Gives Boolean
+     * true if Not Present in Array
+     * false if present in Array
+     * @param variableToTest : To search variable
+     * @param inArrayOptions : Array to find in
+     * @param <T> Generic Type Parameter
+     * @return
+     */
+    @SafeVarargs
+    private final <T> boolean notIn(T variableToTest, T... inArrayOptions){
+        return Arrays.binarySearch(inArrayOptions,variableToTest) <= -1;
+    }
+
     @Override
     public void onBackPressed() {
 
-        if (formStatus == SUBMITTED) {
+        if (notIn(formStatus, SUBMITTED, SYNCED_NON_EDITABLE)) {
             new androidx.appcompat.app.AlertDialog.Builder(ctx)
                     .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)

@@ -54,6 +54,9 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Used for location after submitting ok of Dialog (Location is Mandatory in form)
+ */
 class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
         , PermissionHandlerListener, LocationHandlerListener {
     lateinit var compositeDisposable: CompositeDisposable
