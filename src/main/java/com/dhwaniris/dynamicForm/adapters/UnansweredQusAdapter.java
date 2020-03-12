@@ -110,7 +110,7 @@ public class UnansweredQusAdapter extends RecyclerView.Adapter<UnansweredQusAdap
         return ansList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text, order;
         LinearLayout mainView;
         RelativeLayout divider;

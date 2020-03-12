@@ -63,6 +63,7 @@ import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.text.Charsets;
 
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.DRAFT;
 import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.NEW_FORM;
@@ -625,7 +626,7 @@ public class FormActivityCallBackRx extends BaseFormActivity implements View.OnC
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, Charsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;

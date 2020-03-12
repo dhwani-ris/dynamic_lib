@@ -79,7 +79,7 @@ public class SingleSelectAdapter extends RecyclerView.Adapter<SingleSelectAdapte
         return null;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text;
         LinearLayout mainView;
 

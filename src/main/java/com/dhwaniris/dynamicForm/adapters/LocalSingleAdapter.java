@@ -64,7 +64,7 @@ public class LocalSingleAdapter extends RecyclerView.Adapter<LocalSingleAdapter.
         return null;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text;
 
         public MyViewHolder(View v) {

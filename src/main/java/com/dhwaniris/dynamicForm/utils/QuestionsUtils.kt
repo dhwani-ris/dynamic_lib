@@ -295,11 +295,11 @@ class QuestionsUtils {
 
                     if (answers.size == restrictionsBean.orders.size) {
                         for (i in answers.indices) {
-                            val isMatchPatten = matches(resOrder[i]!!.value, answers[i]!!.value)
-                            val isMatchValue = answers[i]!!.value == resOrder[i]!!.value
+                            val isMatchPatten = matches(resOrder[i]!!.value, answers[i].value)
+                            val isMatchValue = answers[i].value == resOrder[i]!!.value
                             if (isMatchPatten || isMatchValue) {
                                 val answerOptionsBean = AnswerOptionsBean()
-                                answerOptionsBean.name = appendAnswer(answers[i]!!)
+                                answerOptionsBean.name = appendAnswer(answers[i])
                                 answerOptionsBean._id = (i + 1).toString()
                                 answerOptionsBean.did = ArrayList()
                                 tempList.add(answerOptionsBean)

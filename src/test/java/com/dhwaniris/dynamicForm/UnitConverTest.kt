@@ -1,9 +1,7 @@
 package com.dhwaniris.dynamicForm
 
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean
-import com.dhwaniris.dynamicForm.utils.UnitConversionHelper
-import junit.framework.Assert.assertEquals
-import org.junit.Test
+
 
 /**
  * Created by ${Sahjad} on 5/27/2019.
