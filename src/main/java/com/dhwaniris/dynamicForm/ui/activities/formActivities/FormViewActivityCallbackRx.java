@@ -710,7 +710,8 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                             @Override
                             public void onSuccess(Pair<Boolean, String> isWorkComplete) {
                                 hideLoader();
-                                if (isWorkComplete.first && isFinish) {
+                                if (isWorkComplete!=null && isWorkComplete.first && isFinish) {
+                                    SingletonSubmitForm.getInstance().clear();
                                     workCompletion(true, status);
                                 } else {
                                     showCustomToast(isWorkComplete.second, 3);

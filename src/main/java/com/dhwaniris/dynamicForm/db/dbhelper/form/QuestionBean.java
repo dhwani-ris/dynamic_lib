@@ -1,9 +1,11 @@
 package com.dhwaniris.dynamicForm.db.dbhelper.form;
 
+import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.db.dbhelper.ResourceUrlsBean;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
@@ -275,6 +277,25 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
         }
         return 0;
     }
+    /**
+     * get True if in list
+     * @param searchText String to find in Array
+     * @param arraySet Array
+     * @return
+     */
+    private static boolean isOneOf(String searchText, String... arraySet){
+        return Arrays.binarySearch(arraySet,searchText)>-1;
+    }
+
+    /**
+     * get True if not in list
+     * @param searchText String to find in Array
+     * @param arraySet Array
+     * @return
+     */
+    private static boolean isNotOneOf(String searchText, String... arraySet){
+        return !(Arrays.binarySearch(arraySet,searchText)>-1);
+    }
 
     /**
      * Adds Question validation 3
@@ -283,7 +304,7 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
     public void setNonEditable() {
         boolean contain = false;
         //alternte for Any operator
-        if (!input_type.equals("20") && !input_type.equals("10")) {
+        if (isNotOneOf(input_type,LibDynamicAppConfig.QUS_LOOPING,LibDynamicAppConfig.QUS_LABEL)) {
             if (this.validation != null) {
                 for (ValidationBean validation : this.validation) {
                     if (validation.get_id().equals("3")) {
