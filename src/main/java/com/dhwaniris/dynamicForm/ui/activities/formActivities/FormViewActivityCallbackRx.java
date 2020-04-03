@@ -672,7 +672,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
             answerFilledList.addAll(answerBeanHelperList.values());
             QuestionsUtils.Companion.sortAnsList(answerFilledList);
             filledFormList.setQuestion(answerFilledList);
-            JSONObject jsonObject = singletonForm.getJsonObject();
+            final JSONObject jsonObject = singletonForm.getJsonObject();
             HashMap<String, Boolean> answerMapper = new HashMap<>();
 
             modifyAnswerJson(jsonObject, answerMapper);

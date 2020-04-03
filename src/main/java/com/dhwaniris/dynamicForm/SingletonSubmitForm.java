@@ -30,11 +30,15 @@ public class SingletonSubmitForm {
     public void clear(){
         form = null;
         dynamicAnswerOptions = null;
+        workOnSubmit = null;
         jsonObject = null;
         instance = null;
     }
 
     public static SingletonSubmitForm createNew() {
+        if(instance!=null && instance.getJsonObject()!=null){
+            instance.clear();
+        }
         instance = new SingletonSubmitForm();
         return instance;
     }
@@ -42,6 +46,9 @@ public class SingletonSubmitForm {
         return createNew(form,new JSONObject());
     }
     public static SingletonSubmitForm createNew(Form form,JSONObject jsonObject) {
+        if(instance!=null && instance.getJsonObject()!=null){
+            instance.clear();
+        }
         instance = new SingletonSubmitForm();
         instance.setForm(form);
         instance.setJsonObject(jsonObject);
@@ -51,7 +58,7 @@ public class SingletonSubmitForm {
 
     private static Form form;
     private static List<DynamicAnswerOption> dynamicAnswerOptions;
-    private static JSONObject jsonObject;
+    private static JSONObject jsonObject = new JSONObject();
     private static Single<Pair<Boolean,String>> workOnSubmit;
 
     public Single<Pair<Boolean,String>> getWorkOnSubmit() {
