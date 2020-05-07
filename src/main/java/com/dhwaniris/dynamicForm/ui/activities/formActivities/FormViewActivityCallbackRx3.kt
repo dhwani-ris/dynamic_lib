@@ -351,7 +351,7 @@ class FormViewActivityCallbackRx3 : BaseFormActivity(), View.OnClickListener
     override fun onBackPressed() {
         if (formStatus != LibDynamicAppConfig.SUBMITTED) {
             Builder(ctx)
-                    .setTitle(R.string.are_you_sure)
+//                    .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)
                     .setPositiveButton(R.string.yes) { dialogInterface, i -> myFinishActivity(true) }
                     .setNegativeButton(R.string.no) { dialogInterface, i -> }

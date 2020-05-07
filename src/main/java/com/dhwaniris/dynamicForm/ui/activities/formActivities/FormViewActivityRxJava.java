@@ -425,7 +425,7 @@ public class FormViewActivityRxJava extends BaseFormActivity implements View.OnC
 
         if (formStatus == SUBMITTED) {
             new androidx.appcompat.app.AlertDialog.Builder(ctx)
-                    .setTitle(R.string.are_you_sure)
+//                    .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)
                     .setPositiveButton(R.string.yes, (dialogInterface, i) -> myFinishActivity(true))
                     .setNegativeButton(R.string.no, (dialogInterface, i) -> { })

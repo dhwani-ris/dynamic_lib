@@ -191,7 +191,7 @@ public class FormActivity extends BaseFormActivity implements View.OnClickListen
     public void onBackPressed() {
 
         new AlertDialog.Builder(ctx)
-                .setTitle(R.string.are_you_sure)
+//                .setTitle(R.string.are_you_sure)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override

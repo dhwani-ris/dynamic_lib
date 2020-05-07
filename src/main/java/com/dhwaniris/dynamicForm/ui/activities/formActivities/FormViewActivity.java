@@ -436,7 +436,7 @@ public class FormViewActivity extends BaseFormActivity implements View.OnClickLi
         }
         if (formStatus == SUBMITTED && uploadStatus != SYNCED_NON_EDITABLE) {
             new androidx.appcompat.app.AlertDialog.Builder(ctx)
-                    .setTitle(R.string.are_you_sure)
+//                    .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
