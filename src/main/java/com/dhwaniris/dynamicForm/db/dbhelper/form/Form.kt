@@ -13,7 +13,7 @@ data class Form(
         @SerializedName("formIcon") var formIcon: String? = null,
         @SerializedName("editable") var editable: Boolean = false,
         @SerializedName("isActive") var isActive: Boolean = false,
-        @SerializedName("language") var language: List<LanguageBean> = listOf(),
+        @SerializedName("language", alternate = ["languages"]) var language: List<LanguageBean> = listOf(),
         @SerializedName("location") var location: Boolean = false,
         @SerializedName("delayLocation") var delayLocation: Boolean = false,
         @SerializedName("isMedia") var isMedia: Boolean = false,

@@ -8,9 +8,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.dhwaniris.dynamicForm.ui.activities.formActivities.FormActivity
-import kotlinx.android.synthetic.main.dy_content_dashboard.*
+//import kotlinx.android.synthetic.main.dy_content_dashboard.*
 
-class DashboardActivity : AppCompatActivity() {
+/*class DashboardActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,4 +41,4 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-}
+}*/

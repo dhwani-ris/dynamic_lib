@@ -105,7 +105,7 @@ class PermissionHandler(val context: Context, val permissionHandlerListener: Per
                         if (!isNeverAsk) {
                             requestPermission(permissions)
                         } else {
-                            openAppSetting()
+                            openAppSetting(context)
                         }
                     }
                 }
@@ -116,8 +116,8 @@ class PermissionHandler(val context: Context, val permissionHandlerListener: Per
 
     }
 
-    private fun openAppSetting() {
-        val i = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + BuildConfig.APPLICATION_ID))
+    private fun openAppSetting(context: Context) {
+        val i = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + context.packageName))
         context.startActivity(i)
     }
 

@@ -16,7 +16,7 @@ public class Utility {
 
 
     public static boolean isUpdateNeeded(String minVersionForForm) {
-        if (!TextUtils.isEmpty(minVersionForForm)) {
+        /*if (!TextUtils.isEmpty(minVersionForForm)) {
             int minVersion = Integer.parseInt(minVersionForForm.replace(".", "")
                     .replace("(Alfa)", "").replace("(Beta)", "")
                     .replace(" ", ""));
@@ -26,8 +26,9 @@ public class Utility {
             if (myCurrentVersion >= minVersion) {
                 return false;
             }
-        }
-        return true;
+        }*/
+        return false;
+//        return true;
     }
 
 
