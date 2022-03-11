@@ -57,10 +57,10 @@ public class BaseLabelType extends BaseType {
 
                     break;
                 case LibDynamicAppConfig.VAL_LABEL_AS_HTML_TEXT:
-                    label.setGravity(Gravity.START);
+                    label.setGravity(Gravity.CENTER_HORIZONTAL);
                     label.setTextColor(view.getResources().getColor(R.color.black));
-                    label.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                            view.getResources().getDimension(R.dimen.dialog_item_text));
+//                    label.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+//                            view.getResources().getDimension(R.dimen.dialog_item_text));
                     label.setTypeface(null, Typeface.NORMAL);
                     String htmltext = questionBean.getTitle();
                     //  String htmltext = "<font \"color\"= \"000000\"><b>T</b>his text is bold.</font>";
