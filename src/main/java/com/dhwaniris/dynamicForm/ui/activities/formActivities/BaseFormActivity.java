@@ -2198,6 +2198,16 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         boolean isReset = QuestionsUtils.Companion.isQuestionHasValidation(questionBean, LibDynamicAppConfig.VAL_REST_ON_PARENT_CHANGE);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         BaseType baseType = questionObjectList.get(childUid);
+
+        if (isActive&&baseType.questionBean.getInput_type ().equals (LibDynamicAppConfig.QUS_DROPDOWN)&&baseType.questionBean.getAnswer_options ().size ()==1){
+            AnswerOptionsBean answerOptionsBean = baseType.questionBean.getAnswer_options ().get (0);
+            //saveDataToAnsList(questionBeanFilled, answerOptionsBean.get_id (), answerOptionsBean.getName (), "", "");
+            //baseType.superSetAnswer (questionBeanFilled);
+
+            this.SingleSelector (baseType.questionBean,answerOptionsBean.getName (),answerOptionsBean.get_id (),false);
+        }
+
+
         if (questionBeanFilled != null && baseType != null) {
             boolean validAns = questionBeanFilled.isValidAns();
             if (!isActive || isReset) {
@@ -2495,7 +2505,17 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 if (formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE) {
                     baseType.superSetEditable(true, childQuestionBean.getInput_type());
                     setFilledAns(questionBeanFilled, false, false);
-                }
+                }/*else if( !questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT)
+                && questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS) &&
+                childQuestionBean.getAnswer_options ().size () == 1 && !questionBeanFilled.getAnswer ().isEmpty ()) {
+//                    List<Answers> ansList = new ArrayList<> ();
+//                    ans
+                    questionBeanFilled.setAnswer (DynamicLibUtils.Companion.getAnswerFormText(childQuestionBean.getAnswer_options().get (0).get_id (), childQuestionBean));
+//                    if (questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT)
+//                            || questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS)) {
+//                    questionBeanFilled.setAnswer (childQuestionBean.getAnswer_options ().get (0).get_id ());
+                    setFilledAns(questionBeanFilled, false, false);
+                }*/
 
                 //   childanswerBeanHelperList.get(childPos).setRequired(true);
             } else {

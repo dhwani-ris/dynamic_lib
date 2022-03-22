@@ -436,7 +436,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
     @Override
     public void onBackPressed() {
 
-        if (formStatus == SUBMITTED) {
+        if (formStatus != SUBMITTED) {
             new androidx.appcompat.app.AlertDialog.Builder(ctx)
                     .setTitle(R.string.are_you_sure)
                     .setMessage(R.string.are_you_sure)
