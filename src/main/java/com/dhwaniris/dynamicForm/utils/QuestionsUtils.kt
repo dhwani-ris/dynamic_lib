@@ -68,21 +68,21 @@ class QuestionsUtils {
         }
 
 
-        fun checkValueForVisibility(questionBean: QuestionBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>, questionBeanList: LinkedHashMap<String, QuestionBean>): Boolean {
-            var isMatch: Boolean
-            if (questionBean != null && questionBean.parent.isNotEmpty()) {
-                val parentBean1 = questionBean.parent[0]
-                isMatch = validateSuperParent(parentBean1, questionBeanList, answerBeanHelperList)
-                        && isAnswerIsExpected(getParentUniqueId(parentBean1!!), parentBean1.value, answerBeanHelperList)
-
-                if (questionBean.parent.size > 1) {
-                    isMatch = validateVisibilityWithMultiParent(questionBean, answerBeanHelperList, questionBeanList)
-                }
-            } else {
-                return true
-            }
-            return isMatch
-        }
+//        fun checkValueForVisibility(questionBean: QuestionBean?, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>, questionBeanList: LinkedHashMap<String, QuestionBean>): Boolean {
+//            var isMatch: Boolean
+//            if (questionBean != null && questionBean.parent.isNotEmpty()) {
+//                val parentBean1 = questionBean.parent[0]
+//                isMatch = validateSuperParent(parentBean1, questionBeanList, answerBeanHelperList)
+//                        && isAnswerIsExpected(getParentUniqueId(parentBean1!!), parentBean1.value, answerBeanHelperList)
+//
+//                if (questionBean.parent.size > 1) {
+//                    isMatch = validateVisibilityWithMultiParent(questionBean, answerBeanHelperList, questionBeanList)
+//                }
+//            } else {
+//                return true
+//            }
+//            return isMatch
+//        }
 
         fun validateSuperParent(parentBean1: ParentBean, questionBeanList: LinkedHashMap<String, QuestionBean>, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): Boolean {
             val parentUniqueId = getParentUniqueId(parentBean1)
@@ -114,6 +114,65 @@ class QuestionsUtils {
             }
 
 
+        }
+        fun checkValueForVisibility(
+            questionBean: QuestionBean?,
+            answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>,
+            questionBeanList: LinkedHashMap<String, QuestionBean>
+        ): Boolean {
+            var isMatch: Boolean
+            if (questionBean != null && questionBean.parent.isNotEmpty()) {
+                val parentBean1 = questionBean.parent[0]
+                isMatch = validateSuperParent(parentBean1!!, questionBeanList, answerBeanHelperList)
+                        && isAnswerIsExpected(
+                    getParentUniqueId(parentBean1),
+                    parentBean1.value,
+                    answerBeanHelperList
+                )
+
+                if (questionBean.parent.size > 1) {
+                    isMatch = validateVisibilityWithMultiParent(
+                        questionBean,
+                        answerBeanHelperList,
+                        questionBeanList
+                    )
+                }
+
+                if (questionBean.containsRestriction(LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
+                    questionBean.restrictions.find { it.type == LibDynamicAppConfig.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED }
+                        ?.let { restrictionsBean ->
+                            isMatch = validateMultiAnsRestriction(
+                                restrictionsBean,
+                                answerBeanHelperList,
+                                questionBeanList
+                            )
+                        }
+                }
+                if (questionBean.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY) && isParentHasAnswer(
+                        questionBean,
+                        answerBeanHelperList
+                    )
+                ) {
+                    isMatch = !isMatch
+                }
+
+            } else {
+                return true
+            }
+            return isMatch
+
+        }
+        fun isParentHasAnswer(
+            questionBean: QuestionBean,
+            answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>
+        ): Boolean {
+            for (parentBean in questionBean.parent) {
+                val questionBeanFilled = answerBeanHelperList[getParentUniqueId(parentBean)]
+                return questionBeanFilled?.answer?.any { !it.value.isNullOrEmpty() } ?: false
+
+            }
+
+            return false
         }
 
         private fun getSingleAnswerValueFormOder(uniqueKey: String, answerBeanHelperList: LinkedHashMap<String, QuestionBeanFilled>): String? {

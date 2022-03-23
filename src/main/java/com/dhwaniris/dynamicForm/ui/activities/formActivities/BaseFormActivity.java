@@ -2498,6 +2498,11 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         if (questionBeanFilled != null && baseType != null && view != null && childQuestionBean != null) {
             //show child and add validation
             isMatch = getChildVisibilityOnMultiParent(isMatch, childQuestionBean, answerBeanHelperList, questionBeenList);
+            QuestionBean childQuestionBeanFound = questionBeenList.get (childUniqueId);
+            if (childQuestionBeanFound!=null && childQuestionBeanFound.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY)) {
+                isMatch = !isMatch;
+            }
+
             if (isMatch) {
                 visibleList.add(childUniqueId);
                 setChildValidation(childUniqueId, childQuestionBean, View.VISIBLE, view);

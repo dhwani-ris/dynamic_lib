@@ -251,6 +251,26 @@ public class QuestionBean implements Cloneable, Comparable<QuestionBean> {
     public List<RestrictionsBean> getRestrictions() {
         return restrictions;
     }
+    public boolean containsValidation(String... types) {
+        for (ValidationBean validationBean : validation) {
+            for (String type : types) {
+                if (validationBean.get_id().equals(type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean containsRestriction(String... types) {
+        for (RestrictionsBean restrictionsBean : restrictions) {
+            for (String type : types) {
+                if (restrictionsBean.getType().equals(type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public void setRestrictions(List<RestrictionsBean> restrictions) {
         this.restrictions = restrictions;

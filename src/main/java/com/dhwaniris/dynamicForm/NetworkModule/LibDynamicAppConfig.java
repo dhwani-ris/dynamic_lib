@@ -36,6 +36,7 @@ public class LibDynamicAppConfig {
     public static final String VAL_ALERT_MSG = "4.1";
     public static final String VAL_ALERT_IF_BETWEEN = "4.2";
     public static final String VAL_OR_CASE_WITH_MULTIPLE_PARENT = "6";
+    public static final String VAL_REVERSE_VISIBILITY = "6.1";
     public static final String VAL_OR_CASE_WITH_GET_FILTER_OPTION = "7";
     public static final String VAL_OR_CASE_WITH_DID_ON_MILTI_PARENT = "7.1";
     public static final String VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES = "8";
