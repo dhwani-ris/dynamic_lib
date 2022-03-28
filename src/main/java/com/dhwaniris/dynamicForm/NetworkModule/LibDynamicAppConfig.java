@@ -58,6 +58,7 @@ public class LibDynamicAppConfig {
     public static final String VAL_LABEL_AS_INSTRUCTION = "51";
     public static final String VAL_LABEL_AS_HTML_TEXT = "52";
     public static final String VAL_LABEL_AS_TV_IMAGE = "53";
+    public static final String VAL_LABEL_EXPANDABLE = "54";
     public static final String VAL_DYNAMIC_ANSWER_OPTION = "55";
     public static final String VAL_DELETE_ANSWER_OPTION = "56";
     public static final String VAL_VILLAGE_WISE_LIMIT = "57";

@@ -19,6 +19,7 @@ public class Constant {
     public static final String IS_IMAGE_REQUIRED = "IS_IMAGE_REQUIRED";
     public static final String IMAGE_LOCAL_PATH = "IMAGE_LOCAL_PATH";
     public static final String SUCCESS = "SUCCESS";
+    public static final String OPEN = "OPEN";
 
     public static final String NAME = "name";
     public static final String FORM_ID = "form_id";

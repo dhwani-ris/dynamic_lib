@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Handler;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,7 +19,9 @@ import com.dhwaniris.dynamicForm.R;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
+import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.ui.activities.FullScreenImageActivity;
+import com.dhwaniris.dynamicForm.utils.Constant;
 import com.dhwaniris.dynamicForm.utils.TouchImageView;
 
 import java.util.LinkedHashMap;
@@ -31,19 +36,35 @@ public class BaseLabelType extends BaseType {
 
     View view;
 
+    public boolean isExpandable = false;
+    private TextView expandableLabel;
+    private LinearLayout leanerLayout;
+    private boolean isOpen = false;
+    private UnansweredListener unansweredListener;
+
+
     private TouchImageView labelImage;
 
     public BaseLabelType(View view) {
         this.view = view;
     }
 
-    public void setAnswerAnsQuestionData(LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList) {
-        this.answerBeanHelperList = answerBeanHelperList;
+    public LinearLayout getChildLayout() {
+        return leanerLayout;
     }
 
-    public void setBasicFunctionality(View view, final QuestionBean questionBean, int formStatus) {
 
+    public void setAnswerAnsQuestionData(LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList, LinkedHashMap<String, QuestionBean> questionBeenList, UnansweredListener unansweredListener) {
+        this.answerBeanHelperList = answerBeanHelperList;
+        this.questionBeenList = questionBeenList;
+        this.unansweredListener = unansweredListener;
+    }
+    public void setBasicFunctionality(View view, final QuestionBean questionBean, int formStatus) {
+        this.questionBean = questionBean;
+        this.formStatus = formStatus;
         TextView label = view.findViewById(R.id.label);
+        expandableLabel = view.findViewById(R.id.expandable_label);
+        leanerLayout = view.findViewById(R.id.linearLayout);
         labelImage = view.findViewById(R.id.label_image);
         label.setText(questionBean.getTitle());
         for (ValidationBean validationBean : questionBean.getValidation()) {
@@ -87,6 +108,16 @@ public class BaseLabelType extends BaseType {
                     });
                     showImage(questionBean);
                     break;
+                case LibDynamicAppConfig.VAL_LABEL_EXPANDABLE: {
+                    isExpandable = true;
+                    expandableLabel.setText(questionBean.getTitle());
+                    label.setVisibility(View.GONE);
+                    expandableLabel.setVisibility(View.VISIBLE);
+                    if (validationBean.getValue() != null && validationBean.getValue().equals(Constant.OPEN)) {
+                        expand(false);
+                    }
+                }
+                break;
             }
         }
 
@@ -106,6 +137,49 @@ public class BaseLabelType extends BaseType {
                 view.setVisibility(View.GONE);
             }
         }
+
+        expandableLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expand(true);
+            }
+        });
+    }
+
+    @Override
+    public void expandView() {
+        if (!isOpen) {
+            expand(false);
+        }
+    }
+
+    public void expand(boolean scroll) {
+        if (isExpandable) {
+            if (leanerLayout.getVisibility() == View.VISIBLE) {
+                isOpen = false;
+                leanerLayout.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_up));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        leanerLayout.setVisibility(View.GONE);
+                    }
+                }, 400);
+                expandableLabel.setCompoundDrawablesWithIntrinsicBounds(null, null, view.getContext().getResources().getDrawable(R.drawable.ic_arrow_drop_down_white_24dp), null);
+
+            } else {
+                if (scroll) {
+                    if(questionBean!=null){
+                        unansweredListener.Question(questionBean.getOrder());
+                    }
+                }
+                isOpen = true;
+                leanerLayout.setVisibility(View.VISIBLE);
+                expandableLabel.setCompoundDrawablesWithIntrinsicBounds(null, null, view.getContext().getResources().getDrawable(R.drawable.ic_arrow_drop_up_white_24dp), null);
+                leanerLayout.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_down));
+            }
+        }
+
+
     }
 
     @Override

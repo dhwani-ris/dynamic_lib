@@ -2,6 +2,7 @@ package com.dhwaniris.dynamicForm.questionTypes;
 
 import android.os.Handler;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig;
 import com.dhwaniris.dynamicForm.db.dbhelper.QuestionBeanFilled;
@@ -23,9 +24,29 @@ public abstract class BaseType {
     public int formStatus;
     private int viewIndex;
     public int formId;
+    public View view;
+
+    public LinearLayout parentLayout;
+
+    public BaseType expandableParentView;
 
     public boolean isClickable = true;
 
+    public BaseType getExpandableParentView() {
+        return expandableParentView;
+    }
+
+    public void setExpandableParentView(BaseType expandableParentView) {
+        this.expandableParentView = expandableParentView;
+    }
+
+    public LinearLayout getParentLayout() {
+        return parentLayout;
+    }
+
+    public void setParentLayout(LinearLayout parentLayout) {
+        this.parentLayout = parentLayout;
+    }
 
     public int getViewIndex() {
         return viewIndex;
@@ -52,6 +73,9 @@ public abstract class BaseType {
 
     public void superSetEditable(boolean isEditable, String questionType) {
 
+    }
+
+    public void expandView() {
     }
 
     public void superSetErrorMsg(String errorMsg) {

@@ -39,6 +39,7 @@ import com.dhwaniris.dynamicForm.interfaces.ImageSelectListener;
 import com.dhwaniris.dynamicForm.interfaces.PermissionListener;
 import com.dhwaniris.dynamicForm.interfaces.QuestionHelperCallback;
 import com.dhwaniris.dynamicForm.interfaces.SelectListener;
+import com.dhwaniris.dynamicForm.interfaces.UnansweredListener;
 import com.dhwaniris.dynamicForm.questionHeplers.DateHelper;
 import com.dhwaniris.dynamicForm.questionHeplers.PrefilledData;
 import com.dhwaniris.dynamicForm.questionHeplers.PrefilledDefaultData;
@@ -97,7 +98,7 @@ import static com.dhwaniris.dynamicForm.NetworkModule.LibDynamicAppConfig.SYNCED
 import static java.util.regex.Pattern.matches;
 
 
-public class BaseFormActivity extends BaseActivity implements SelectListener, ImageSelectListener {
+public class BaseFormActivity extends BaseActivity implements SelectListener, ImageSelectListener, UnansweredListener {
 
     public LinearLayout linearLayout;
     public LinearLayout layout;
@@ -842,11 +843,16 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
         return answerBuilder.toString();
     }
-
+    LinearLayout childLayout;
+    Boolean childLayoutActive = false;
+    Boolean isFirstExpandableLayout = true;
+    BaseType expandableParentView;
 
     protected void createViewObject(QuestionBean questionBean, int formStatus) {
         View view = null;
         String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
+        childLayoutActive = childLayout != null;
+
         switch (questionBean.getInput_type()) {
             case LibDynamicAppConfig.QUS_TEXT:
             case LibDynamicAppConfig.QUS_ADDRESS:
@@ -881,12 +887,21 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             case LibDynamicAppConfig.QUS_LABEL:
                 view = getLayoutInflater().inflate(R.layout.dy_row_label, linearLayout, false);
                 BaseLabelType labelType = new BaseLabelType(view);
-                labelType.setAnswerAnsQuestionData(answerBeanHelperList);
+                labelType.setAnswerAnsQuestionData(answerBeanHelperList, questionBeenList, this);
                 labelType.setBasicFunctionality(view, questionBean, formStatus);
                 if (formStatus == NEW_FORM) {
                     createOrModifyAnswerBeanObject(questionBean, view.getVisibility() == View.VISIBLE, answerBeanHelperList);
                 }
                 questionObjectList.put(questionUniqueId, labelType);
+                if (labelType.isExpandable) {
+                    childLayout = labelType.getChildLayout();
+                    childLayoutActive = false;
+                    expandableParentView = labelType;
+                    if (isFirstExpandableLayout) {
+                        labelType.expand(false);
+                        isFirstExpandableLayout = false;
+                    }
+                }
                 break;
 
             case LibDynamicAppConfig.QUS_DROPDOWN:
@@ -981,16 +996,24 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
 
         }
-        if (view != null) {
-            linearLayout.addView(view);
-            int position = linearLayout.indexOfChild(view);
-            linearLayout.setTag(position);
-            questionObjectList.get(questionUniqueId).setViewIndex(position);
+        BaseType baseType = questionObjectList.get(questionUniqueId);
 
+        if (view != null && baseType != null) {
+            int position = 0;
+            if(childLayout == null || !childLayoutActive){
+                linearLayout.addView(view);
+                position = linearLayout.indexOfChild(view);
+            } else {
+                childLayout.addView(view);
+                baseType.parentLayout = childLayout;
+                baseType.expandableParentView = expandableParentView;
+                childLayout.indexOfChild(view);
+            }
+            baseType.view = view;
+            baseType.setViewIndex(position);;
             if (newTitles.get(questionUniqueId) != null) {
-                replaceTitleOfQuestion(questionUniqueId, LibDynamicAppConfig.BLANK_TITLE, newTitles.get(questionUniqueId));
-                answerBeanHelperList.get(questionUniqueId)
-                        .setTitle(newTitles.get(questionUniqueId));
+                baseType.superChangeTitle(newTitles.get(questionUniqueId));
+                answerBeanHelperList.get(questionUniqueId).setTitle(newTitles.get(questionUniqueId));
             }
             updateCount();
             createNotifyOnChangeList(questionBean);
@@ -3010,4 +3033,47 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 */
     }
 
+    @Override
+    public void Question(String questionUid) {
+        BaseType baseType = questionObjectList.get(questionUid);
+        if(baseType!=null){
+            if (baseType.expandableParentView != null) {
+                baseType.expandableParentView.expandView();
+            }
+            int position = baseType.getViewIndex();
+            int parentPosition = linearLayout.getTop() + 1;
+
+            if(position >= 0){
+                int nestedParentPosition = getBaseParentType(baseType);
+                int expandableParentView = getExpandableParent(baseType);
+                int childPosition = baseType.view.getTop();
+                int scrollPosition =
+                        parentPosition + childPosition + nestedParentPosition + expandableParentView;
+                moveToPosition(scrollPosition);
+
+            } else {
+                showToast(R.string.question_still_not_loaded);
+            }
+        } else {
+            showToast(R.string.question_still_not_loaded);
+        }
+
+    }
+
+    int getBaseParentType(BaseType baseType){
+        if(baseType.getParentLayout() != null) {
+            return baseType.getParentLayout().getTop();
+        } else {
+           return 0;
+        }
+    }
+
+
+    int getExpandableParent(BaseType baseType){
+        if(baseType.getExpandableParentView() != null) {
+            return baseType.getExpandableParentView().view.getTop();
+        } else {
+           return 0;
+        }
+    }
 }
