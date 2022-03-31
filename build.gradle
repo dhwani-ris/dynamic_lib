@@ -24,8 +24,6 @@ android {
 //        applicationId "com.dhwaniris.dynamicForm"
         minSdkVersion 15
         targetSdkVersion 31
-        versionCode 10
-        versionName "1.1.9"
         multiDexEnabled true
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        buildConfigField("String", "BASE_URL", "\"https://stgdeltamobileapi.dhwaniris.com/api/v1/\"")
