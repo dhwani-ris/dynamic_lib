@@ -1258,7 +1258,6 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             final String questionUniqueId = QuestionsUtils.Companion.getQuestionUniqueId(questionBean);
             BaseType baseType = questionObjectList.get(questionUniqueId);
             if (text != null && baseType != null) {
-                View linear = linearLayout.getChildAt(baseType.getViewIndex());
                 boolean isAlertRegex = false;
                 boolean isBetweemLimit = false;
                 List<String> alertRegexList = new ArrayList<>();
@@ -1691,8 +1690,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             if (!repeat) {
 
 
-                View linear = linearLayout.getChildAt(baseType.getViewIndex());
-                if (linear != null && linear.getTag().equals(questionBean.get_id())) {
+                View linear = baseType.view;
+                if (linear != null) {
                     //updating value in dependent field
 
                     setFilledAns(questionBeanFilled, true, true);
@@ -1836,8 +1835,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         BaseType baseType = questionObjectList.get(questionUniqueId);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
         if (baseType != null) {
-            View linear = linearLayout.getChildAt(baseType.getViewIndex());
-            if (linear.getTag().equals(questionBean.get_id())) {
+            View linear =  baseType.view;
+            if (linear!=null) {
                 //updating value in dependent field
 
                 baseType.superSetAnswer(date);
@@ -1905,8 +1904,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         BaseType baseType = questionObjectList.get(questionUniqueId);
         if (baseType != null) {
 
-            View linear = linearLayout.getChildAt(baseType.getViewIndex());
-            if (linear.getTag().equals(questionBean.get_id())) {
+            View linear = baseType.view;
+            if (linear!=null) {
                 //updating value in dependent field
                 if (linear instanceof ImageRowView) {
                     ImageRowView img = (ImageRowView) linear; // editText is fixed at position 1 in all
@@ -2774,7 +2773,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             String questionUid = data.getStringExtra("questionOrder");
             BaseType baseType = questionObjectList.get(questionUid);
             if (baseType != null) {
-                View linear = linearLayout.getChildAt(baseType.getViewIndex());
+                View linear = baseType.view;
                 QuestionBeanFilled questionBeanFilled1 = answerBeanHelperList.get(questionUid);
                 if (questionBeanFilled1 != null) {
                     if (linear instanceof EditTextWIthButtonView) {
