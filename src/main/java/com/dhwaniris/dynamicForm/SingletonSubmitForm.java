@@ -53,6 +53,7 @@ public class SingletonSubmitForm {
     private static List<DynamicAnswerOption> dynamicAnswerOptions;
     private static JSONObject jsonObject;
     private static Single<Pair<Boolean,String>> workOnSubmit;
+    private static int uploadStatus;
 
     public Single<Pair<Boolean,String>> getWorkOnSubmit() {
         return workOnSubmit;
@@ -84,5 +85,13 @@ public class SingletonSubmitForm {
 
     public void setJsonObject(JSONObject jsonObject) {
         SingletonSubmitForm.jsonObject = jsonObject;
+    }
+
+    public int getUploadStatus () {
+        return uploadStatus;
+    }
+
+    public void setUploadStatus (int uploadStatus) {
+        SingletonSubmitForm.uploadStatus = uploadStatus;
     }
 }

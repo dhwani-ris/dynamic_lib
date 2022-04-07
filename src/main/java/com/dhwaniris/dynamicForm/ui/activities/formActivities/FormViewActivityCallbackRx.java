@@ -134,7 +134,8 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
         permissionHandler = new PermissionHandler(this, this);
         locationReceiver = new LocationReceiver(locationDataN);
         locationHandler.setGPSonOffListener(this);
-        save.setVisibility(View.GONE);
+//        save.setVisibility(View.GONE);
+        save.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -492,6 +493,8 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                uploadtask = new UpdateDataData(DRAFT, true);
+                                uploadtask.execute();
                             }
                         })
                         .setNegativeButton(R.string.no, null)
@@ -508,6 +511,8 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                uploadtask = new UpdateDataData(DRAFT, true);
+                                uploadtask.execute();
                             }
                         })
                         .setNegativeButton(R.string.no, null)
@@ -676,6 +681,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
             }
 
             singletonForm.setJsonObject(jsonObject);
+            singletonForm.setUploadStatus (status);
             return true;
         }
 
