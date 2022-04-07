@@ -54,6 +54,7 @@ public class SingletonSubmitForm {
     private static JSONObject jsonObject;
     private static Single<Pair<Boolean,String>> workOnSubmit;
     private static int uploadStatus;
+    private static boolean needDraft = false;
 
     public Single<Pair<Boolean,String>> getWorkOnSubmit() {
         return workOnSubmit;
@@ -93,5 +94,13 @@ public class SingletonSubmitForm {
 
     public void setUploadStatus (int uploadStatus) {
         SingletonSubmitForm.uploadStatus = uploadStatus;
+    }
+
+    public boolean isNeedDraft () {
+        return needDraft;
+    }
+
+    public void setNeedDraft (boolean needDraft) {
+        SingletonSubmitForm.needDraft = needDraft;
     }
 }
