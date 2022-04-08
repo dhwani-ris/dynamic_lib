@@ -1566,8 +1566,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUid);
         BaseType baseType = questionObjectList.get(questionUid);
         if (baseType != null) {
-            View linearLayout = (this.linearLayout).getChildAt(baseType.getViewIndex());
-            if (linearLayout.getTag().equals(questionBean.get_id())) {
+            View linearLayout = baseType.view;
+//            View linearLayout = (this.linearLayout).getChildAt(baseType.getViewIndex());
+            if (linearLayout!=null) {
                 //updating value in dependent field
 
                 questionBeanFilled.getAnswer().clear();
