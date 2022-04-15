@@ -31,6 +31,7 @@ import com.dhwaniris.dynamicForm.db.dbhelper.form.Answers;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ChildBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.Nested;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.OrdersBean;
+import com.dhwaniris.dynamicForm.db.dbhelper.form.ParentBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.QuestionBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.RestrictionsBean;
 import com.dhwaniris.dynamicForm.db.dbhelper.form.ValidationBean;
@@ -2222,7 +2223,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         BaseType baseType = questionObjectList.get(childUid);
 
-        if (isActive&&baseType.questionBean.getInput_type ().equals (LibDynamicAppConfig.QUS_DROPDOWN)&&baseType.questionBean.getAnswer_options ().size ()==1){
+
+            if (isActive&&baseType.questionBean.getInput_type ().equals (LibDynamicAppConfig.QUS_DROPDOWN)&&baseType.questionBean.getAnswer_options ().size ()==1){
             AnswerOptionsBean answerOptionsBean = baseType.questionBean.getAnswer_options ().get (0);
             //saveDataToAnsList(questionBeanFilled, answerOptionsBean.get_id (), answerOptionsBean.getName (), "", "");
             //baseType.superSetAnswer (questionBeanFilled);
@@ -2233,7 +2235,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         if (questionBeanFilled != null && baseType != null) {
             boolean validAns = questionBeanFilled.isValidAns();
-            if (!isActive || isReset) {
+            if (!isActive) {
                 questionBeanFilled.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
                 questionBeanFilled.setNestedAnswer(new ArrayList<>());
                 baseType.superResetQuestion();
@@ -2254,7 +2256,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                     QuestionBean nestedChildQuestion = questionBeenList.get(nestedChildUid);
                     BaseType baseType1 = questionObjectList.get(nestedChildUid);
                     if (baseType1 != null) {
-                        View nestedChildView = (linearLayout).getChildAt(baseType1.getViewIndex());
+                        View nestedChildView = baseType1.view;
                         if (nestedChildView.getVisibility() == View.VISIBLE) {
                             if (!validAns) {
                                 setChildValidation(nestedChildUid, nestedChildQuestion, View.GONE, nestedChildView);
@@ -2510,68 +2512,64 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     }
 
-    private void setChildStatus(ChildBean childBean, boolean isMatch, List<String> visibleList) {
+    private void setChildStatus(ChildBean childBean, boolean isMatchUp, List<String> visibleList) {
+        boolean isMatch = isMatchUp;
 
 
         String childUniqueId = QuestionsUtils.Companion.getChildUniqueId(childBean);
         BaseType baseType = questionObjectList.get(childUniqueId);
-        View view = (this.linearLayout).getChildAt(baseType.getViewIndex());
-        QuestionBean childQuestionBean = questionBeenList.get(childUniqueId);
-        QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(childUniqueId);
-        if (questionBeanFilled != null && baseType != null && view != null && childQuestionBean != null) {
-            //show child and add validation
-            isMatch = getChildVisibilityOnMultiParent(isMatch, childQuestionBean, answerBeanHelperList, questionBeenList);
-            QuestionBean childQuestionBeanFound = questionBeenList.get (childUniqueId);
-            if (childQuestionBeanFound!=null && childQuestionBeanFound.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY)) {
-                isMatch = !isMatch;
+        if(baseType!=null){
+            View view = (this.linearLayout).getChildAt(baseType.getViewIndex());
+            QuestionBean childQuestionBean = questionBeenList.get(childUniqueId);
+
+            if (childQuestionBean.getParent().size() > 1) {
+                isMatch = QuestionsUtils.Companion.validateVisibilityWithMultiParent(childQuestionBean, this.answerBeanHelperList, this.questionBeenList);
             }
 
-            if (isMatch) {
-                visibleList.add(childUniqueId);
-                setChildValidation(childUniqueId, childQuestionBean, View.VISIBLE, view);
-                childQuestionBean.setEditable(!QuestionsUtils.Companion.isQuestionHasValidation(childQuestionBean, LibDynamicAppConfig.VAL_NOT_ABLE_TO_FILL));
-                if (formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE) {
-                    baseType.superSetEditable(true, childQuestionBean.getInput_type());
-                    setFilledAns(questionBeanFilled, false, false);
-                }/*else if( !questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT)
-                && questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS) &&
-                childQuestionBean.getAnswer_options ().size () == 1 && !questionBeanFilled.getAnswer ().isEmpty ()) {
-//                    List<Answers> ansList = new ArrayList<> ();
-//                    ans
-                    questionBeanFilled.setAnswer (DynamicLibUtils.Companion.getAnswerFormText(childQuestionBean.getAnswer_options().get (0).get_id (), childQuestionBean));
-//                    if (questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_TEXT)
-//                            || questionBeanFilled.getInput_type().equals(LibDynamicAppConfig.QUS_ADDRESS)) {
-//                    questionBeanFilled.setAnswer (childQuestionBean.getAnswer_options ().get (0).get_id ());
-                    setFilledAns(questionBeanFilled, false, false);
-                }*/
+            QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(childUniqueId);
 
-                //   childanswerBeanHelperList.get(childPos).setRequired(true);
-            } else {
-                if (!visibleList.contains(childUniqueId)) {
-                    setChildValidation(childUniqueId, childQuestionBean, View.GONE, view);
-                    setFilledAns(questionBeanFilled, false, false);
-
+            if (questionBeanFilled != null && view != null && childQuestionBean != null) {
+                //show child and add validation
+                isMatch = getChildVisibilityOnMultiParent(isMatch, childQuestionBean, answerBeanHelperList, questionBeenList);
+                QuestionBean childQuestionBeanFound = questionBeenList.get (childUniqueId);
+                if (childQuestionBeanFound!=null && childQuestionBeanFound.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY)) {
+                    isMatch = !isMatch;
                 }
-            }
+
+                if (isMatch) {
+                    visibleList.add(childUniqueId);
+                    setChildValidation(childUniqueId, childQuestionBean, View.VISIBLE, view);
+                    childQuestionBean.setEditable(!QuestionsUtils.Companion.isQuestionHasValidation(childQuestionBean, LibDynamicAppConfig.VAL_NOT_ABLE_TO_FILL));
+                    if (formStatus == EDITABLE_DARFT || formStatus == SYNCED_BUT_EDITABLE) {
+                        baseType.superSetEditable(true, childQuestionBean.getInput_type());
+                    }
+                } else {
+                    if (!visibleList.contains(childUniqueId)) {
+                        setChildValidation(childUniqueId, childQuestionBean, View.GONE, view);
+                        setFilledAns(questionBeanFilled, false, false);
+
+                    }
+                }
 
 
-        } else if (childUniqueId.contains(".")) {
-            //handle nested child
+            } else if (childUniqueId.contains(".")) {
+                //handle nested child
 
-            QuestionBean childQuestionBeanList = childQuestionBeenList.get(childUniqueId);
-            boolean childVisibilityOnMultiParent = getChildVisibilityOnMultiParent(isMatch, childQuestionBeanList, answerBeanHelperList, questionBeenList);
-            String parentId = childUniqueId.split("\\.")[0];
+                QuestionBean childQuestionBeanList = childQuestionBeenList.get(childUniqueId);
+                boolean childVisibilityOnMultiParent = getChildVisibilityOnMultiParent(isMatch, childQuestionBeanList, answerBeanHelperList, questionBeenList);
+                String parentId = childUniqueId.split("\\.")[0];
 
-            questionBeanFilled = answerBeanHelperList.get(parentId);
-            if (questionBeanFilled != null && questionBeanFilled.getNestedAnswer() != null) {
-                for (Nested nested : questionBeanFilled.getNestedAnswer()) {
-                    for (QuestionBeanFilled childAnswer : nested.getAnswerNestedData()) {
-                        if (childAnswer.getOrder().equals(childUniqueId)) {
-                            if (childVisibilityOnMultiParent) {
-                                setStatusOfAnswerObject(childAnswer, childQuestionBeanList, true, childAnswer.isValidAns());
-                            } else {
-                                setStatusOfAnswerObject(childAnswer, childQuestionBeanList, false, childAnswer.isValidAns());
-                                childAnswer.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+                questionBeanFilled = answerBeanHelperList.get(parentId);
+                if (questionBeanFilled != null && questionBeanFilled.getNestedAnswer() != null) {
+                    for (Nested nested : questionBeanFilled.getNestedAnswer()) {
+                        for (QuestionBeanFilled childAnswer : nested.getAnswerNestedData()) {
+                            if (childAnswer.getOrder().equals(childUniqueId)) {
+                                if (childVisibilityOnMultiParent) {
+                                    setStatusOfAnswerObject(childAnswer, childQuestionBeanList, true, childAnswer.isValidAns());
+                                } else {
+                                    setStatusOfAnswerObject(childAnswer, childQuestionBeanList, false, childAnswer.isValidAns());
+                                    childAnswer.setAnswer(QuestionsUtils.Companion.getNewAnswerList());
+                                }
                             }
                         }
                     }
