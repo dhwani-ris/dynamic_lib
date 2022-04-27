@@ -94,6 +94,7 @@ public class LibDynamicAppConfig {
     public static final String REST_CALL_FOR_SUB = "9.2";
     public static final String REST_CALL_FOR_MUL = "9.3";
     public static final String REST_CALL_FOR_DIVD = "9.4";
+    public static final String REST_CALL_FOR_EQUATION = "9.5";
     public static final String REST_GET_ANS_SUM_LOOPING = "10";
     public static final String REST_DID_RELATION = "11";
     public static final String REST_VALUE_AS_TITLE_OF_CHILD = "12";
