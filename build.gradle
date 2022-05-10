@@ -57,6 +57,7 @@ android {
     dataBinding {
         enabled = true
     }
+    namespace 'com.dhwaniris.dynamicForm'
     configurations.all {
         transitive = true
     }
