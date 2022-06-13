@@ -1994,41 +1994,13 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         BaseType baseType = questionObjectList.get(QuestionsUtils.Companion.getQuestionUniqueId(questionBean));
         if (baseType != null) {
-            onAnswer(questionBean, questionBeanFilled, baseType, label);
+            validateChildVisibility(questionBean, questionBeanFilled, baseType);
         }
         updateCount();
 
     }
 
-    void onAnswer(
-            QuestionBean questionBean,
-            QuestionBeanFilled questionBeanFilled,
-            BaseType baseType, String label
-    ) {
-        handleDependenceRestriction(questionBean, label);
-        validateChildVisibility(questionBean, questionBeanFilled, baseType);
-    }
-
-    private void handleDependenceRestriction(QuestionBean questionBean, String value) {
-        if (questionBean.getRestrictions().size() != 0) {
-            for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-                if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_VALUE_AS_TITLE_OF_CHILD)) {
-                    applyTitleChangeRestriction(restrictionsBean, value);
-                }
-                if (restrictionsBean.getType().equals(REST_CLEAR_DID_CHILD)) {
-                    for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                        QuestionBean questionBean1 =
-                                questionBeenList.get(ordersBean.getOrder());
-                        clearAnswerAndView(questionBean1);
-                    }
-                }
-            }
-        }
-    }
-
     private void validateChildVisibility(QuestionBean questionBean, QuestionBeanFilled questionBeanFilled, BaseType baseType) {
-        callForExpressionsRestriction(questionBean);
-
         List<String> values = new ArrayList<>();
         if (QuestionsUtils.Companion.isOneOf(questionBean.getInput_type(),
                 LibDynamicAppConfig.QUS_MULTI_SELECT,
@@ -2079,9 +2051,9 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 isMatchValue = values.contains(childValueIdPattern);
                 isValid = true;
             }
-//            if (isValid) {
+            if (isValid) {
                 setChildStatus(childBean, isMatchPatten || isMatchValue, visibleList);
-//            }
+            }
 
         }
 
@@ -2090,125 +2062,6 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
 
     }
-
-    private void callForExpressionsRestriction(QuestionBean questionBean) {
-        for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-            if (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_EXPRESSION)) {
-                List<String> listOfNotifyOrders = new ArrayList<>();
-                for (OrdersBean ordersBean : restrictionsBean.getOrders()) {
-                    String restrictionOrderUniqueId = ordersBean.getOrder();
-                    listOfNotifyOrders.add(restrictionOrderUniqueId);
-                }
-
-                notifyOrdersForCalculation(listOfNotifyOrders);
-            }
-        }
-    }
-
-    private Boolean notifyOrdersForCalculation(List<String> listOfNotifyOrders) {
-        ArrayList<QuestionBean> listOfQuestionBeanForCalculation = new ArrayList();
-        if (listOfNotifyOrders.size() != 0) {
-            for (String ordersToNotify : listOfNotifyOrders) {
-                QuestionBean ques = questionBeenList.get(ordersToNotify);
-                if(ques!=null){
-                    listOfQuestionBeanForCalculation.add(ques);
-                }
-            }
-        }
-        for (QuestionBean questionBean : listOfQuestionBeanForCalculation) {
-            notifyDynamicValueQuestion(questionBean);
-        }
-        return true;
-    }
-
-    void notifyDynamicValueQuestion(QuestionBean questionBean) {
-        for (RestrictionsBean restrictionsBean : questionBean.getRestrictions()) {
-            if ((restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_ADD)) ||
-             (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_SUB)) ||
-             (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_MUL)) ||
-             (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_DIVD)) ||
-             (restrictionsBean.getType().equals(LibDynamicAppConfig.REST_CALL_FOR_EQUATION))) {
-//                if (checkOrdersVisibilityStatus(restrictionsBean.getOrders())) {
-//                    /*
-//                    String questionUid, RestrictionsBean
-//            restrictionsBean, String currentValue, String currentQusUid
-//                     */
-////                    solveExpressionAddSubMulDiv(
-////                            questionBean,
-////                            restrictionsBean,
-////                            answerBeanHelperList,
-////                            questionBeenList,
-////                            questionObjectList
-////                    );
-//                    break;
-//                }
-            }
-        }
-    }
-
-
-   /* private Boolean checkOrdersVisibilityStatus(List<OrdersBean> orders) {
-        for (OrdersBean ordersBean : orders) {
-            QuestionBean questionBean = questionBeenList.get(ordersBean.getOrder());
-            if (questionBean != null && checkValueForVisibility(
-                    questionBean,
-                    answerBeanHelperList,
-                    questionBeenList
-            )
-            ) {
-                return true;
-            }
-        }
-        return false;
-    }*/
-//
-//    Boolean checkValueForVisibility(
-//            QuestionBean questionBean,
-//            LinkedHashMap<String, QuestionBeanFilled> answerBeanHelperList,
-//            LinkedHashMap<String, QuestionBean> questionBeanList
-//    ) {
-//        Boolean isMatch;
-//        if (questionBean != null && questionBean.getParent().size() != 0) {
-//            ParentBean parentBean1 = questionBean.getParent().get(0);
-//            isMatch = validateSuperParent(parentBean1!!, questionBeanList, answerBeanHelperList)
-//                        && isAnswerIsExpected(
-//                    getParentUniqueId(parentBean1),
-//                    parentBean1.value,
-//                    answerBeanHelperList
-//            )
-//
-//            if (questionBean.getParent().size > 1) {
-//                isMatch = validateVisibilityWithMultiParent(
-//                        questionBean,
-//                        answerBeanHelperList,
-//                        questionBeanList
-//                );
-//            }
-//
-//            if (questionBean.containsRestriction(Restrictions.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED)) {
-//                questionBean.restrictions.find { it.type == Restrictions.REST_MULTI_ANS_VISIBILITY_IF_NO_ONE_SELECTED }
-//                        ?.let { restrictionsBean ->
-//                        isMatch = validateMultiAnsRestriction(
-//                                restrictionsBean,
-//                                answerBeanHelperList,
-//                                questionBeanList
-//                        )
-//                }
-//            }
-//            if (questionBean.containsValidation(Validation.VAL_REVERSE_VISIBILITY) && isParentHasAnswer(
-//                    questionBean,
-//                    answerBeanHelperList
-//            )
-//            ) {
-//                isMatch = !isMatch
-//            }
-//
-//        } else {
-//            return true
-//        }
-//        return isMatch
-//
-//    }
 
 
     private void validateAnsForAdditionalInfoMultiSelect(List<String> value, QuestionBean questionBean, BaseType baseType) {
