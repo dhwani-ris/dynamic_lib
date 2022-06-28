@@ -134,9 +134,9 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
         permissionHandler = new PermissionHandler(this, this);
         locationReceiver = new LocationReceiver(locationDataN);
         locationHandler.setGPSonOffListener(this);
-        if(SingletonSubmitForm.getInstance ().isNeedDraft ()){
+        if (SingletonSubmitForm.getInstance().isNeedDraft()) {
             save.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             save.setVisibility(View.GONE);
         }
         save.setOnClickListener(this);
@@ -685,7 +685,7 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
             }
 
             singletonForm.setJsonObject(jsonObject);
-            singletonForm.setUploadStatus (status);
+            singletonForm.setUploadStatus(status);
             return true;
         }
 
@@ -714,9 +714,9 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
                             @Override
                             public void onError(Throwable e) {
                                 hideLoader();
-                                if(e instanceof IOException){
+                                if (e instanceof IOException) {
                                     showCustomToast("Unable to Connect right now please try again later", 3);
-                                }else
+                                } else
                                     showCustomToast(e.getMessage(), 3);
                             }
                         });
@@ -750,11 +750,23 @@ public class FormViewActivityCallbackRx extends BaseFormActivity implements View
         public void Question(String questionUid) {
             BaseType baseType = questionObjectList.get(questionUid);
             if (baseType != null) {
+                if (baseType.expandableParentView != null) {
+                    baseType.expandableParentView.expandView();
+                }
                 int position = baseType.getViewIndex();
                 int parentPosition = linearLayout.getTop() + 1;
-                if (position >= 0 && position < linearLayout.getChildCount()) {
-                    int childPosition = linearLayout.getChildAt(position).getTop();
-                    final int scrollPosition = parentPosition + childPosition;
+                if (position >= 0) {
+                    int nestedParentPosition = 0;
+                    if (baseType.parentLayout != null) {
+                        nestedParentPosition = baseType.parentLayout.getTop();
+                    }
+                    int expandableParentView = 0;
+                    if (baseType.expandableParentView != null)
+                        expandableParentView = baseType.expandableParentView.view.getTop();
+
+                    int childPosition = baseType.view.getTop();
+                    int scrollPosition =
+                            parentPosition + childPosition + nestedParentPosition + expandableParentView;
                     moveToPosition(scrollPosition);
                 } else {
                     showToast(R.string.question_still_not_loaded);
