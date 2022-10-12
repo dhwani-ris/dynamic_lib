@@ -83,7 +83,7 @@ public class EditTextRowView extends LinearLayout {
 
         //mase size depending on screen size
         final float scale = getResources().getDisplayMetrics().density;
-        int size = (int) (30 * scale + 0.5f);
+        int size = (int) (35 * scale + 0.5f);
 
 
         orderTextView.setHeight(size);
