@@ -98,6 +98,9 @@ public abstract class BaseType {
                     break;
                 }
             }
+            if(questionBean.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY)){
+                isMatch = !isMatch;
+            }
 
         } else {
             return true;
