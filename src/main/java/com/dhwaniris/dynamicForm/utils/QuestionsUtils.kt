@@ -99,10 +99,12 @@ class QuestionsUtils {
             val matchList = ArrayList<Boolean>()
             val valueList = ArrayList<String?>()
             val isOrCase = questionBean.hasValidation(LibDynamicAppConfig.VAL_OR_CASE_WITH_MULTIPLE_PARENT)
+            val ignoreSuperParent = questionBean.hasValidation(LibDynamicAppConfig.VAL_IGNORE_SUPER_PARENT)
+
             val isVisibleOnParentsDifferentValue = questionBean.hasValidation(LibDynamicAppConfig.VAL_VISIBLE_ON_PARENTS_HAS_DIFFERENT_VALUES)
             for (parentBean in questionBean.parent) {
                 matchList.add(isAnswerIsExpected(getParentUniqueId(parentBean), parentBean.value, answerBeanHelperList)
-                        && validateSuperParent(parentBean, questionBeenList, answerBeanHelperList)
+                        && (validateSuperParent(parentBean, questionBeenList, answerBeanHelperList)||ignoreSuperParent)
                 )
                 valueList.add(getSingleAnswerValueFormOder(getParentUniqueId(parentBean), answerBeanHelperList))
 
@@ -123,7 +125,9 @@ class QuestionsUtils {
             var isMatch: Boolean
             if (questionBean != null && questionBean.parent.isNotEmpty()) {
                 val parentBean1 = questionBean.parent[0]
-                isMatch = validateSuperParent(parentBean1!!, questionBeanList, answerBeanHelperList)
+                val ignoreSuperParent = questionBean.hasValidation(LibDynamicAppConfig.VAL_IGNORE_SUPER_PARENT)
+
+                isMatch = (validateSuperParent(parentBean1!!, questionBeanList, answerBeanHelperList)||ignoreSuperParent)
                         && isAnswerIsExpected(
                     getParentUniqueId(parentBean1),
                     parentBean1.value,
