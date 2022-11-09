@@ -795,13 +795,45 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             } else {
                 BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
-                        "Question filled with null. Question ID : %s Line no. 552",
-                        questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
+                                "Question filled with null. Question ID : %s Line no. 552",
+                                questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                         "BaseFormActivity");
             }
 
         }
     };
+
+    void validateNumQuestion(QuestionBean question){
+        if (question.getInput_type().equals(LibDynamicAppConfig.QUS_NUMBER)) {
+            QuestionBeanFilled childAnswerBean = answerBeanHelperList.get(QuestionsUtils.Companion.getQuestionUniqueId(question));
+            BaseType questionObject = questionObjectList.get(QuestionsUtils.Companion.getQuestionUniqueId(question));
+
+            String value = QuestionsUtils.Companion.getNumbericAns(question, answerBeanHelperList);
+            if (value != null && questionObject != null && childAnswerBean != null) {
+                if (!question.getRestrictions().isEmpty()) {
+                    boolean isValid = checkRestrictionOnNumberValues(question, value);
+                    if (!isValid) {
+                        questionObject.superChangeStatus(NOT_ANSWERED);
+                        setFilledAns(childAnswerBean, false);
+                        //reset question
+                    }
+                }
+
+                if (question.getPattern() != null && !question.getPattern().isEmpty()) {
+                    boolean isValidReg = value.matches(question.getPattern());
+                    if (!isValidReg) {
+                        questionObject.superChangeStatus(NOT_ANSWERED);
+                        setFilledAns(childAnswerBean, false);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
+
 
     boolean checkMinMaxRange(String standardValue, QuestionBean questionBean) {
         if (!questionBean.getMax().isEmpty() || !questionBean.getMin().isEmpty()) {
@@ -844,6 +876,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         }
         return answerBuilder.toString();
     }
+
     LinearLayout childLayout;
     Boolean childLayoutActive = false;
     Boolean isFirstExpandableLayout = true;
@@ -1001,7 +1034,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         if (view != null && baseType != null) {
             int position = 0;
-            if(childLayout == null || !childLayoutActive){
+            if (childLayout == null || !childLayoutActive) {
                 linearLayout.addView(view);
                 position = linearLayout.indexOfChild(view);
             } else {
@@ -1011,13 +1044,18 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
                 position = childLayout.indexOfChild(view);
             }
             baseType.view = view;
-            baseType.setViewIndex(position);;
+            baseType.setViewIndex(position);
+            ;
             if (newTitles.get(questionUniqueId) != null) {
                 baseType.superChangeTitle(newTitles.get(questionUniqueId));
                 answerBeanHelperList.get(questionUniqueId).setTitle(newTitles.get(questionUniqueId));
             }
             updateCount();
             createNotifyOnChangeList(questionBean);
+            if (formStatus==DRAFT){
+                validateNumQuestion(questionBean);
+            }
+
         }
     }
 
@@ -1171,8 +1209,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         } else {
             BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
-                    "Question filled with null. Question ID : %s Line no. 552",
-                    questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
+                            "Question filled with null. Question ID : %s Line no. 552",
+                            questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                     "BaseFormActivity");
         }
 
@@ -1569,7 +1607,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         if (baseType != null) {
             View linearLayout = baseType.view;
 //            View linearLayout = (this.linearLayout).getChildAt(baseType.getViewIndex());
-            if (linearLayout!=null) {
+            if (linearLayout != null) {
                 //updating value in dependent field
 
                 questionBeanFilled.getAnswer().clear();
@@ -1628,8 +1666,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
             } else {
                 BaseActivity.logDatabase(LibDynamicAppConfig.END_POINT, String.format(Locale.ENGLISH,
-                        "Wrong Child in linearLayout. Question ID :%s . Line no. 820",
-                        questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
+                                "Wrong Child in linearLayout. Question ID :%s . Line no. 820",
+                                questionBean.get_id()), LibDynamicAppConfig.UNEXPECTED_ERROR,
                         "BaseFormActivity");
             }
 
@@ -1768,7 +1806,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     }
 
     private boolean handleDynamic(QuestionBeanFilled questionBeanFilled) {
-   boolean isValid=false;
+        boolean isValid = false;
         String order = questionBeanFilled.getOrder();
         BaseType baseType = questionObjectList.get(order);
         QuestionBeanFilled originalAnswerBean = answerBeanHelperList.get(order);
@@ -1776,7 +1814,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         if (QuestionsUtils.Companion.isItHasAns(questionBeanFilled.getAnswer())
                 &&
                 baseType != null && originalAnswerBean != null && questionBean != null) {
-            isValid=true;
+            isValid = true;
             originalAnswerBean.setAnswer(questionBeanFilled.getAnswer());
             originalAnswerBean.setFilled(true);
             originalAnswerBean.setValidAns(true);
@@ -1837,8 +1875,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         BaseType baseType = questionObjectList.get(questionUniqueId);
         QuestionBeanFilled questionBeanFilled = answerBeanHelperList.get(questionUniqueId);
         if (baseType != null) {
-            View linear =  baseType.view;
-            if (linear!=null) {
+            View linear = baseType.view;
+            if (linear != null) {
                 //updating value in dependent field
 
                 baseType.superSetAnswer(date);
@@ -1907,7 +1945,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         if (baseType != null) {
 
             View linear = baseType.view;
-            if (linear!=null) {
+            if (linear != null) {
                 //updating value in dependent field
                 if (linear instanceof ImageRowView) {
                     ImageRowView img = (ImageRowView) linear; // editText is fixed at position 1 in all
@@ -2224,12 +2262,12 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
         BaseType baseType = questionObjectList.get(childUid);
 
 
-            if (isActive&&baseType.questionBean.getInput_type ().equals (LibDynamicAppConfig.QUS_DROPDOWN)&&baseType.questionBean.getAnswer_options ().size ()==1){
-            AnswerOptionsBean answerOptionsBean = baseType.questionBean.getAnswer_options ().get (0);
+        if (isActive && baseType.questionBean.getInput_type().equals(LibDynamicAppConfig.QUS_DROPDOWN) && baseType.questionBean.getAnswer_options().size() == 1) {
+            AnswerOptionsBean answerOptionsBean = baseType.questionBean.getAnswer_options().get(0);
             //saveDataToAnsList(questionBeanFilled, answerOptionsBean.get_id (), answerOptionsBean.getName (), "", "");
             //baseType.superSetAnswer (questionBeanFilled);
 
-            this.SingleSelector (baseType.questionBean,answerOptionsBean.getName (),answerOptionsBean.get_id (),false);
+            this.SingleSelector(baseType.questionBean, answerOptionsBean.getName(), answerOptionsBean.get_id(), false);
         }
 
 
@@ -2244,7 +2282,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             } else {
                 QuestionBeanFilled singleQuestionFilled = PrefilledDefaultData.Companion.getInstance().getSingleQuestionFilled(childUid);
                 if (singleQuestionFilled != null) {
-                    validAns=handleDynamic(singleQuestionFilled);
+                    validAns = handleDynamic(singleQuestionFilled);
                 }
 
             }
@@ -2517,7 +2555,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
         String childUniqueId = QuestionsUtils.Companion.getChildUniqueId(childBean);
         BaseType baseType = questionObjectList.get(childUniqueId);
-        if(baseType!=null){
+        if (baseType != null) {
             View view = baseType.view;
 //            View view = (this.linearLayout).getChildAt(baseType.getViewIndex());
             QuestionBean childQuestionBean = questionBeenList.get(childUniqueId);
@@ -2531,8 +2569,8 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
             if (questionBeanFilled != null && view != null && childQuestionBean != null) {
                 //show child and add validation
                 isMatch = getChildVisibilityOnMultiParent(isMatch, childQuestionBean, answerBeanHelperList, questionBeenList);
-                QuestionBean childQuestionBeanFound = questionBeenList.get (childUniqueId);
-                if (childQuestionBeanFound!=null && childQuestionBeanFound.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY)) {
+                QuestionBean childQuestionBeanFound = questionBeenList.get(childUniqueId);
+                if (childQuestionBeanFound != null && childQuestionBeanFound.containsValidation(LibDynamicAppConfig.VAL_REVERSE_VISIBILITY)) {
                     isMatch = !isMatch;
                 }
 
@@ -2810,7 +2848,7 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     @Override
     protected void onDestroy() {
 
-       PrefilledDefaultData.Companion.releaseData();
+        PrefilledDefaultData.Companion.releaseData();
         super.onDestroy();
         if (linearLayout != null) {
             linearLayout.removeAllViews();
@@ -3034,14 +3072,14 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
     @Override
     public void Question(String questionUid) {
         BaseType baseType = questionObjectList.get(questionUid);
-        if(baseType!=null){
+        if (baseType != null) {
             if (baseType.expandableParentView != null) {
                 baseType.expandableParentView.expandView();
             }
             int position = baseType.getViewIndex();
             int parentPosition = linearLayout.getTop() + 1;
 
-            if(position >= 0){
+            if (position >= 0) {
                 int nestedParentPosition = getBaseParentType(baseType);
                 int expandableParentView = getExpandableParent(baseType);
                 int childPosition = baseType.view.getTop();
@@ -3058,20 +3096,20 @@ public class BaseFormActivity extends BaseActivity implements SelectListener, Im
 
     }
 
-    int getBaseParentType(BaseType baseType){
-        if(baseType.getParentLayout() != null) {
+    int getBaseParentType(BaseType baseType) {
+        if (baseType.getParentLayout() != null) {
             return baseType.getParentLayout().getTop();
         } else {
-           return 0;
+            return 0;
         }
     }
 
 
-    int getExpandableParent(BaseType baseType){
-        if(baseType.getExpandableParentView() != null) {
+    int getExpandableParent(BaseType baseType) {
+        if (baseType.getExpandableParentView() != null) {
             return baseType.getExpandableParentView().view.getTop();
         } else {
-           return 0;
+            return 0;
         }
     }
 }
