@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -698,10 +699,11 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public boolean checkGpsFilePermission() {
 
-        int result = if(Build.VERSION_CODES.TIRAMISU > Build.VERSION.SDK_INT) {
-            ContextCompat.checkSelfPermission (this, WRITE_EXTERNAL_STORAGE);
+        int result;
+        if(Build.VERSION_CODES.TIRAMISU > Build.VERSION.SDK_INT) {
+            result = ContextCompat.checkSelfPermission (this, WRITE_EXTERNAL_STORAGE);
         }else{
-            PackageManager.PERMISSION_GRANTED
+            result = PackageManager.PERMISSION_GRANTED;
         }
         int result2 = ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION);
         int result3 = ContextCompat.checkSelfPermission(this, READ_PHONE_STATE);
