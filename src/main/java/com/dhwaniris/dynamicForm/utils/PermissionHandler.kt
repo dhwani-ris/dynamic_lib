@@ -6,12 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import com.dhwaniris.dynamicForm.BuildConfig
 import com.dhwaniris.dynamicForm.R
 
 
@@ -21,34 +21,21 @@ import com.dhwaniris.dynamicForm.R
 class PermissionHandler(val context: Context, val permissionHandlerListener: PermissionHandlerListener) {
 
     fun checkGpsFilePhonePermission(): Boolean {
-        return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        if (Build.VERSION_CODES.TIRAMISU > Build.VERSION.SDK_INT) {
+            return hasPermission(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_PHONE_STATE)
-    }
-
-    fun checkFilePermission(): Boolean {
-        return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    }
-
-    fun requestGpsFilePhoneStatePermission() {
-        val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE
+            )
+        }else{
+            return hasPermission(
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_PHONE_STATE)
-        requestPermission(permissions)
+                Manifest.permission.READ_PHONE_STATE
+            )
+        }
     }
-
-
-    fun requestGpsFilePhoneStatePermissionRationale() {
-        val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.READ_PHONE_STATE)
-        requestPermissionRationale(permissions)
-    }
-
-    fun requestFilePermissionRationale() {
-        requestPermissionRationale(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-    }
-
 
     //ask location permission
     fun requestGpsPermission() {

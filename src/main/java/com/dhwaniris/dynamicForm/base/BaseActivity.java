@@ -37,6 +37,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -90,6 +93,9 @@ import java.util.TimeZone;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_MEDIA_AUDIO;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.READ_SMS;
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -692,7 +698,11 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public boolean checkGpsFilePermission() {
 
-        int result = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+        int result = if(Build.VERSION_CODES.TIRAMISU > Build.VERSION.SDK_INT) {
+            ContextCompat.checkSelfPermission (this, WRITE_EXTERNAL_STORAGE);
+        }else{
+            PackageManager.PERMISSION_GRANTED
+        }
         int result2 = ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION);
         int result3 = ContextCompat.checkSelfPermission(this, READ_PHONE_STATE);
         return result == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED
@@ -705,15 +715,9 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                 new String[]{ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_FOR_GPS);
     }
 
-    public void requestGpsFilePhoneStatePermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{WRITE_EXTERNAL_STORAGE, ACCESS_FINE_LOCATION, READ_PHONE_STATE},
-                REQUEST_PERMISSIONS_FOR_GPS_FILE);
-    }
-
     //check local storage and camera permission
     public boolean checkImagePermission() {
-        int result = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+        int result = ContextCompat.checkSelfPermission(this, READ_MEDIA_IMAGES);
         int result2 = ContextCompat.checkSelfPermission(this, CAMERA);
         return result == PackageManager.PERMISSION_GRANTED && result2 == PackageManager.PERMISSION_GRANTED;
     }
@@ -726,10 +730,17 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
     //Requesting write and camera permission
     protected void requestImagePermissions() {
-        ActivityCompat.requestPermissions(BaseActivity.this, new String[]{
-                WRITE_EXTERNAL_STORAGE,
-                CAMERA
-        }, REQUEST_PERMISSIONS_FOR_IMAGE);
+        if(Build.VERSION_CODES.TIRAMISU>Build.VERSION.SDK_INT) {
+            ActivityCompat.requestPermissions (BaseActivity.this, new String[]{
+                    WRITE_EXTERNAL_STORAGE,
+                    CAMERA
+            }, REQUEST_PERMISSIONS_FOR_IMAGE);
+        }else{
+            ActivityCompat.requestPermissions (BaseActivity.this, new String[]{
+                    READ_MEDIA_IMAGES,
+                    CAMERA
+            }, REQUEST_PERMISSIONS_FOR_IMAGE);
+        }
     }
 
     //Requesting sms permission
@@ -872,6 +883,20 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
     }
+    private int pickerRequest=-1;
+
+    protected final ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), new ActivityResultCallback<Uri> () {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    Intent intent = null;
+                    if (uri != null) {
+                        intent = new Intent();
+                        intent.setData(uri);
+                    }
+                    BaseActivity.this.onActivityResult(pickerRequest, uri == null ? Activity.RESULT_CANCELED : Activity.RESULT_OK, intent);
+                }
+            });
 
     protected void PickImage(ImageSelectListener selectedImage, QuestionBean questionBean) {
 
@@ -879,25 +904,32 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         this.questionBean = questionBean;
 
 
-        Intent intent;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
-            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            pickerRequest = PICK_IMAGE_REQUEST;
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
         } else {
+            Intent intent;
 
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
+                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            } else {
 
+                intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+            }
+            // <!--nougat--add two permisssion>
+            intent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+            //                <!--nougat--show image>
+            intent.setType("image/*");
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         }
-        // <!--nougat--add two permisssion>
-        intent.setFlags(FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setFlags(FLAG_GRANT_WRITE_URI_PERMISSION);
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        //                <!--nougat--show image>
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
 
